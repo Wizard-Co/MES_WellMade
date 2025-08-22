@@ -1,0 +1,84 @@
+﻿<Window x:Class="WizMes_BooKyong.PopUp.Win_pop_AutoPlan"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WizMes_BooKyong.PopUp"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="생산계획 편성" Height="500" Width="700" Loaded="AutoPlan_Loaded">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="9*" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Background="{StaticResource WizMes_BooKyong}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="8*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- 검색조건 -->
+            <Grid Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Button Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Content="생성대상 조회" Click="btnSearch_Click"></Button>
+                <Button Grid.Row="1" Grid.Column="3" Grid.RowSpan="2" Content="편성 처리" FontSize="3" Click="btnSave_Click"></Button>
+                <Button Grid.Row="1" Grid.Column="5" Grid.RowSpan="2" Background="Azure">
+                    <CheckBox x:Name="chkAutoInput" VerticalContentAlignment="Center" Content="자동 작업지시적용" />
+                </Button>
+                <Button Grid.Row="1" Grid.Column="7" Grid.RowSpan="2" Content="닫기" FontSize="3" Click="btnClose_Click"></Button>
+            </Grid>
+        </Grid>
+
+        <DataGrid x:Name="dgdMain" Grid.Row="1" Grid.ColumnSpan="2" Style="{DynamicResource DataGridSet1}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="수주일자" Binding="{Binding AcptDate}" Width="auto" ElementStyle="{StaticResource DataGridCellCenter}"/>
+                <DataGridTextColumn Header="거래처" Binding="{Binding KCustom}" Width="auto" ElementStyle="{StaticResource DataGridCellLeft}"/>
+                <DataGridTextColumn Header="품번" Binding="{Binding BuyerArticleNo}" Width="auto" ElementStyle="{StaticResource DataGridCellLeft}"/>
+                <DataGridTextColumn Header="품명" Binding="{Binding Article}" Width="auto" ElementStyle="{StaticResource DataGridCellLeft}"/>
+                <DataGridTextColumn Header="오더번호" Binding="{Binding OrderNo}" Width="auto" ElementStyle="{StaticResource DataGridCellCenter}"/>
+                <DataGridTextColumn Header="오더ID" Binding="{Binding OrderID}" Width="auto" Visibility="Hidden"/>
+                <DataGridTextColumn Header="납기일" Binding="{Binding DvlyDate}" Width="auto" ElementStyle="{StaticResource DataGridCellCenter}" />
+                <DataGridTextColumn Header="수주량" Binding="{Binding OrderQty, StringFormat = '#,###.#'}" ElementStyle="{StaticResource DataGridCellRight}"
+                                           />
+                <DataGridTextColumn Header="계획량" Binding="{Binding OrderInstQy, StringFormat = '#,###.#'}" ElementStyle="{StaticResource DataGridCellRight}"
+                                            />
+                <DataGridTextColumn Header="미계획량" Binding="{Binding notOrderInstQty, StringFormat = '#,###.#'}" ElementStyle="{StaticResource DataGridCellRight}"
+                                            />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <DataGrid x:Name="dgdPattern" Grid.Row="1" Grid.ColumnSpan="2" Style="{DynamicResource DataGridSet1}" Visibility="Hidden">
+            <DataGrid.Columns>
+                <DataGridTextColumn Width="auto" Header="공정코드"  Visibility="Hidden"/>
+                <DataGridTextColumn Width="auto" Header="공정명"  />
+                <DataGridTextColumn Width="auto" Header="품명코드"  />
+                <DataGridTextColumn Width="auto" Header="품번" />
+                <DataGridTextColumn Width="auto" Header="품명" />
+                <DataGridTextColumn Width="auto" Header="하위품번" />
+                <DataGridTextColumn Width="auto" Header="지시수량" />
+                <DataGridTextColumn Width="auto" Header="시작일" />
+                <DataGridTextColumn Width="auto" Header="종료일"  />
+
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>

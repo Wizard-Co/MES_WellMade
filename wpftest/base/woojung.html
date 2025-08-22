@@ -1,0 +1,147 @@
+<head>
+<title>::MES_Woojung::</title>
+<style>
+		body { font-size:9pt; }
+		table { background:#aaa; }
+		tr { background:#fff; }
+		th {
+		font-size:9pt;
+		background:#eee;
+		}
+		td {
+		font-size:9pt;
+		padding:0 5 0 5;
+		}
+	</style>
+</head>
+<body>
+<table border="0" cellspacing="0" cellpadding="0" width="550px" align="center"><tr><td colspan="3" style="height:50;font-size:14pt;text-align:center;"><a name="index"></a><b>Index</b></td></tr></table>
+<table border="0" cellspacing="1" cellpadding="0" width="550px" align="center"><tr><th>Sr</th><th>Object</th><th>Type</th></tr>
+<tr><td align="center">1</td><td><a href="#Table:[dbo].[Card]">[dbo].[Card]</a></td><td>Table</td></tr>
+<tr><td align="center">2</td><td><a href="#Table:[dbo].[Hold]">[dbo].[Hold]</a></td><td>Table</td></tr>
+</table><br />
+<br /><br /><br /><table border="0" cellspacing="0" cellpadding="0" width="750px"><tr><td align="right"><a href="#index">Index</a></td></tr>
+<tr><th align="left"><a name="Table:[dbo].[Card]"></a><b>Table:[dbo].[Card]</b></th></tr>
+</table><br />
+<table border="0" cellspacing="0" cellpadding="0" width="750px"><tr><td><b>Description</b></td></tr><tr><td>공정카드</td></tr></table><br />
+<table border="0" cellspacing="0" cellpadding="0" width="750px"><tr><td><b>Table Columns</b></td></tr></table>
+<table border="0" cellspacing="1" cellpadding="0" width="750px"><tr><th>Sr.</th><th>Name</th><th>Datatype</th><th>Nullable</th><th>Description</th></tr>
+<tr><td width="20px" align="center">1</td><td width="150px">CardID</td><td width="150px">CHAR(8)</td><td width="50px" align="center">N</td><td></td></tr>
+<tr><td width="20px" align="center">2</td><td width="150px">SplitID</td><td width="150px">NVARCHAR(8)</td><td width="50px" align="center">N</td><td></td></tr>
+<tr><td width="20px" align="center">3</td><td width="150px">OrderID</td><td width="150px">CHAR(10)</td><td width="50px" align="center">N</td><td></td></tr>
+<tr><td width="20px" align="center">4</td><td width="150px">OrderSeq</td><td width="150px">TINYINT</td><td width="50px" align="center">N</td><td></td></tr>
+<tr><td width="20px" align="center">5</td><td width="150px">CompProcID</td><td width="150px">CHAR(4)</td><td width="50px" align="center">N</td><td></td></tr>
+<tr><td width="20px" align="center">6</td><td width="150px">CompProcSeq</td><td width="150px">TINYINT</td><td width="50px" align="center">N</td><td></td></tr>
+<tr><td width="20px" align="center">7</td><td width="150px">WaitProcID</td><td width="150px">CHAR(4)</td><td width="50px" align="center">N</td><td></td></tr>
+<tr><td width="20px" align="center">8</td><td width="150px">WaitProcSeq</td><td width="150px">TINYINT</td><td width="50px" align="center">N</td><td></td></tr>
+<tr><td width="20px" align="center">9</td><td width="150px">SplitProcID</td><td width="150px">CHAR(2)</td><td width="50px" align="center">N</td><td></td></tr>
+<tr><td width="20px" align="center">10</td><td width="150px">SplitProcSeq</td><td width="150px">TINYINT</td><td width="50px" align="center">N</td><td></td></tr>
+<tr><td width="20px" align="center">11</td><td width="150px">WorkUnitID</td><td width="150px">CHAR(10)</td><td width="50px" align="center">N</td><td></td></tr>
+<tr><td width="20px" align="center">12</td><td width="150px">WorkUnitSeq</td><td width="150px">TINYINT</td><td width="50px" align="center">N</td><td></td></tr>
+<tr><td width="20px" align="center">13</td><td width="150px">BatJaID</td><td width="150px">VARCHAR(5)</td><td width="50px" align="center">Y</td><td></td></tr>
+<tr><td width="20px" align="center">14</td><td width="150px">ReWorkClss</td><td width="150px">CHAR(1)</td><td width="50px" align="center">N</td><td></td></tr>
+<tr><td width="20px" align="center">15</td><td width="150px">LotNo</td><td width="150px">VARCHAR(5)</td><td width="50px" align="center">N</td><td></td></tr>
+<tr><td width="20px" align="center">16</td><td width="150px">ThreadName</td><td width="150px">NVARCHAR(60)</td><td width="50px" align="center">N</td><td></td></tr>
+<tr><td width="20px" align="center">17</td><td width="150px">Custom</td><td width="150px">NVARCHAR(80)</td><td width="50px" align="center">N</td><td></td></tr>
+<tr><td width="20px" align="center">18</td><td width="150px">StuffWidth</td><td width="150px">NUMERIC</td><td width="50px" align="center">N</td><td></td></tr>
+<tr><td width="20px" align="center">19</td><td width="150px">StuffDensity</td><td width="150px">NUMERIC</td><td width="50px" align="center">N</td><td></td></tr>
+<tr><td width="20px" align="center">20</td><td width="150px">CardUseGubun</td><td width="150px">CHAR(1)</td><td width="50px" align="center">N</td><td></td></tr>
+<tr><td width="20px" align="center">21</td><td width="150px">EmerClss</td><td width="150px">CHAR(1)</td><td width="50px" align="center">N</td><td></td></tr>
+<tr><td width="20px" align="center">22</td><td width="150px">PauseClss</td><td width="150px">VARCHAR(8)</td><td width="50px" align="center">N</td><td></td></tr>
+<tr><td width="20px" align="center">23</td><td width="150px">Roll</td><td width="150px">TINYINT</td><td width="50px" align="center">N</td><td></td></tr>
+<tr><td width="20px" align="center">24</td><td width="150px">Qty</td><td width="150px">SMALLINT</td><td width="50px" align="center">N</td><td></td></tr>
+<tr><td width="20px" align="center">25</td><td width="150px">PatternID</td><td width="150px">CHAR(2)</td><td width="50px" align="center">N</td><td></td></tr>
+<tr><td width="20px" align="center">26</td><td width="150px">ExpectDate</td><td width="150px">CHAR(8)</td><td width="50px" align="center">N</td><td></td></tr>
+<tr><td width="20px" align="center">27</td><td width="150px">TubeNo</td><td width="150px">SMALLINT</td><td width="50px" align="center">N</td><td></td></tr>
+<tr><td width="20px" align="center">28</td><td width="150px">SetDate</td><td width="150px">DATETIME</td><td width="50px" align="center">N</td><td></td></tr>
+<tr><td width="20px" align="center">29</td><td width="150px">AfterProc</td><td width="150px">NVARCHAR(510)</td><td width="50px" align="center">N</td><td></td></tr>
+<tr><td width="20px" align="center">30</td><td width="150px">CreateDate</td><td width="150px">DATETIME</td><td width="50px" align="center">N</td><td></td></tr>
+<tr><td width="20px" align="center">31</td><td width="150px">CreateUserID</td><td width="150px">VARCHAR(30)</td><td width="50px" align="center">N</td><td></td></tr>
+<tr><td width="20px" align="center">32</td><td width="150px">LastUpdateDate</td><td width="150px">DATETIME</td><td width="50px" align="center">Y</td><td></td></tr>
+<tr><td width="20px" align="center">33</td><td width="150px">LastUpdateUserID</td><td width="150px">VARCHAR(30)</td><td width="50px" align="center">Y</td><td></td></tr>
+</table><br />
+<table border="0" cellspacing="0" cellpadding="0" width="750px"><tr><td><b>Refrence Keys</b></td></tr></table>
+<table border="0" cellspacing="1" cellpadding="0" width="750px"><tr><th>Sr.</th><th>Name</th><th>Column</th><th>Reference To</th></tr>
+<tr><td width="20px" align="center">1</td><td width="150px">FK_card_batjaid</td><td width="150px">BatJaID</td><td>[mt_BatJa].[BatJaID]</td></tr>
+<tr><td width="20px" align="center">2</td><td width="150px">FK_Card_Order</td><td width="150px">OrderID</td><td>[Order].[OrderID]</td></tr>
+<tr><td width="20px" align="center">3</td><td width="150px">FK_Card_PatternID</td><td width="150px">PatternID</td><td>[mt_Pattern].[PatternID]</td></tr>
+</table><br />
+<table border="0" cellspacing="0" cellpadding="0" width="750px"><tr><td><b>Default Constraints</b></td></tr></table>
+<table border="0" cellspacing="1" cellpadding="0" width="750px"><tr><th>Sr.</th><th>Name</th><th>Column</th><th>Value</th></tr>
+<tr><td width="20px" align="center">1</td><td width="250px">DF_Card_AfterProc</td><td width="150px">AfterProc</td><td>(' ')</td></tr>
+<tr><td width="20px" align="center">2</td><td width="250px">DF_Card_BatJaNO</td><td width="150px">BatJaID</td><td>(' ')</td></tr>
+<tr><td width="20px" align="center">3</td><td width="250px">DF_Card_EmerClss</td><td width="150px">EmerClss</td><td>(' ')</td></tr>
+<tr><td width="20px" align="center">4</td><td width="250px">DF_Card_ExpectDate</td><td width="150px">ExpectDate</td><td>('')</td></tr>
+<tr><td width="20px" align="center">5</td><td width="250px">DF_Card_LotNo</td><td width="150px">LotNo</td><td>(' ')</td></tr>
+<tr><td width="20px" align="center">6</td><td width="250px">DF_Card_PauseClss</td><td width="150px">PauseClss</td><td>(' ')</td></tr>
+<tr><td width="20px" align="center">7</td><td width="250px">DF_Card_ReWorkClss</td><td width="150px">ReWorkClss</td><td>(' ')</td></tr>
+<tr><td width="20px" align="center">8</td><td width="250px">DF_Card_SetDate</td><td width="150px">SetDate</td><td>(getdate())</td></tr>
+<tr><td width="20px" align="center">9</td><td width="250px">DF_Card_SplitProcID</td><td width="150px">SplitProcID</td><td>(' ')</td></tr>
+<tr><td width="20px" align="center">10</td><td width="250px">DF_Card_SplitProcSeq</td><td width="150px">SplitProcSeq</td><td>((0))</td></tr>
+<tr><td width="20px" align="center">11</td><td width="250px">DF_Card_StuffDensity</td><td width="150px">StuffDensity</td><td>((0))</td></tr>
+<tr><td width="20px" align="center">12</td><td width="250px">DF_Card_StuffWidth</td><td width="150px">StuffWidth</td><td>((0))</td></tr>
+<tr><td width="20px" align="center">13</td><td width="250px">DF_Card_ThreadName</td><td width="150px">ThreadName</td><td>('')</td></tr>
+<tr><td width="20px" align="center">14</td><td width="250px">DF_Card_TubeNo</td><td width="150px">TubeNo</td><td>((0))</td></tr>
+<tr><td width="20px" align="center">15</td><td width="250px">DF_Card_WorkUnitID</td><td width="150px">WorkUnitID</td><td>(' ')</td></tr>
+<tr><td width="20px" align="center">16</td><td width="250px">DF_Card_WorkUnitSeq</td><td width="150px">WorkUnitSeq</td><td>((0))</td></tr>
+</table><br />
+<table border="0" cellspacing="0" cellpadding="0" width="750px"><tr><td><b>Indexes</b></td></tr></table>
+<table border="0" cellspacing="1" cellpadding="0" width="750px"><tr><th>Sr.</th><th>Name</th><th>Type</th><th>Columns</th></tr>
+<tr><td width="20px" align="center">1</td><td width="150px">idx_card_1</td><td width="150px">Nonclustered</td><td>CardID<br /></td></tr>
+<tr><td width="20px" align="center">2</td><td width="150px">PK_Card</td><td width="150px">Clustered</td><td>CardID<br />SplitID<br /></td></tr>
+</table><br />
+<br /><br /><br /><table border="0" cellspacing="0" cellpadding="0" width="750px"><tr><td align="right"><a href="#index">Index</a></td></tr>
+<tr><th align="left"><a name="Table:[dbo].[Hold]"></a><b>Table:[dbo].[Hold]</b></th></tr>
+</table><br />
+<table border="0" cellspacing="0" cellpadding="0" width="750px"><tr><td><b>Description</b></td></tr><tr><td> </td></tr></table><br />
+<table border="0" cellspacing="0" cellpadding="0" width="750px"><tr><td><b>Table Columns</b></td></tr></table>
+<table border="0" cellspacing="1" cellpadding="0" width="750px"><tr><th>Sr.</th><th>Name</th><th>Datatype</th><th>Nullable</th><th>Description</th></tr>
+<tr><td width="20px" align="center">1</td><td width="150px">WriteDate</td><td width="150px">CHAR(8)</td><td width="50px" align="center">N</td><td></td></tr>
+<tr><td width="20px" align="center">2</td><td width="150px">WriteProcID</td><td width="150px">CHAR(4)</td><td width="50px" align="center">N</td><td></td></tr>
+<tr><td width="20px" align="center">3</td><td width="150px">WriteSeq</td><td width="150px">TINYINT</td><td width="50px" align="center">N</td><td></td></tr>
+<tr><td width="20px" align="center">4</td><td width="150px">CardID</td><td width="150px">CHAR(8)</td><td width="50px" align="center">N</td><td></td></tr>
+<tr><td width="20px" align="center">5</td><td width="150px">SplitID</td><td width="150px">NVARCHAR(8)</td><td width="50px" align="center">N</td><td></td></tr>
+<tr><td width="20px" align="center">6</td><td width="150px">WorkSeq</td><td width="150px">TINYINT</td><td width="50px" align="center">N</td><td></td></tr>
+<tr><td width="20px" align="center">7</td><td width="150px">OrderID</td><td width="150px">CHAR(10)</td><td width="50px" align="center">N</td><td></td></tr>
+<tr><td width="20px" align="center">8</td><td width="150px">OrderSeq</td><td width="150px">TINYINT</td><td width="50px" align="center">N</td><td></td></tr>
+<tr><td width="20px" align="center">9</td><td width="150px">OccuProcID</td><td width="150px">CHAR(4)</td><td width="50px" align="center">N</td><td></td></tr>
+<tr><td width="20px" align="center">10</td><td width="150px">OccuDate</td><td width="150px">CHAR(8)</td><td width="50px" align="center">N</td><td></td></tr>
+<tr><td width="20px" align="center">11</td><td width="150px">PersonID</td><td width="150px">CHAR(8)</td><td width="50px" align="center">N</td><td></td></tr>
+<tr><td width="20px" align="center">12</td><td width="150px">MainHoldClss</td><td width="150px">CHAR(1)</td><td width="50px" align="center">Y</td><td></td></tr>
+<tr><td width="20px" align="center">13</td><td width="150px">MainHoldID</td><td width="150px">CHAR(3)</td><td width="50px" align="center">N</td><td></td></tr>
+<tr><td width="20px" align="center">14</td><td width="150px">HoldReason</td><td width="150px">NVARCHAR(200)</td><td width="50px" align="center">N</td><td></td></tr>
+<tr><td width="20px" align="center">15</td><td width="150px">SetDate</td><td width="150px">DATETIME</td><td width="50px" align="center">N</td><td></td></tr>
+<tr><td width="20px" align="center">16</td><td width="150px">ProcOpinion</td><td width="150px">NVARCHAR(200)</td><td width="50px" align="center">N</td><td></td></tr>
+<tr><td width="20px" align="center">17</td><td width="150px">ProcPerson</td><td width="150px">CHAR(8)</td><td width="50px" align="center">N</td><td></td></tr>
+<tr><td width="20px" align="center">18</td><td width="150px">ProcDate</td><td width="150px">DATETIME</td><td width="50px" align="center">Y</td><td></td></tr>
+<tr><td width="20px" align="center">19</td><td width="150px">Remark</td><td width="150px">NVARCHAR(200)</td><td width="50px" align="center">N</td><td></td></tr>
+<tr><td width="20px" align="center">20</td><td width="150px">CreateDate</td><td width="150px">DATETIME</td><td width="50px" align="center">N</td><td></td></tr>
+<tr><td width="20px" align="center">21</td><td width="150px">CreateUserID</td><td width="150px">VARCHAR(30)</td><td width="50px" align="center">N</td><td></td></tr>
+<tr><td width="20px" align="center">22</td><td width="150px">LastUpdateDate</td><td width="150px">DATETIME</td><td width="50px" align="center">Y</td><td></td></tr>
+<tr><td width="20px" align="center">23</td><td width="150px">LastUpdateUserID</td><td width="150px">VARCHAR(30)</td><td width="50px" align="center">Y</td><td></td></tr>
+</table><br />
+<table border="0" cellspacing="0" cellpadding="0" width="750px"><tr><td><b>Refrence Keys</b></td></tr></table>
+<table border="0" cellspacing="1" cellpadding="0" width="750px"><tr><th>Sr.</th><th>Name</th><th>Column</th><th>Reference To</th></tr>
+<tr><td width="20px" align="center">1</td><td width="150px">FK_Hold_cardID_SplitID</td><td width="150px">CardID</td><td>[Card].[CardID]</td></tr>
+<tr><td width="20px" align="center">2</td><td width="150px">FK_Hold_cardID_SplitID</td><td width="150px">SplitID</td><td>[Card].[SplitID]</td></tr>
+<tr><td width="20px" align="center">3</td><td width="150px">FK_Hold_MainHoldID</td><td width="150px">OccuProcID</td><td>[mt_Hold].[ProcessID]</td></tr>
+<tr><td width="20px" align="center">4</td><td width="150px">FK_Hold_MainHoldID</td><td width="150px">MainHoldClss</td><td>[mt_Hold].[HoldClss]</td></tr>
+<tr><td width="20px" align="center">5</td><td width="150px">FK_Hold_MainHoldID</td><td width="150px">MainHoldID</td><td>[mt_Hold].[HoldID]</td></tr>
+<tr><td width="20px" align="center">6</td><td width="150px">FK_Hold_OrderID_OrderSeq</td><td width="150px">OrderID</td><td>[OrderColor].[OrderID]</td></tr>
+<tr><td width="20px" align="center">7</td><td width="150px">FK_Hold_OrderID_OrderSeq</td><td width="150px">OrderSeq</td><td>[OrderColor].[OrderSeq]</td></tr>
+<tr><td width="20px" align="center">8</td><td width="150px">FK_hold_PersonID</td><td width="150px">PersonID</td><td>[mt_Person].[PersonID]</td></tr>
+</table><br />
+<table border="0" cellspacing="0" cellpadding="0" width="750px"><tr><td><b>Default Constraints</b></td></tr></table>
+<table border="0" cellspacing="1" cellpadding="0" width="750px"><tr><th>Sr.</th><th>Name</th><th>Column</th><th>Value</th></tr>
+<tr><td width="20px" align="center">1</td><td width="250px">DF_Hold_ProcOpinion</td><td width="150px">ProcOpinion</td><td>('')</td></tr>
+<tr><td width="20px" align="center">2</td><td width="250px">DF_Hold_ProcPerson</td><td width="150px">ProcPerson</td><td>('')</td></tr>
+<tr><td width="20px" align="center">3</td><td width="250px">DF_Hold_Remark</td><td width="150px">Remark</td><td>('')</td></tr>
+</table><br />
+<table border="0" cellspacing="0" cellpadding="0" width="750px"><tr><td><b>Indexes</b></td></tr></table>
+<table border="0" cellspacing="1" cellpadding="0" width="750px"><tr><th>Sr.</th><th>Name</th><th>Type</th><th>Columns</th></tr>
+<tr><td width="20px" align="center">1</td><td width="150px">PK_Hold</td><td width="150px">Clustered</td><td>WriteDate<br />WriteProcID<br />WriteSeq<br /></td></tr>
+</table><br />
+</body>
+</html>
+
+완료 시간: 2022-08-25T11:50:54.6624563+09:00

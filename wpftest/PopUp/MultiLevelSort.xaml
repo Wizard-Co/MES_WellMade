@@ -1,0 +1,68 @@
+﻿<Window x:Class="WizMes_WellMade.PopUp.MultiLevelSort"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WizMes_WellMade.PopUp"
+        mc:Ignorable="d"
+        Title="MultiLevelSort" Height="300" Width="350" Loaded="MultiLevelSort_Loaded">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40*" />
+            <RowDefinition Height="230*" />
+            <RowDefinition Height="30*" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <Button x:Name="btnRowAdd" Grid.Column="0" Margin="1" Content="행 추가" 
+                    Click="btnRowAdd_Click" />
+            <Button x:Name="btnRowDelete" Grid.Column="1" Margin="1" Content="행 삭제"
+                    Click="btnRowDelete_Click" />
+
+
+        </Grid>
+
+        <DataGrid x:Name="dgdSorting" Grid.Row="1" Style="{DynamicResource DataGridSet1}" >
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="txtdgdRankingNUM" Header="" Width="auto" MinWidth="60"
+                                    Binding="{Binding Path=RankingNUM}"/>
+                <DataGridTemplateColumn Header="열 명" Width="auto" MinWidth="130">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ComboBox x:Name="cbodgdColName" Loaded="ComboBoxSetting" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="정  렬" Width="auto" MinWidth="130">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ComboBox x:Name="cbodgdSortingProperty" Loaded="ComboBoxSetting2" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <Button x:Name="btnConfirm" Grid.Column="1" Margin="1" Content="확인"
+                    Click="btnConfirm_Click"/>
+            <Button x:Name="btnCancel" Grid.Column="2" Margin="1" Content="취소"
+                    Click="btnCancel_Click"/>
+        </Grid>
+        
+        
+    </Grid>
+</Window>

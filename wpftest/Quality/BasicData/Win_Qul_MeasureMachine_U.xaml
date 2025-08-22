@@ -1,0 +1,783 @@
+﻿<UserControl x:Class="WizMes_WellMade.Win_Qul_MeasureMachine_U"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WizMes_WellMade"
+             mc:Ignorable="d" Loaded="UserControl_Loaded"
+             d:DesignHeight="620" d:DesignWidth="820">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="88*"/>
+            <RowDefinition Height="532*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Background="{DynamicResource WizMes_WellMade}" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100*"/>
+                <ColumnDefinition Width="160*"/>
+                <ColumnDefinition Width="180*"/>
+                <ColumnDefinition Width="130*"/>
+                <ColumnDefinition Width="250*"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="1" Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="85*"/>
+                    <ColumnDefinition Width="60*"/>
+                    <ColumnDefinition Width="15*"/>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Style="{DynamicResource LabelSearch_Q}" >
+                    <StackPanel Style="{DynamicResource StackPanelInLabel_Q}" >
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}" >
+                            <CheckBox x:Name="chkYearSrh" IsChecked="True" IsEnabled="False"/>
+                        </Viewbox>
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}" >
+                            <TextBlock Style="{DynamicResource TextBlockInViewBoxSearch_Q}">검교정계획년도</TextBlock>
+                        </Viewbox>
+                    </StackPanel>
+                </Label>
+                <ComboBox x:Name="cboYear" Grid.Column="1" Background="White" />
+            </Grid>
+            <Grid Grid.Column="2" Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="75*"/>
+                    <ColumnDefinition Width="90*"/>
+                    <ColumnDefinition Width="15*"/>
+                </Grid.ColumnDefinitions>
+                <Label x:Name="lblMsrMachineNameSrh" Grid.Column="0" MouseLeftButtonUp="LblMsrMachineNameSrh_MouseLeftButtonUp" Style="{DynamicResource LabelSearch_Q}">
+                    <StackPanel Style="{DynamicResource StackPanelInLabel_Q}">
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
+                            <CheckBox x:Name="chkMsrMachineNameSrh" Checked="ChkMsrMachineNameSrh_Checked" Unchecked="ChkMsrMachineNameSrh_Unchecked"/>
+                        </Viewbox>
+                        <Viewbox  Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
+                            <TextBlock Text="계측기명(%) " Style="{DynamicResource TextBlockInViewBoxSearch_Q}"/>
+                        </Viewbox>
+                    </StackPanel>
+                </Label>
+                <TextBox x:Name="txtMsrMachineNameSrh" Grid.Column="1" Background="White" Margin="1" IsEnabled="False" />
+            </Grid>
+
+            <Grid Grid.Column="4" Grid.Row="0" Grid.RowSpan="4" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="btnPrint_Plan" Grid.Column="0" Click="BtnPrint_Plan_Click" Tag="1" Visibility="Hidden">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{DynamicResource btiPrint}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="검교정계획" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                <TextBlock Text=" 및 실적 " VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </StackPanel>
+                        </StackPanel>
+                        <Button.ContextMenu>
+                            <ContextMenu x:Name="menu">
+                                <MenuItem x:Name="menuSeeAhead" Header="미리보기" Click="menuSeeAhead_Click" Tag="1"></MenuItem>
+                                <MenuItem x:Name="menuRightPrint" Header="바로인쇄" Click="menuRightPrint_Click" Tag="1"></MenuItem>
+                                <MenuItem x:Name="menuClose" Header="닫   기" Click="menuClose_Click" ></MenuItem>
+                            </ContextMenu>
+                        </Button.ContextMenu>
+                    </Button>
+                    <Button x:Name="btnAdd" Grid.Column="1" Click="BtnAdd_Click" Margin="1">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{DynamicResource btiInsert}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Source={StaticResource tblInsert},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="btnUpdate" Grid.Column="2" Click="BtnUpdate_Click" Margin="1">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{DynamicResource btiUpdate}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Source={StaticResource tblUpdate},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="btnDelete" Grid.Column="3" Click="BtnDelete_Click" Margin="1">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{DynamicResource btiDelete}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Source={StaticResource tblDelete},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="btnClose" Grid.Column="4" Click="BtnClose_Click" Margin="1">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{DynamicResource btiClose}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Source={StaticResource tblClose},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="btnPrint" Grid.Column="0" Margin="1" Click="BtnPrint_Click" Tag="2" Visibility="Hidden">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{DynamicResource btiPrint}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text=" 계측기 " VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                <TextBlock Text="등록대장" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </StackPanel>
+                        </StackPanel>
+                        <Button.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="미리보기" Click="menuSeeAhead_Click" Tag="2"></MenuItem>
+                                <MenuItem Header="바로인쇄" Click="menuRightPrint_Click" Tag="2"></MenuItem>
+                                <MenuItem Header="닫   기" Click="menuClose_Click" ></MenuItem>
+                            </ContextMenu>
+                        </Button.ContextMenu>
+                    </Button>
+                    <Button x:Name="btnSearch" Grid.Column="1" Margin="1" Click="BtnSearch_Click" >
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{DynamicResource btiSearch}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Source={StaticResource tblSearch},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="btnSave" Grid.Column="2" Visibility="Hidden" Click="BtnSave_Click" Margin="1">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{DynamicResource btiSave}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Source={StaticResource tblSave},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="btnCancel" Grid.Column="3" Visibility="Hidden" Click="BtnCancel_Click" Margin="1">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{DynamicResource btiCancle}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Source={StaticResource tblCancle},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="btnExcel" Grid.Column="4" Click="BtnExcel_Click" Margin="1">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{DynamicResource btiExcel}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Source={StaticResource tblExcel},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                </Grid>
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Row="1" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="600*" />
+                <ColumnDefinition Width="1" />
+                <ColumnDefinition Width="450*" />
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <DataGrid x:Name="dgdMain" Grid.Column="0" Grid.Row="0"
+                      SelectionChanged="DgdMain_SelectionChanged"
+                      MouseLeftButtonDown="dgdMain_LeftDoubleDown"
+                      Style="{DynamicResource DataGridSet1}" >
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="" Binding="{Binding Num}" />
+
+                        <DataGridTextColumn Header="계측기ID" Binding="{Binding MsrMachineID}" Width="auto" >
+                            <DataGridTextColumn.ElementStyle>
+                                <Style>
+                                    <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="계측기명" Binding="{Binding MsrMachineName}" Width="auto"/>
+                        <DataGridTextColumn Header="계측기번호" Binding="{Binding MsrMachineNo}" Width="auto">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style>
+                                    <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="계측기업체" Binding="{Binding MsrMachineMsrBuyCustom}" Width="auto"/>
+                        <DataGridTextColumn Header="구입일" Binding="{Binding MsrMachineBuyDate}" Width="auto">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style>
+                                    <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+
+                        <DataGridTextColumn Header="주기(월)" Binding="{Binding ProofCycle}" Width="auto">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style>
+                                    <Setter Property="TextBlock.TextAlignment" Value="Right"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="최종검교정일" Binding="{Binding LastProofDate}" Width="auto">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style>
+                                    <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="차기검교정일" Binding="{Binding NextProofDate_CV}" Width="auto">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style>
+                                    <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="계측기범위" Binding="{Binding MsrMachineRange}" Width="auto"/>
+                        <DataGridTextColumn Header="계측기가격" Binding="{Binding MsrMachinePrice}" Width="auto">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style>
+                                    <Setter Property="TextBlock.TextAlignment" Value="Right"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+
+                        <DataGridTextColumn Header="사용팀" Binding="{Binding MsrMachineUseTeam}" Width="auto"/>
+                        <DataGridTextColumn Header="담당자" Binding="{Binding MsrmachinePerson}" Width="auto"/>
+                        <DataGridTextColumn Header="등록일" Binding="{Binding MsrMachineSetDate}" Width="auto">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style>
+                                    <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="비고" Binding="{Binding Comments}" Width="auto"/>
+                        <DataGridTextColumn Header="첨부파일명1" Binding="{Binding AttFile1}" Width="auto"/>
+
+                        <DataGridTextColumn Header="첨부파일경로1" Binding="{Binding AttPath1}" Width="auto"/>
+                        <DataGridTextColumn Header="첨부파일명2" Binding="{Binding AttFile2}" Width="auto"/>
+                        <DataGridTextColumn Header="첨부파일경로2" Binding="{Binding AttPath2}" Width="auto"/>
+                        <DataGridTextColumn Header="첨부파일명3" Binding="{Binding AttFile3}" Width="auto"/>
+                        <DataGridTextColumn Header="첨부파일경로3" Binding="{Binding AttPath3}" Width="auto"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Grid Grid.Row="1" Grid.ColumnSpan="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock x:Name="tbkIndexCount" Grid.Column="0" Text="▶검색결과 : " VerticalAlignment="Center" Margin="1"/>
+                </Grid>
+            </Grid>
+
+            <GridSplitter Grid.Column="1" Width="5" ResizeBehavior="PreviousAndNext"/>
+
+            <Grid x:Name="grdInput" Grid.Column="2" IsHitTestVisible="False">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="75*"/>
+                    <ColumnDefinition Width="90*"/>
+                    <ColumnDefinition Width="15*"/>
+                    <ColumnDefinition Width="75*"/>
+                    <ColumnDefinition Width="90*"/>
+                    <ColumnDefinition Width="15*"/>
+                </Grid.ColumnDefinitions>
+                <Label x:Name="lblMsg" Grid.Column="0" Grid.Row="0" Style="{DynamicResource LabelStateMessage}" Grid.ColumnSpan="6">
+                    <TextBlock x:Name="tbkMsg" Text="자료 입력 중"/>
+                </Label>
+
+                <Label Grid.Column="0" Grid.Row="1" Style="{DynamicResource LabelInputArea_Q}">
+                    <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
+                        <TextBlock Style="{DynamicResource TextBlockInViewBoxInput_Small_Q}">계측기ID</TextBlock>
+                    </Viewbox>
+                </Label>
+                
+                <TextBox x:Name="txtMsrMachineID" Grid.Column="1" Grid.Row="1" 
+                         Style="{DynamicResource TextBoxInputAutoCreate_Q}" Text="{Binding MsrMachineID}"/>
+
+                <Label Grid.Column="3" Grid.Row="1" Style="{DynamicResource LabelInputArea_Q}">
+                    <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
+                        <TextBlock Style="{DynamicResource TextBlockInViewBoxInput_Small_Q}">관리번호</TextBlock>
+                    </Viewbox>
+                </Label>
+                <TextBox x:Name="txtMsrMachineMgrNo" Grid.Column="4" Grid.Row="1" Text="{Binding MsrMachineMgrNo}"
+                         Keyboard.KeyDown="txtMsrMachineMgrNo_KeyDown"/>
+
+                <Label Grid.Column="0" Grid.Row="2" Style="{DynamicResource LabelInputArea_Q}">
+                    <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
+                        <TextBlock Style="{DynamicResource TextBlockInViewBoxInput_Small_Q}">계측기명</TextBlock>
+                    </Viewbox>
+                </Label>
+                <TextBox x:Name="txtMsrMachineName" Grid.Column="1" Grid.Row="2" Text="{Binding MsrMachineName}"
+                         Keyboard.KeyDown="txtMsrMachineName_KeyDown"/>
+
+                <Label Grid.Column="3" Grid.Row="2" Style="{DynamicResource LabelInputArea_Q}">
+                    <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
+                        <TextBlock Style="{DynamicResource TextBlockInViewBoxInput_Small_Q}">계측기 번호</TextBlock>
+                    </Viewbox>
+                </Label>
+                <TextBox x:Name="txtMsrMachineNo" Grid.Column="4" Grid.Row="2" 
+                         Grid.ColumnSpan="1" Text="{Binding MsrMachineNo}"
+                         Keyboard.KeyDown="txtMsrMachineNo_KeyDown"/>
+
+                <Label Grid.Column="0" Grid.Row="3"  Style="{DynamicResource LabelInputArea_Q}">
+                    <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
+                        <TextBlock Style="{DynamicResource TextBlockInViewBoxInput_Small_Q}">계측기 규격</TextBlock>
+                    </Viewbox>
+                </Label>
+                <TextBox x:Name="txtMsrMachineSpec" Grid.Column="1" Grid.Row="3" Text="{Binding MsrMachineSpec}"
+                         Keyboard.KeyDown="txtMsrMachineSpec_KeyDown"/>
+
+                <Label Grid.Column="3" Grid.Row="3"  Style="{DynamicResource LabelInputArea_Q}">
+                    <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
+                        <TextBlock Style="{DynamicResource TextBlockInViewBoxInput_Small_Q}">계측기 범위</TextBlock>
+                    </Viewbox>
+                </Label>
+                <TextBox x:Name="txtMsrMachineRange" Grid.Column="4" Grid.Row="3" Text="{Binding MsrMachineRange}"
+                         Keyboard.KeyDown="txtMsrMachineRange_KeyDown"/>
+
+                <Label Grid.Column="0" Grid.Row="4"  Style="{DynamicResource LabelInputArea_Q}">
+                    <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
+                        <TextBlock Style="{DynamicResource TextBlockInViewBoxInput_Small_Q}">계측기 업체</TextBlock>
+                    </Viewbox>
+                </Label>
+                <TextBox x:Name="txtMsrMachineMsrBuyCustom" Grid.Column="1" Grid.Row="4" Text="{Binding MsrMachineMsrBuyCustom}"
+                         Keyboard.KeyDown="txtMsrMachineMsrBuyCustom_KeyDown"/>
+
+                <Label Grid.Column="3" Grid.Row="4" Style="{DynamicResource LabelInputArea_Q}">
+                    <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
+                        <TextBlock Style="{DynamicResource TextBlockInViewBoxInput_Small_Q}">검교정업체</TextBlock>
+                    </Viewbox>
+                </Label>
+                <TextBox x:Name="txtMsrMachineMsrCustom" Grid.Column="4" Grid.Row="4" Text="{Binding MsrMachineMsrCustom}"
+                         Keyboard.KeyDown="txtMsrMachineMsrCustom_KeyDown"/>
+                
+                <Label Grid.Column="0" Grid.Row="5" Style="{DynamicResource LabelInputArea_Q}">
+                    <StackPanel Style="{DynamicResource StackPanelInLabel_Q}">
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
+                            <CheckBox x:Name="chkBuyDate" >
+                                <CheckBox.Style>
+                                    <Style TargetType="CheckBox">
+                                        <Setter Property="Margin" Value="1"/>
+                                        <Setter Property="IsChecked" Value="True"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding MsrMachineBuyDate}" Value="" >
+                                                <Setter Property="IsChecked" Value="False"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </CheckBox.Style>
+                            </CheckBox>
+                        </Viewbox>
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
+                            <TextBlock Text="구 입 일" Style="{DynamicResource TextBlockInViewBoxInput_WithCheck_Three_Q}"/>
+                        </Viewbox>
+                    </StackPanel>
+                </Label>
+                
+                <DatePicker x:Name="dtpMsrMachineBuyDate" Grid.Column="1" Grid.Row="5" Padding="0" SelectedDate="{Binding MsrMachineBuyDate_CV}" >
+                    <DatePicker.Style>
+                        <Style TargetType="DatePicker">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=chkBuyDate,Path=IsChecked}" Value="True">
+                                    <Setter Property="IsEnabled" Value="True"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ElementName=chkBuyDate,Path=IsChecked}" Value="False">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                            <Setter Property="Background" Value="White"/>
+                            <Setter Property="Padding" Value="0"/>
+                            <Setter Property="VerticalContentAlignment" Value="Center"/>
+                        </Style>
+                    </DatePicker.Style>
+                </DatePicker>
+
+                <Label Grid.Column="3" Grid.Row="5" Style="{DynamicResource LabelInputArea_Q}">
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
+                        <TextBlock Style="{DynamicResource TextBlockInViewBoxInput_Small_Q}">구입가격</TextBlock>
+                        </Viewbox>
+                </Label>
+                
+                <TextBox x:Name="txtMsrMachinePrice" Grid.Column="4" Grid.Row="5" Style="{DynamicResource InputCommaOneTextBox}"
+                         Text="{Binding MsrMachinePrice}"
+                         PreviewTextInput="txtMsrMachinePrice_PreviewTextInput"
+                         Keyboard.KeyDown="txtMsrMachinePrice_KeyDown"/>
+
+                <Label Grid.Column="0" Grid.Row="6" Style="{DynamicResource LabelInputArea_Q}">
+                    <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
+                        <TextBlock Style="{DynamicResource TextBlockInViewBoxInput_Small_Q}">사 용 팀</TextBlock>
+                    </Viewbox>
+                </Label>
+                <TextBox x:Name="txtMsrMachineUseTeam" Grid.Column="1" Grid.Row="6" 
+                         Text="{Binding MsrMachineUseTeam}"
+                         Keyboard.KeyDown="txtMsrMachineUseTeam_KeyDown"/>
+
+                <Label Grid.Column="3" Grid.Row="6" Style="{DynamicResource LabelInputArea_Q}">
+                    <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
+                        <TextBlock Style="{DynamicResource TextBlockInViewBoxInput_Small_Q}">담 당 자</TextBlock>
+                    </Viewbox>
+                </Label>
+                
+                <TextBox x:Name="txtMsrMachinePerson" Grid.Column="4" Grid.Row="6" 
+                         Text="{Binding MsrmachinePerson}"
+                         Keyboard.KeyDown="txtMsrMachinePerson_KeyDown"/>
+
+                <Label Grid.Column="0" Grid.Row="7" Style="{DynamicResource LabelInputArea_Q}">
+                    <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
+                        <TextBlock Style="{DynamicResource TextBlockInViewBoxInput_Small_Q}">등 록 일</TextBlock>
+                    </Viewbox>
+                </Label>
+                <DatePicker x:Name="dtpMsrMachineSetDate" Grid.Column="1" Grid.Row="7" Padding="0"
+                            SelectedDate="{Binding MsrMachineSetDate_CV}"/>
+
+
+                <Label Grid.Column="0" Grid.Row="8"  Style="{DynamicResource LabelInputArea_Q}">
+                    <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
+                        <TextBlock Style="{DynamicResource TextBlockInViewBoxInput_Small_Q}">검교정주기(월)</TextBlock>
+                    </Viewbox>
+                </Label>
+                <TextBox x:Name="txtCycle" Grid.Column="1" Grid.Row="8" Text="{Binding ProofCycle}" Style="{DynamicResource InputCommaOneTextBox}"
+                         Keyboard.KeyDown="txtCycle_KeyDown"/>
+
+                <Label Grid.Column="3" Grid.Row="7"  Style="{DynamicResource LabelInputArea_Q}">
+                    <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
+                        <TextBlock Style="{DynamicResource TextBlockInViewBoxInput_Small_Q}">최종 검교정일</TextBlock>
+                    </Viewbox>
+                </Label>
+
+                <Label x:Name="lblLastProofDate" Grid.Column="4" Grid.Row="7" Background="White"
+                       Content="{Binding LastProofDate_CV}"/>
+
+                <Label Grid.Column="3" Grid.Row="8"  Style="{DynamicResource LabelInputArea_Q}">
+                    <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
+                        <TextBlock Style="{DynamicResource TextBlockInViewBoxInput_Small_Q}">차기 검교정일</TextBlock>
+                    </Viewbox>
+                </Label>
+                
+                <Label x:Name="lblNextProofDate" Grid.Column="4" Grid.Row="8" Background="White"
+                       Content="{Binding NextProofDate_CV}"/>
+                
+                <Border Grid.Column="0" Grid.Row="9" Grid.ColumnSpan="6" Grid.RowSpan="5" Margin="2" >
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="4*"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0" Background="#CEF279">
+                            <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
+                                <TextBlock Text="검교정 계획" Style="{DynamicResource TextBlockInViewBoxInput_Small_Q}"/>
+                            </Viewbox>
+                        </Grid>
+                        <Grid Grid.Row="1" Background="#E4F7BA">
+                            <Grid.Resources>
+                                <Style TargetType="Viewbox">
+                                    <Setter Property="Margin" Value="0"/>
+                                </Style>
+                            </Grid.Resources>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="0.5*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="0.5*"/>
+                            </Grid.RowDefinitions>
+
+                            <Viewbox Grid.Row="1" Grid.Column="0" Style="{DynamicResource ViewBoxMonth_Q}">
+                                <CheckBox x:Name="chk01" >
+                                    <TextBlock  Margin="1">1월</TextBlock>
+                                    <CheckBox.Style>
+                                        <Style TargetType="CheckBox">
+                                            <Setter Property="IsChecked" Value="False"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding PR1}" Value="1">
+                                                    <Setter Property="IsChecked" Value="True"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </CheckBox.Style>
+                                </CheckBox>
+                            </Viewbox>
+                            <Viewbox Grid.Row="1" Grid.Column="1" Style="{DynamicResource ViewBoxMonth_Q}">
+                                <CheckBox x:Name="chk02" >
+                                    <TextBlock Margin="1">2월</TextBlock>
+                                    <CheckBox.Style>
+                                        <Style TargetType="CheckBox">
+                                            <Setter Property="IsChecked" Value="False"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding PR2}" Value="1">
+                                                    <Setter Property="IsChecked" Value="True"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </CheckBox.Style>
+                                </CheckBox>
+                            </Viewbox>
+                            <Viewbox Grid.Row="1" Grid.Column="2" Style="{DynamicResource ViewBoxMonth_Q}">
+                                <CheckBox x:Name="chk03"  >
+                                    <TextBlock  Margin="1">3월</TextBlock>
+                                    <CheckBox.Style>
+                                        <Style TargetType="CheckBox">
+                                            <Setter Property="IsChecked" Value="False"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding PR3}" Value="1">
+                                                    <Setter Property="IsChecked" Value="True"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </CheckBox.Style>
+                                </CheckBox>
+                            </Viewbox>
+                            <Viewbox Grid.Row="1" Grid.Column="3" Style="{DynamicResource ViewBoxMonth_Q}">
+                                <CheckBox x:Name="chk04" >
+                                    <TextBlock Margin="1">4월</TextBlock>
+                                    <CheckBox.Style>
+                                        <Style TargetType="CheckBox">
+                                            <Setter Property="IsChecked" Value="False"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding PR4}" Value="1">
+                                                    <Setter Property="IsChecked" Value="True"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </CheckBox.Style>
+                                </CheckBox>
+                            </Viewbox>
+
+                            <Viewbox Grid.Row="2" Grid.Column="0" Style="{DynamicResource ViewBoxMonth_Q}">
+                                <CheckBox x:Name="chk05" >
+                                    <TextBlock  Margin="1">5월</TextBlock>
+                                    <CheckBox.Style>
+                                        <Style TargetType="CheckBox">
+                                            <Setter Property="IsChecked" Value="False"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding PR5}" Value="1">
+                                                    <Setter Property="IsChecked" Value="True"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </CheckBox.Style>
+                                </CheckBox>
+                            </Viewbox>
+                            <Viewbox Grid.Row="2" Grid.Column="1" Style="{DynamicResource ViewBoxMonth_Q}">
+                                <CheckBox x:Name="chk06">
+                                    <TextBlock  Margin="1">6월</TextBlock>
+                                    <CheckBox.Style>
+                                        <Style TargetType="CheckBox">
+                                            <Setter Property="IsChecked" Value="False"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding PR6}" Value="1">
+                                                    <Setter Property="IsChecked" Value="True"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </CheckBox.Style>
+                                </CheckBox>
+                            </Viewbox>
+                            <Viewbox Grid.Row="2" Grid.Column="2" Style="{DynamicResource ViewBoxMonth_Q}">
+                                <CheckBox x:Name="chk07" >
+                                    <TextBlock  Margin="1">7월</TextBlock>
+                                    <CheckBox.Style>
+                                        <Style TargetType="CheckBox">
+                                            <Setter Property="IsChecked" Value="False"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding PR7}" Value="1">
+                                                    <Setter Property="IsChecked" Value="True"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </CheckBox.Style>
+                                </CheckBox>
+                            </Viewbox>
+                            <Viewbox Grid.Row="2" Grid.Column="3" Style="{DynamicResource ViewBoxMonth_Q}">
+                                <CheckBox x:Name="chk08" >
+                                    <TextBlock  Margin="1">8월</TextBlock>
+                                    <CheckBox.Style>
+                                        <Style TargetType="CheckBox">
+                                            <Setter Property="IsChecked" Value="False"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding PR8}" Value="1">
+                                                    <Setter Property="IsChecked" Value="True"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </CheckBox.Style>
+                                </CheckBox>
+                            </Viewbox>
+
+                            <Viewbox Grid.Row="3" Grid.Column="0" Style="{DynamicResource ViewBoxMonth_Q}">
+                                <CheckBox x:Name="chk09" >
+                                    <TextBlock  Margin="1">9월</TextBlock>
+                                    <CheckBox.Style>
+                                        <Style TargetType="CheckBox">
+                                            <Setter Property="IsChecked" Value="False"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding PR9}" Value="1">
+                                                    <Setter Property="IsChecked" Value="True"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </CheckBox.Style>
+                                </CheckBox>
+                            </Viewbox>
+                            <Viewbox Grid.Row="3" Grid.Column="1" Style="{DynamicResource ViewBoxMonth_Q}">
+                                <CheckBox x:Name="chk10" >
+                                    <TextBlock  Margin="1">10월</TextBlock>
+                                    <CheckBox.Style>
+                                        <Style TargetType="CheckBox">
+                                            <Setter Property="IsChecked" Value="False"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding PR10}" Value="1">
+                                                    <Setter Property="IsChecked" Value="True"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </CheckBox.Style>
+                                </CheckBox>
+                            </Viewbox>
+                            <Viewbox Grid.Row="3" Grid.Column="2" Style="{DynamicResource ViewBoxMonth_Q}">
+                                <CheckBox x:Name="chk11" VerticalAlignment="Center"
+                                          VerticalContentAlignment="Center">
+                                    <TextBlock  Margin="1">11월</TextBlock>
+                                    <CheckBox.Style>
+                                        <Style TargetType="CheckBox">
+                                            <Setter Property="IsChecked" Value="False"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding PR11}" Value="1">
+                                                    <Setter Property="IsChecked" Value="True"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </CheckBox.Style>
+                                </CheckBox>
+                            </Viewbox>
+                            <Viewbox Grid.Row="3" Grid.Column="3" Style="{DynamicResource ViewBoxMonth_Q}">
+                                <CheckBox x:Name="chk12" VerticalAlignment="Center"
+                                          VerticalContentAlignment="Center">
+                                    <TextBlock  Margin="1">12월</TextBlock>
+                                    <CheckBox.Style>
+                                        <Style TargetType="CheckBox">
+                                            <Setter Property="IsChecked" Value="False"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding PR12}" Value="1">
+                                                    <Setter Property="IsChecked" Value="True"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </CheckBox.Style>
+                                </CheckBox>
+                            </Viewbox>
+                        </Grid>
+                    </Grid>
+                </Border>
+
+                <Label Grid.Column="0" Grid.Row="14" Style="{DynamicResource LabelInputArea_Q}">
+                    <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
+                        <TextBlock Style="{DynamicResource TextBlockInViewBoxInput_Small_Q}" >비 고</TextBlock>
+                    </Viewbox>
+                </Label>
+                
+                <TextBox x:Name="txtComments" Grid.Column="0" Grid.Row="15" Grid.ColumnSpan="6" 
+                         Grid.RowSpan="3" Text="{Binding Comments}" TextWrapping="Wrap"
+                         Keyboard.KeyDown="txtComments_KeyDown" Margin="1"/>
+                
+                <Grid Grid.Row="18" Grid.ColumnSpan="6">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1.1*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="0.5*"/>
+                        <ColumnDefinition Width="0.7*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="btnFileAdd1" Grid.Column="0"  Tag="1" Click="FileChoice">
+                        <TextBlock>첨부문서1</TextBlock>
+                    </Button>
+                    <TextBox x:Name="txtAttFile1" Grid.Column="1"  Grid.ColumnSpan="3"
+                             Text="{Binding AttFile1}" Tag="{Binding AttPath1}"/>
+                    <Button x:Name="btnFileDel1" Grid.Column="4"  Click="DeleteFile" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Tag="1" >
+                        <TextBlock >삭제</TextBlock>
+                    </Button>
+                    <Button x:Name="btnFileDown1" Grid.Column="5"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Tag="1" Click="FileDownLoad">
+                        <TextBlock >다운로드</TextBlock>
+                    </Button>
+                </Grid>
+                <Grid Grid.Row="19" Grid.ColumnSpan="6">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1.1*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="0.5*"/>
+                        <ColumnDefinition Width="0.7*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="btnFileAdd2" Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Tag="2" Click="FileChoice">
+                        <TextBlock>첨부문서2</TextBlock>
+                    </Button>
+                    <TextBox x:Name="txtAttFile2" Grid.Column="1" Grid.Row="20" Grid.ColumnSpan="3"
+                         Text="{Binding AttFile2}" Tag="{Binding AttPath2}"/>
+                    <Button x:Name="btnFileDel2" Grid.Column="4" Click="DeleteFile" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Tag="2">
+                        <TextBlock >삭제</TextBlock>
+                    </Button>
+                    <Button x:Name="btnFileDown2" Grid.Column="5"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Tag="2" Click="FileDownLoad">
+                        <TextBlock >다운로드</TextBlock>
+                    </Button>
+                </Grid>
+                <Grid Grid.Row="20" Grid.ColumnSpan="6">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1.1*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="0.5*"/>
+                        <ColumnDefinition Width="0.7*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="btnFileAdd3" Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Tag="3" Click="FileChoice">
+                        <TextBlock >첨부문서3</TextBlock>
+                    </Button>
+                    <TextBox x:Name="txtAttFile3" Grid.Column="1"  Grid.ColumnSpan="3"
+                         Text="{Binding AttFile3}" Tag="{Binding AttPath3}"/>
+                    <Button x:Name="btnFileDel3" Grid.Column="4" Click="DeleteFile" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Tag="3">
+                        <TextBlock >삭제</TextBlock>
+                    </Button>
+                    <Button x:Name="btnFileDown3" Grid.Column="5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Tag="3" Click="FileDownLoad">
+                        <TextBlock >다운로드</TextBlock>
+                    </Button>
+                </Grid>
+            </Grid>
+        </Grid>
+
+    </Grid>
+</UserControl>

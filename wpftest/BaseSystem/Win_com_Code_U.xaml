@@ -1,0 +1,426 @@
+﻿<UserControl x:Class="WizMes_WellMade.Win_com_Code_U"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WizMes_WellMade"
+             xmlns:dgx="clr-namespace:DataGridExtensions;assembly=DataGridExtensions"
+             mc:Ignorable="d" Loaded="UserControl_Loaded"
+             d:DesignHeight="620" d:DesignWidth="820">
+    <UserControl.Resources>
+        <Style TargetType="DataGridCell" x:Key="dgcEnable">
+            <!--<Style.Triggers> 2021-09-13 현달씨 주석
+                <DataTrigger Binding="{Binding FlagEnable}" Value="true">
+                    <Setter Property="IsEnabled" Value="True" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding FlagEnable}" Value="false">
+                    <Setter Property="IsEnabled" Value="False" />
+                </DataTrigger>
+            </Style.Triggers>-->
+        </Style>
+    </UserControl.Resources>
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="88*" />
+            <RowDefinition Height="532*" />
+        </Grid.RowDefinitions>
+        <!-- 전체 중 상단 -->
+        <Grid Grid.Row="0" Background="{StaticResource WizMes_WellMade}" Margin="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100*" />
+                <ColumnDefinition Width="160*" />
+                <ColumnDefinition Width="180*" />
+                <ColumnDefinition Width="180*" />
+                <ColumnDefinition Width="200*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Column="1" Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="75*" />
+                    <ColumnDefinition Width="90*" />
+                    <ColumnDefinition Width="15*" />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Style="{DynamicResource LabelSearch}" >
+                    <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                            <TextBlock Text="코드명 검색" Style="{DynamicResource TextBlockInViewBoxInput}"/>
+                        </Viewbox>
+                    </StackPanel>
+                    
+                </Label>
+                <TextBox x:Name="txtCodeSrh" Grid.Column="1" Style="{DynamicResource TextBoxInputArea}"/>
+            </Grid>
+
+            <!--<Grid Grid.Column="2" Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="1" Content="요약" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1"/>
+                <Button Grid.Column="2" Content="상세" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1"/>
+            </Grid>-->
+
+            <!--<Grid Grid.Column="3" Grid.Row="2">
+                <CheckBox x:Name="chkNoUse" Content="사용안함 포함" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+            </Grid>-->
+
+            <Grid Grid.Column="2" Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100*" />
+                    <ColumnDefinition Width="65*" />
+                    <ColumnDefinition Width="15*" />
+                </Grid.ColumnDefinitions>
+                <Label Style="{DynamicResource LabelSearch}">
+                    <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                            <CheckBox x:Name="chkNoUse"  />
+                        </Viewbox>
+
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                            <TextBlock Text="사용안함 포함" Style="{DynamicResource TextBlockInViewBoxSearch}"/>
+                        </Viewbox>
+
+                    </StackPanel>
+                </Label>
+            </Grid>
+            
+            <Grid Grid.Column="4" Grid.RowSpan="4">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="btnAdd" Grid.Column="0" Margin="1" Click="btnAdd_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{DynamicResource btiInsert}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Source={StaticResource tblInsert},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="btnUpdate" Grid.Column="1" Margin="1" Click="btnUpdate_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{DynamicResource btiUpdate}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Source={StaticResource tblUpdate},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="btnDelete" Grid.Column="2" Margin="1" Click="btnDelete_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{DynamicResource btiDelete}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Source={StaticResource tblDelete},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="btnClose" Grid.Column="3" Margin="1" Click="btnClose_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{DynamicResource btiClose}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Source={StaticResource tblClose},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="btnSearch"  Grid.Column="0" Margin="1" Click="btnSearch_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{DynamicResource btiSearch}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Source={StaticResource tblSearch},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="btnSave" Grid.Column="1" Margin="1" Click="btnSave_Click" Visibility="Hidden">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{DynamicResource btiSave}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Source={StaticResource tblSave},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="btnCancel" Grid.Column="2" Margin="1" Click="btnCancel_Click" Visibility="Hidden">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{DynamicResource btiCancle}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Source={StaticResource tblCancle},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="btnExcel" Grid.Column="3" Margin="1" Click="btnExcel_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{DynamicResource btiExcel}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Source={StaticResource tblExcel},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                </Grid>
+            </Grid>
+        </Grid>
+        <!-- //전체 중 상단 -->
+
+        <Grid Grid.Row="1" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <GroupBox Header="대,중 분류코드" Grid.Column="0" Margin="1">
+                <DataGrid x:Name="dgdMcg" Margin="1" SelectionChanged="dgdMcg_SelectionChanged" IsReadOnly="True" Style="{DynamicResource DataGridSet1}">
+                    <DataGrid.RowStyle>
+                        <Style TargetType="DataGridRow">
+                            <Style.Resources>
+                                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#3399FF"/>
+                                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="White"/>
+                                <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="#3399FF" />
+                                <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="White"/>
+                            </Style.Resources>
+                        </Style>
+                    </DataGrid.RowStyle>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="코드" Binding="{Binding Code_ID}" Width="auto" />
+                        <DataGridTextColumn Header="한글코드명" Binding="{Binding Code_Name}" Width="*"  />
+                        <DataGridTextColumn Header="영문코드명" Binding="{Binding Code_Name_Eng}" Visibility="Hidden"/>
+                        <DataGridTextColumn Header="크기" Binding="{Binding Code_Size}" Visibility="Hidden"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </GroupBox>
+            <GridSplitter Grid.Column="1" Width="5" ResizeBehavior="PreviousAndNext" />
+            <GroupBox Header="소분류" Grid.Column="2" Margin="1">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <DataGrid x:Name="dgdScg" Grid.Row="0" Margin="1" IsReadOnly="True" SelectionChanged="dgdScg_SelectionChanged" Style="{DynamicResource DataGridSet1}">
+                        <DataGrid.RowStyle>
+                            <Style TargetType="DataGridRow">
+                                <Style.Resources>
+                                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#3399FF"/>
+                                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="White"/>
+                                    <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="#3399FF" />
+                                    <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="White"/>
+                                </Style.Resources>
+                            </Style>
+                        </DataGrid.RowStyle>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="코드" Binding="{Binding Code_ID}" CellStyle="{StaticResource dgcEnable}"  />
+                            <DataGridTextColumn Header="한글명칭" Binding="{Binding Code_Name}" CellStyle="{StaticResource dgcEnable}"   Width="*"/>
+                            <DataGridTextColumn Header="영문명칭" Binding="{Binding Code_Name_Eng}" CellStyle="{StaticResource dgcEnable}" Visibility="Hidden"/>
+                            <DataGridTextColumn Header="비고" Binding="{Binding Comments}" CellStyle="{StaticResource dgcEnable}"   Width="*"/>
+                            <DataGridTextColumn Header="관리순서" Binding="{Binding SEQ}" CellStyle="{StaticResource dgcEnable}"  />
+                            <DataGridTextColumn Header="사용여부" Binding="{Binding Use_YN}" CellStyle="{StaticResource dgcEnable}"  />
+                            <DataGridTextColumn Header="크기" Binding="{Binding Code_Size}" Visibility="Hidden"/>
+                            <DataGridTextColumn Header="Parent_ID" Binding="{Binding Parent_ID}" Visibility="Hidden"/>
+                            <DataGridTextColumn Header="레벨" Binding="{Binding Level}" Visibility="Hidden"/>
+                            <DataGridTextColumn Header="각 관련 System" Binding="{Binding Relation}" Visibility="Hidden"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <GroupBox x:Name="gbxCodeInfo" Header="코드 정보 등록" Grid.Row="1" Margin="1" IsEnabled="False">
+                        <Grid x:Name="grdCodeInfo">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="9*" />
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0" >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                </Grid.ColumnDefinitions>
+                                <Label x:Name="lblMsg" Grid.Column="0" Margin="1" Background="Yellow" Foreground="Red" Visibility="Hidden">
+                                    <TextBlock x:Name="tbkMsg" Text="자료 입력(추가) 중" />
+                                </Label>
+                            </Grid>
+                            <Border Margin="1" Grid.Row="1">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="2*" />
+                                        <RowDefinition Height="2*" />
+                                        <RowDefinition Height="2*" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="2*" />
+                                    </Grid.RowDefinitions>
+                                    <Border Grid.Row="0" BorderBrush="Gray" BorderThickness="0,0,0,1">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*" />
+                                                <RowDefinition Height="*" />
+                                            </Grid.RowDefinitions>
+                                            <Grid Grid.Row="0" >
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="2*" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="2*" />
+                                                </Grid.ColumnDefinitions>
+                                                <Label Grid.Column="0" Style="{DynamicResource LabelInputArea}" >
+                                                    <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                        <TextBlock Text="코  드" Style="{DynamicResource TextBlockInViewBoxInput}"/>
+                                                    </Viewbox>
+                                                </Label>
+                                                <TextBox x:Name="txtCode" Grid.Column="1" Style="{DynamicResource TextBoxInputNecessary}"  Background="#fff2d2" Text="{Binding Code_ID}" MaxLength="{Binding Code_Size}" IsEnabled="False"
+                                                         PreviewKeyDown="txtCode_PreviewKeyDown" 
+                                                         />
+                                                <Label Grid.Column="3"  Style="{DynamicResource LabelInputArea}">
+                                                    <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                        <TextBlock Text="사용여부" Style="{DynamicResource TextBlockInViewBoxInput}"/>
+                                                    </Viewbox>
+                                                </Label>
+                                                <Viewbox Grid.Column="4">
+                                                    <Border Background="#fff2d2" Margin="1">
+                                                        <Grid VerticalAlignment="Center">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="*" />
+                                                                <ColumnDefinition Width="*" />
+                                                            </Grid.ColumnDefinitions>
+                                                            <RadioButton x:Name="rbnUseY" Grid.Column="0" Content="예(Y)" HorizontalAlignment="Center" Margin="4">
+                                                                <RadioButton.Style>
+                                                                    <Style TargetType="RadioButton">
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding Use_YN}" Value="Y" >
+                                                                                <Setter Property="IsChecked" Value="True" />
+                                                                            </DataTrigger>
+                                                                            <DataTrigger Binding="{Binding Use_YN}" Value="N" >
+                                                                                <Setter Property="IsChecked" Value="False" />
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </RadioButton.Style>
+                                                            </RadioButton>
+                                                            <RadioButton x:Name="rbnUseN" Grid.Column="1" Content="아니오(N)" HorizontalAlignment="Center" Margin="4">
+                                                                <RadioButton.Style>
+                                                                    <Style TargetType="RadioButton">
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding Use_YN}" Value="N" >
+                                                                                <Setter Property="IsChecked" Value="True" />
+                                                                            </DataTrigger>
+                                                                            <DataTrigger Binding="{Binding Use_YN}" Value="Y" >
+                                                                                <Setter Property="IsChecked" Value="False" />
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </RadioButton.Style>
+                                                            </RadioButton>
+                                                        </Grid>
+                                                    </Border>
+                                                </Viewbox>
+                                            </Grid>
+                                            <Grid Grid.Row="1">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="6*" />
+                                                </Grid.ColumnDefinitions>
+                                                <Viewbox Grid.Column="1">
+                                                    <TextBlock x:Name="tbkCodeMsg" Grid.Column="1" Text="● 코드 자리수는 영숫자 기준 [2] 자리 입니다." VerticalAlignment="Center" Margin="5"/>
+                                                </Viewbox>
+                                            </Grid>
+                                        </Grid>
+                                    </Border>
+                                    <Border Grid.Row="1" BorderBrush="Gray" BorderThickness="0,0,0,1" >
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="6*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid Grid.Column="0" >
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*" />
+                                                    <RowDefinition Height="*" />
+                                                </Grid.RowDefinitions>
+                                                <Label Grid.Row="0" Style="{DynamicResource LabelInputArea}" >
+                                                    <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                        <TextBlock Text="한글명칭" Style="{DynamicResource TextBlockInViewBoxInput}"/>
+                                                    </Viewbox>
+                                                </Label>
+                                            </Grid>
+                                            <TextBox x:Name="txtCode_Name" Grid.Column="1" AcceptsReturn="True" TextWrapping="Wrap"
+                                                     VerticalScrollBarVisibility="Visible" Style="{DynamicResource TextBoxInputNecessary}"
+                                                     Text="{Binding Code_Name}"
+                                                     KeyDown="txtCode_Name_KeyDown"/>
+                                        </Grid>
+                                    </Border>
+                                    <Border Grid.Row="2" BorderBrush="Gray" BorderThickness="0,0,0,1" >
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="6*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid Grid.Column="0" >
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*" />
+                                                    <RowDefinition Height="*" />
+                                                </Grid.RowDefinitions>
+                                                <Label Grid.Row="0"   Style="{DynamicResource LabelInputArea}">
+                                                    <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                        <TextBlock Text="영문명칭" Style="{DynamicResource TextBlockInViewBoxInput}"/>
+                                                    </Viewbox>
+                                                </Label>
+                                            </Grid>
+                                            <TextBox x:Name="txtCode_Name_Eng" Grid.Column="1" AcceptsReturn="True" TextWrapping="Wrap"
+                                                     VerticalScrollBarVisibility="Visible" Style="{DynamicResource TextBoxInputArea}" Text="{Binding Code_Name_Eng}"
+                                                     KeyDown="txtCode_Name_Eng_KeyDown"/>
+                                        </Grid>
+                                    </Border>
+                                    <Border Grid.Row="3" BorderBrush="Gray" BorderThickness="0,0,0,1">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="2*" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="2*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Label Grid.Column="0" Style="{DynamicResource LabelInputArea}" >
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <TextBlock  Text="관리순서" Style="{DynamicResource TextBlockInViewBoxInput}"/>
+                                                </Viewbox>
+                                            </Label>
+                                            <TextBox x:Name="txtSEQ" Grid.Column="1" Background="#fff2d2"  Text="{Binding SEQ}" Style="{DynamicResource TextBoxInputNecessary}"
+                                                     KeyDown="txtSEQ_KeyDown" PreviewTextInput="txtSEQ_PreviewTextInput"/>
+                                            <Label Grid.Column="3" Style="{DynamicResource LabelInputArea}" >
+                                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                    <TextBlock Text="Relation" Style="{DynamicResource TextBlockInViewBoxInput}"/>
+                                                </Viewbox>
+                                            </Label>
+                                            <TextBox x:Name="txtRelation" Grid.Column="4" Style="{DynamicResource TextBoxInputArea}" Text="{Binding Relation}"
+                                                     KeyDown="txtRelation_KeyDown"/>
+                                        </Grid>
+                                    </Border>
+                                    <Border Grid.Row="4" BorderBrush="Gray" BorderThickness="0,0,0,1" >
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="18*" />
+                                                <ColumnDefinition Width="91*" />
+                                                <ColumnDefinition Width="17*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid Grid.Column="0" >
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*" />
+                                                    <RowDefinition Height="*" />
+                                                </Grid.RowDefinitions>
+                                                <Label Grid.Row="0"  Style="{DynamicResource LabelInputArea}">
+                                                    <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                                        <TextBlock Text="비 고" Style="{DynamicResource TextBlockInViewBoxInput}"/>
+                                                    </Viewbox>
+                                                </Label>
+                                            </Grid>
+                                            <TextBox x:Name="txtContent" Grid.Column="1" AcceptsReturn="True" TextWrapping="Wrap" Style="{DynamicResource TextBoxInputArea}"
+                                                     VerticalScrollBarVisibility="Visible" Margin="1" Text="{Binding Comments}" Grid.ColumnSpan="2"
+                                                     KeyDown="txtContent_KeyDown"/>
+                                        </Grid>
+                                    </Border>
+                                </Grid>
+                            </Border>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+            </GroupBox>
+        </Grid>
+    </Grid>
+</UserControl>

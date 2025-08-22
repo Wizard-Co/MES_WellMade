@@ -1,0 +1,516 @@
+﻿<UserControl x:Class="WizMes_WellMade.Win_Qul_QulDefectGoal_U"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WizMes_WellMade"
+             mc:Ignorable="d" Loaded="UserControl_Loaded"
+             d:DesignHeight="620" d:DesignWidth="820">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="88*" />
+            <RowDefinition Height="500*" />
+            <RowDefinition Height="32*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Background="{DynamicResource WizMes_WellMade}" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100*"/>
+                <ColumnDefinition Width="160*"/>
+                <ColumnDefinition Width="180*"/>
+                <ColumnDefinition Width="180*"/>
+                <ColumnDefinition Width="200*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="1" Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="75*"/>
+                    <ColumnDefinition Width="85*"/>
+                </Grid.ColumnDefinitions>
+                <Label x:Name="lblYear" Grid.Column="0" VerticalContentAlignment="Center" Style="{DynamicResource LabelSearch_Q}"
+                       MouseLeftButtonUp="LblYear_MouseLeftButtonUp">
+                    <StackPanel Style="{DynamicResource StackPanelInLabel_Q}">
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
+                            <CheckBox x:Name="chkYear" Checked="ChkYear_Checked" Unchecked="ChkYear_Unchecked"/>
+                        </Viewbox>
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
+                            <TextBlock Text="기     간" Style="{DynamicResource TextBlockInViewBoxSearch_Q}"/>
+                        </Viewbox>
+                    </StackPanel>
+                </Label>
+                <DatePicker x:Name="dtpSDate" Grid.Column="1" Padding="0" Style="{DynamicResource DatePickerYearSearch}"/>
+                
+            </Grid>
+            <Grid Grid.Column="1" Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="75*"/>
+                    <ColumnDefinition Width="85*"/>
+                </Grid.ColumnDefinitions>
+                <DatePicker x:Name="dtpEDate" Grid.Column="1" Padding="0" Style="{DynamicResource DatePickerYearSearch}"/>
+            </Grid>
+            <Grid Grid.Column="1" Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="btnLast5Years" Grid.Column="2" Click="BtnLast5Years_Click" Margin="-10 0 10 0">
+                    <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
+                        <TextBlock Text="최근 5년" Style="{DynamicResource TextBlockInViewBoxInput_Q}"/>
+                    </Viewbox>
+                </Button>
+                <Button x:Name="btnLast10Years" Grid.Column="3"  Margin="-9 0 0 0"
+                        Click="BtnLast10Years_Click">
+                    <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
+                        <TextBlock Text="최근 10년" Style="{DynamicResource TextBlockInViewBoxInput_Q}"/>
+                    </Viewbox>
+                </Button>
+            </Grid>
+            
+            <Grid Grid.Column="2" Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Border Grid.Column="0" Grid.Row="0" BorderThickness="1 1 1 1" BorderBrush="#424242" CornerRadius="0 0 0 0"
+                            Background="White">
+                    <ToggleButton x:Name="tbnInCome" Grid.Column="0" Click="TbnInCome_Click" FontWeight="Normal"  >
+                        <StackPanel Orientation="Horizontal">
+                            <Viewbox Margin="0.5">
+                                <TextBlock Text="수입검사" />
+                            </Viewbox>
+                        </StackPanel>
+                        <ToggleButton.Style>
+                            <Style TargetType="{x:Type ToggleButton}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ToggleButton">
+                                            <Border BorderBrush="{TemplateBinding Background}" Background="{TemplateBinding Background}">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="IsChecked" Value="True">
+                                        <Setter Property="Background" Value="#6C757D" />
+                                        <Setter Property="Foreground" Value="White" />
+                                    </Trigger>
+                                    <Trigger Property="IsChecked" Value="False">
+                                        <Setter Property="Background" Value="#F3F7FF" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ToggleButton.Style>
+                    </ToggleButton>
+                </Border>
+                <Border Grid.Column="1" Grid.Row="0" BorderThickness="1 1 1 1" BorderBrush="#424242" CornerRadius="0 0 0 0"
+                            Background="White">
+                    <ToggleButton x:Name="tbnProcessCycle" Grid.Column="0" Click="TbnProcessCycle_Click" FontWeight="Normal">
+                        <StackPanel Orientation="Horizontal">
+                            <Viewbox Margin="0.5">
+                                <TextBlock Text="공정순회" />
+                            </Viewbox>
+                        </StackPanel>
+                        <ToggleButton.Style>
+                            <Style TargetType="{x:Type ToggleButton}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ToggleButton">
+                                            <Border BorderBrush="{TemplateBinding Background}" Background="{TemplateBinding Background}">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="IsChecked" Value="True">
+                                        <Setter Property="Background" Value="#6C757D" />
+                                        <Setter Property="Foreground" Value="White" />
+                                    </Trigger>
+                                    <Trigger Property="IsChecked" Value="False">
+                                        <Setter Property="Background" Value="#F3F7FF" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ToggleButton.Style>
+                    </ToggleButton>
+                </Border>
+            </Grid>
+            <Grid Grid.Column="3" Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0" Grid.Row="1" BorderThickness="1 1 1 1" BorderBrush="#424242" CornerRadius="0 0 0 0"
+                            Background="White">
+                    <ToggleButton x:Name="tbnJaju" Grid.Column="1" Click="TbnJaju_Click" IsChecked="True"  FontWeight="Normal">
+                        <StackPanel Orientation="Horizontal">
+                            <Viewbox Margin="0.5">
+                                <TextBlock Text="자주검사" />
+                            </Viewbox>
+                        </StackPanel>
+                        <ToggleButton.Style>
+                            <Style TargetType="{x:Type ToggleButton}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ToggleButton">
+                                            <Border BorderBrush="{TemplateBinding Background}" Background="{TemplateBinding Background}">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="IsChecked" Value="True">
+                                        <Setter Property="Background" Value="#6C757D" />
+                                        <Setter Property="Foreground" Value="White" />
+                                    </Trigger>
+                                    <Trigger Property="IsChecked" Value="False">
+                                        <Setter Property="Background" Value="#F3F7FF" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ToggleButton.Style>
+                    </ToggleButton>
+                </Border>
+                <Border Grid.Column="1" Grid.Row="1" BorderThickness="1 1 1 1" BorderBrush="#424242" CornerRadius="0 0 0 0"
+                            Background="White">
+                    <ToggleButton x:Name="tbnOutCome" Grid.Column="0" Click="TbnOutCome_Click" FontWeight="Normal">
+                        <StackPanel Orientation="Horizontal">
+                            <Viewbox Margin="0.5">
+                                <TextBlock Text="출하검사" />
+                            </Viewbox>
+                        </StackPanel>
+                        <ToggleButton.Style>
+                            <Style TargetType="{x:Type ToggleButton}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ToggleButton">
+                                            <Border BorderBrush="{TemplateBinding Background}" Background="{TemplateBinding Background}">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="IsChecked" Value="True">
+                                        <Setter Property="Background" Value="#6C757D" />
+                                        <Setter Property="Foreground" Value="White" />
+                                    </Trigger>
+                                    <Trigger Property="IsChecked" Value="False">
+                                        <Setter Property="Background" Value="#F3F7FF" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ToggleButton.Style>
+                    </ToggleButton>
+                </Border>
+            </Grid>
+            <Grid Grid.Column="3" Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <ToggleButton x:Name="tbnCustom" Grid.Column="1" 
+                              Click="TbnCustom_Click" Visibility="Hidden">
+                    <Viewbox Margin="-2">
+                        <TextBlock Text="고객"/>
+                    </Viewbox>
+                    <ToggleButton.Style>
+                        <Style TargetType="{x:Type ToggleButton}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                        <Border Background="{TemplateBinding Background}">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter Property="Background" Value="Yellow"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ToggleButton.Style>
+                </ToggleButton>
+            </Grid>
+            <Grid Grid.Column="1" Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                
+            </Grid>
+
+            <Grid Grid.Column="4" Grid.Row="0" Grid.RowSpan="4" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="btnAdd" Grid.Column="0" Click="btnAdd_Click" Margin="1">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{DynamicResource btiInsert}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Source={StaticResource tblInsert},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="btnUpdate" Grid.Column="1" Click="btnUpdate_Click" Margin="1">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{DynamicResource btiUpdate}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Source={StaticResource tblUpdate},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="btnDelete" Grid.Column="2" Click="btnDelete_Click" Margin="1">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{DynamicResource btiDelete}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Source={StaticResource tblDelete},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="btnClose" Grid.Column="3" Click="btnClose_Click" Margin="1">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{DynamicResource btiClose}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Source={StaticResource tblClose},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="btnSearch" Grid.Column="0" Click="btnSearch_Click" Margin="1">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{DynamicResource btiSearch}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Source={StaticResource tblSearch},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="btnSave" Grid.Column="1" Visibility="Hidden" Click="btnSave_Click" Margin="1"> 
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{DynamicResource btiSave}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Source={StaticResource tblSave},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="btnCancel" Grid.Column="2" Visibility="Hidden" Click="btnCancel_Click" Margin="1">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{DynamicResource btiCancle}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Source={StaticResource tblCancle},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="btnExcel" Grid.Column="3" Click="btnExcel_Click" Margin="1">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{DynamicResource btiExcel}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Source={StaticResource tblExcel},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                </Grid>
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Row="1" Margin="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="6*"/>
+            </Grid.ColumnDefinitions>
+            <DataGrid x:Name="dgdMain" Grid.Column="0" SelectionChanged="DgdMain_SelectionChanged"
+                      MouseLeftButtonDown="DgdMain_MouseLeftButtonDown"
+                      Style="{DynamicResource DataGridSet1}" >
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="" Binding="{Binding Num}"/>
+                    <DataGridTextColumn Header="년도" Binding="{Binding YYYY}" Width="*"
+                                        CellStyle="{StaticResource DataGridCellAndCentering}"/>
+                    <DataGridTextColumn Header="불량률(PPM)" Binding="{Binding DefectGoalAvg}" Width="*"
+                                        CellStyle="{StaticResource DataGridCellAndCentering}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <GridSplitter Grid.Column="1" Width="5" ResizeBehavior="PreviousAndNext"/>
+            <Grid x:Name="grdInput" Grid.Column="2" IsHitTestVisible="False">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.4*"/>
+                    <RowDefinition Height="6*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="3*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label x:Name="lblMsg" Grid.Column="0" Grid.ColumnSpan="2"  Visibility="Hidden" Style="{DynamicResource LabelStateMessage}" >
+                        <TextBlock x:Name="tbkMsg" Text="자료 입력 중" />
+                    </Label>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100*" />
+                        <ColumnDefinition Width="5*" />
+                        <ColumnDefinition Width="100*" />
+                        <ColumnDefinition Width="5*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="13*"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.9*"/>
+                                <ColumnDefinition Width="0.9*"/>
+                                <ColumnDefinition Width="0.3*"/>
+                                <ColumnDefinition Width="1.4*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" Style="{DynamicResource LabelInputArea}" >
+                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                    <TextBlock Text="년도" Style="{DynamicResource TextBlockInViewBoxInput_Two_Q}" />
+                                </Viewbox >
+                            </Label>
+                            <TextBox x:Name="txtYear" Grid.Column="1" Text="{Binding YYYY}" Style="{DynamicResource TextBoxInput_Number_Left}"/>
+
+                            <Grid Grid.Column="2">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Button x:Name="btnYearPlus" Grid.Row="0" Content="▲" 
+                                        Click="BtnYearPlus_Click" Tag="1"/>
+                                <Button x:Name="btnYearMinus" Grid.Row="1" Content="▼" 
+                                        Click="BtnYearMinus_Click" Tag="1"/>
+                            </Grid>
+                        </Grid>
+                        
+                        <DataGrid x:Name="dgdSub1" Grid.Row="1" Style="{DynamicResource DataGridSet1}" >
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="" Binding="{Binding Num}"/>
+                                <DataGridTextColumn Header="월" Binding="{Binding MM}" Width="*"
+                                                    CellStyle="{StaticResource DataGridCellAndCentering}"/>
+                                <DataGridTemplateColumn x:Name="dgdtpePPM1" Header="불량률(PPM)" Width="*" >
+                                    <DataGridTemplateColumn.CellStyle>
+                                        <Style TargetType="DataGridCell">
+                                            <EventSetter Event="PreviewKeyDown" Handler="DataGridSubCell_PreviewKeyDown"/>
+                                            <EventSetter Event="KeyDown" Handler="DataGridCell_KeyDown" />
+                                            <EventSetter Event="KeyUp" Handler="TextBoxFocusInDataGrid" />
+                                            <EventSetter Event="MouseUp" Handler="TextBoxFocusInDataGrid_MouseUp" />
+                                            <EventSetter Event="GotFocus" Handler="DataGridCell_GotFocus" />
+                                        </Style>
+                                        
+                                    </DataGridTemplateColumn.CellStyle>
+                                    
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding DefectGoal}" Margin="2" TextAlignment="Center"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                    <DataGridTemplateColumn.CellEditingTemplate>
+                                        <DataTemplate>
+                                            <TextBox Text="{Binding DefectGoal}" Margin="1" TextAlignment="Center" 
+                                                     InputMethod.IsInputMethodEnabled="False"
+                                                     TextChanged="dgdtpetxtDefectGoal_TextChanged"
+                                                     Keyboard.KeyDown="dgdtpetxtDefectGoal_KeyDown"
+                                                     PreviewTextInput="dgdtpetxtDefectGoal_Preview"/>
+                                        </DataTemplate>
+                                        
+                                            
+                                    </DataGridTemplateColumn.CellEditingTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                    <Grid Grid.Column="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="13*"/>
+                        </Grid.RowDefinitions>
+                        <Button x:Name="btnLastYearDefect" Grid.Row="0" Click="BtnLastYearDefect_Click" Style="{DynamicResource btnInNoViewBox}">
+                            <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
+                                <TextBlock Text="※ 전년 불량률 조회" Style="{DynamicResource TextBlockInViewBoxInput_AllSector_OneBlock2_Q}"/>
+                            </Viewbox>
+                        </Button>
+                        <DataGrid x:Name="dgdSub2" Grid.Row="1" Style="{DynamicResource DataGridSet1}" >
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="" Binding="{Binding Num}"/>
+                                <DataGridTextColumn Header="월" Binding="{Binding MM}" Width="*"
+                                                    CellStyle="{StaticResource DataGridCellAndCentering}"/>
+                                <DataGridTextColumn Header="불량률(PPM)" Width="*" Binding="{Binding DefectGoal}" 
+                                                    CellStyle="{StaticResource DataGridCellAndCentering}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </Grid>
+                <Grid Grid.Row="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="2.48*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="205*"/>
+                        <ColumnDefinition Width="15*"/>
+                    </Grid.ColumnDefinitions>
+                    <GroupBox Grid.Row="0">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="2*"/>
+                                <RowDefinition Height="1.1*"/>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="18*"/>
+                                    <ColumnDefinition Width="20*"/>
+                                    <ColumnDefinition Width="5*"/>
+                                    <ColumnDefinition Width="15*"/>
+                                    <ColumnDefinition Width="80*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Style="{DynamicResource LabelInputArea_Two_Q}">
+                                <Viewbox Grid.Column="0" Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}" >
+                                    <TextBlock Text="해당년도"  Style="{DynamicResource TextBlockInViewBoxInput_Q}"/>
+                                </Viewbox>
+                                </Label>
+                                <TextBox x:Name="txtCallYear" Grid.Column="1" 
+                                         TextAlignment="Center" VerticalContentAlignment="Center"/>
+                                <Grid Grid.Column="2">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <Button Grid.Row="0" Content="▲" 
+                                            Click="BtnYearPlus_Click" Tag="2"/>
+                                    <Button Grid.Row="1" Content="▼" 
+                                            Click="BtnYearMinus_Click" Tag="2"/>
+                                </Grid>
+                                <Button x:Name="btnCallOldYearGoal" Grid.Column="3" Click="BtnCallOldYearGoal_Click" Style="{DynamicResource btnInNoViewBox}">
+                                    <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
+                                        <TextBlock Text="목표조회"  Style="{DynamicResource TextBlockInViewBoxInput_Q}" Margin="1 0 1 0"/>
+                                    </Viewbox>
+                                </Button>
+                            </Grid>
+                            <Viewbox Grid.Row="1" HorizontalAlignment="Left" Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
+                                <TextBlock Text="☞과거년도의 불량을 일괄 불러와 등록 가능합니다." Foreground="Blue" Style="{DynamicResource TextBlockInViewBoxOneLine_Q}"/>
+                            </Viewbox>
+                        </Grid>
+                    </GroupBox>
+                    <Viewbox Grid.Row="1"  HorizontalAlignment="Left" Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
+                        <TextBlock Text="☞ 아래값이 비어있을 때 엔터를 치면 자동으로 윗줄 데이타가 아래로 복사됩니다." Foreground="Blue" Style="{DynamicResource TextBlockInViewBoxOneLine_Long_Q}" />
+                    </Viewbox>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -1,0 +1,207 @@
+﻿<UserControl x:Class="WizMes_WellMade.Win_com_WDCar_U"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WizMes_WellMade"
+             mc:Ignorable="d" Loaded="UserControl_Loaded"
+             d:DesignHeight="620" d:DesignWidth="820">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="88*"/>
+            <RowDefinition Height="532*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Background="{DynamicResource WizMes_WellMade}" Margin="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100*" />
+                <ColumnDefinition Width="160*" />
+                <ColumnDefinition Width="230*" />
+                <ColumnDefinition Width="130*" />
+                <ColumnDefinition Width="200*" />
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="1" Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="65*"/>
+                    <ColumnDefinition Width="85*"/>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Margin="1" VerticalContentAlignment="Center"
+                       HorizontalContentAlignment="Center">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="대차검색" />
+                    </StackPanel>
+                </Label>
+                <TextBox x:Name="txtWDIDSrh" Grid.Column="1" Margin="1"/>
+            </Grid>
+            <Grid Grid.Column="1" Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="65*"/>
+                    <ColumnDefinition Width="85*"/>
+                </Grid.ColumnDefinitions>
+                <Label x:Name="lblUseClssSrh" Grid.Column="0" Margin="1" VerticalContentAlignment="Center"
+                       MouseLeftButtonUp="lblUseClssSrh_MouseLeftButtonUp">
+                    <StackPanel Orientation="Horizontal">
+                        <Viewbox>
+                            <CheckBox x:Name="chkNotUseClssSrh"/>
+                        </Viewbox>
+                        <TextBlock Text="사용안함 포함" />
+                    </StackPanel>
+                </Label>
+            </Grid>
+
+            <Grid Grid.Column="4" Grid.Row="0" Grid.RowSpan="4" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="btnAdd" Grid.Column="0" Click="btnAdd_Click" >
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{DynamicResource btiInsert}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Source={StaticResource tblInsert},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="btnUpdate" Grid.Column="1" Click="btnUpdate_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{DynamicResource btiUpdate}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Source={StaticResource tblUpdate},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="btnDelete" Grid.Column="2" Click="btnDelete_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{DynamicResource btiDelete}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Source={StaticResource tblDelete},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="btnClose" Grid.Column="3" Click="btnClose_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{DynamicResource btiClose}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Source={StaticResource tblClose},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="btnSearch" Grid.Column="0" Margin="1" Click="btnSearch_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{DynamicResource btiSearch}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Source={StaticResource tblSearch},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="btnSave" Grid.Column="1" Visibility="Hidden" Click="btnSave_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{DynamicResource btiSave}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Source={StaticResource tblSave},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="btnCancel" Grid.Column="2" Visibility="Hidden" Click="btnCancel_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{DynamicResource btiCancle}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Source={StaticResource tblCancle},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="btnExcel" Grid.Column="3" Click="btnExcel_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{DynamicResource btiExcel}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Source={StaticResource tblExcel},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                </Grid>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="1" Margin="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25*" />
+                    <RowDefinition Height="1*" />
+                </Grid.RowDefinitions>
+                <DataGrid x:Name="dgdMain" Grid.Column="0" Grid.Row ="0" Margin="1" Style="{DynamicResource DataGridSet1}"
+                      SelectionChanged="dgdMain_SelectionChanged">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="" Binding="{Binding Num}" />
+                        <DataGridTextColumn Header="대차코드" Binding="{Binding WDID}" Width="*"/>
+                        <DataGridTextColumn Header="대차번호" Binding="{Binding WDNo}" Width="*"/>
+                        <DataGridTextColumn Header="수량" Binding="{Binding WDQty}" Width="*"/>
+                        <DataGridTextColumn Header="비고" Binding="{Binding Comments}" Visibility="Hidden"/>
+                        <DataGridTextColumn Header="사용여부" Binding="{Binding UseClss}" Visibility="Hidden"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <TextBlock x:Name="tbkIndexCount" Grid.Row="1" Text="▶ 검색결과 : " />
+            </Grid>
+            
+            <GridSplitter Grid.Column="1" Width="5" ResizeBehavior="PreviousAndNext" />
+
+            <Grid x:Name="grdInput" Grid.Column="2" Margin="1" IsHitTestVisible="False">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1.3*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="3*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="14*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="95*" />
+                    <ColumnDefinition Width="95*" />
+                    <ColumnDefinition Width="20*" />
+                    <ColumnDefinition Width="95*" />
+                    <ColumnDefinition Width="95*" />
+                    <ColumnDefinition Width="5*" />
+                </Grid.ColumnDefinitions>
+                <Label x:Name="lblMsg" Margin="1" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" 
+                       Background="Yellow" Foreground="Red" VerticalContentAlignment="Center" 
+                       HorizontalContentAlignment="Center" Visibility="Hidden">
+                    <TextBlock x:Name="tbkMsg" Text="자료 입력 중" Margin="1"/>
+                </Label>
+
+                <Label Grid.Row="1" Grid.Column="0" Margin="1" HorizontalContentAlignment="Center"
+                       VerticalContentAlignment="Center" Content="코    드"/>
+                <TextBox x:Name="txtWDID" Grid.Row="1" Grid.Column="1" Margin="1" IsReadOnly="True" Text="{Binding WDID}"
+                         Style="{DynamicResource readOnlyTextBox}" Grid.ColumnSpan="3"/>
+
+                <Label Grid.Row="2" Grid.Column="0" Margin="1" HorizontalContentAlignment="Center"
+                       VerticalContentAlignment="Center" Content="대차번호"/>
+                <TextBox x:Name="txtWDNo" Grid.Row="2" Grid.Column="1" Margin="1" Text="{Binding WDNo}"
+                         Style="{DynamicResource essentialTextBox}" Grid.ColumnSpan="3"/>
+
+                <Label Grid.Row="3" Grid.Column="0" Margin="1" HorizontalContentAlignment="Center"
+                       VerticalContentAlignment="Center" Content="장 입 량"/>
+                <TextBox x:Name="txtWDQty" Grid.Row="3" Grid.Column="1" Margin="1" Text="{Binding WDQty}"
+                         Style="{DynamicResource essentialTextBox}" Grid.ColumnSpan="3"/>
+
+                <Label Grid.Row="4" Grid.Column="0" Margin="1" HorizontalContentAlignment="Center"
+                       VerticalContentAlignment="Center" Content="비    고"/>
+                <TextBox x:Name="txtComments" Grid.Row="4" Grid.Column="1" Margin="1" Text="{Binding Comments}"
+                         Grid.ColumnSpan="3" Grid.RowSpan="2"/>
+
+                <CheckBox x:Name="chkNotUseClss" Grid.Row="6" Grid.Column="0" Margin="1" HorizontalAlignment="Center"
+                          Content="사용안함" VerticalAlignment="Center"/>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

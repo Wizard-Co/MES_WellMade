@@ -1,0 +1,1483 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2ACC7BD9-F782-4F1D-852B-C59891907E0D}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>WizMes_WellMade</RootNamespace>
+    <AssemblyName>WizMes_WellMade</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
+    <PublishUrl>http://localhost/</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>2</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;ANT_2</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>E439133705B5A0475CB810974A901947F4F78937</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>WizMes_GLS_1_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>false</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>WizardLogo-_3_.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>bin\x64\Release\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CommonServiceLocator, Version=2.0.3.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\CommonServiceLocator.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DataGridExtensions, Version=2.5.14.0, Culture=neutral, PublicKeyToken=43de855f87de903a, processorArchitecture=MSIL">
+      <HintPath>..\packages\DataGridExtensions.2.5.14\lib\net452\DataGridExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="ExcelDataReader, Version=3.6.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExcelDataReader.3.6.0\lib\net45\ExcelDataReader.dll</HintPath>
+    </Reference>
+    <Reference Include="ExcelDataReader.DataSet, Version=3.6.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExcelDataReader.DataSet.3.6.0\lib\net35\ExcelDataReader.DataSet.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight, Version=5.4.1.0, Culture=neutral, PublicKeyToken=0e453835af4ee6ce, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\GalaSoft.MvvmLight.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Extras, Version=5.4.1.0, Culture=neutral, PublicKeyToken=f46ff315b1088208, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\GalaSoft.MvvmLight.Extras.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="LiveCharts, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\LiveCharts.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="LiveCharts.Wpf, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\LiveCharts.Wpf.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="MahApps.Metro, Version=1.4.1.0, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\MahApps.Metro.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.39\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PropertyChanged, Version=1.52.1.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd, processorArchitecture=MSIL">
+      <HintPath>..\packages\PropertyChanged.Fody.1.52.1\lib\netstandard10\PropertyChanged.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System">
+      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Linq.Dynamic, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Linq.Dynamic.1.0.0\lib\net40\System.Linq.Dynamic.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Printing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Expression.Blend.Sdk.1.0.2\lib\net40-client\System.Windows.Interactivity.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="Tesseract, Version=3.0.2.0, Culture=neutral, PublicKeyToken=ebeb3d86bef60cbe, processorArchitecture=MSIL">
+      <HintPath>..\packages\Tesseract.3.0.2.0\lib\net40\Tesseract.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsFormsIntegration" />
+    <Reference Include="WPF.MDI">
+      <HintPath>..\packages\WPF.MDI.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="BaseCode\Article\Win_com_ArticleCode_U.xaml.cs">
+      <DependentUpon>Win_com_ArticleCode_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BaseCode\Article\Win_com_Article_BOM_U.xaml.cs">
+      <DependentUpon>Win_com_Article_BOM_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BaseCode\Article\Win_com_CustomArticle_U.xaml.cs">
+      <DependentUpon>Win_com_CustomArticle_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BaseCode\Common\Win_com_Bank_U.xaml.cs">
+      <DependentUpon>Win_com_Bank_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BaseCode\Common\Win_com_Custom_U.xaml.cs">
+      <DependentUpon>Win_com_Custom_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BaseCode\Common\Win_com_ModelMaster_U.xaml.cs">
+      <DependentUpon>Win_com_ModelMaster_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BaseCode\Common\Win_com_OrderCode_U.xaml.cs">
+      <DependentUpon>Win_com_OrderCode_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BaseCode\Common\Win_com_WDCar_U.xaml.cs">
+      <DependentUpon>Win_com_WDCar_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BaseCode\Info\Win_com_Info.xaml.cs">
+      <DependentUpon>Win_com_Info.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BaseCode\Info\Win_com_InfoSet.xaml.cs">
+      <DependentUpon>Win_com_InfoSet.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BaseCode\Person\Win_com_BuseoJikChaek_U.xaml.cs">
+      <DependentUpon>Win_com_BuseoJikChaek_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BaseCode\Person\Win_com_Person_U.xaml.cs">
+      <DependentUpon>Win_com_Person_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BaseSystem\Win_com_Code_U.xaml.cs">
+      <DependentUpon>Win_com_Code_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BaseSystem\Win_com_Company_Setting.xaml.cs">
+      <DependentUpon>Win_com_Company_Setting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BaseSystem\Win_com_UserMenuLog_Q.xaml.cs">
+      <DependentUpon>Win_com_UserMenuLog_Q.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="base\Attached.cs" />
+    <Compile Include="base\CodeView.cs" />
+    <Compile Include="base\ContainValue.cs" />
+    <Compile Include="base\CustomGrid.cs" />
+    <Compile Include="base\ComboBoxUtil.cs" />
+    <Compile Include="base\Defind_CodeFind.cs" />
+    <Compile Include="base\Global_Event.cs" />
+    <Compile Include="base\RangeConverter.cs" />
+    <Compile Include="base\TreeListView.cs" />
+    <Compile Include="base\TSCLIB_DLL.cs" />
+    <Compile Include="converter\SizePercentageConverter.cs" />
+    <Compile Include="DataStroe.cs" />
+    <Compile Include="DatePickerMonthCalendar.cs" />
+    <Compile Include="FilePreViewControl.cs" />
+    <Compile Include="FTP_EX.cs" />
+    <Compile Include="INI\BookMarkINI.cs" />
+    <Compile Include="INI\LoadINI.cs" />
+    <Compile Include="KeyValue.cs" />
+    <Compile Include="Lib.cs" />
+    <Compile Include="Material\PopUp\Win_pop_Stock_LotNo.xaml.cs">
+      <DependentUpon>Win_pop_Stock_LotNo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Material\PopUp\Win_pop_Stock_LotNoPF.xaml.cs">
+      <DependentUpon>Win_pop_Stock_LotNoPF.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Material\PopUp\Win_pop_Stock_LotNo_2.xaml.cs">
+      <DependentUpon>Win_pop_Stock_LotNo_2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Material\Win_mtr_LotStockControl_U.xaml.cs">
+      <DependentUpon>Win_mtr_LotStockControl_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Material\Win_mtr_LotStock_Q.xaml.cs">
+      <DependentUpon>Win_mtr_LotStock_Q.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Material\Win_mtr_LotSubul_Q.xaml.cs">
+      <DependentUpon>Win_mtr_LotSubul_Q.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Material\Win_mtr_Move_Prd.xaml.cs">
+      <DependentUpon>Win_mtr_Move_Prd.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Material\Win_mtr_Move_U.xaml.cs">
+      <DependentUpon>Win_mtr_Move_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Material\Win_mtr_ocReq_U.xaml.cs">
+      <DependentUpon>Win_mtr_ocReq_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Material\Win_mtr_ocStuffIN_U.xaml.cs">
+      <DependentUpon>Win_mtr_ocStuffIN_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Material\Win_mtr_Outware_Excpt.xaml.cs">
+      <DependentUpon>Win_mtr_Outware_Excpt.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Material\Win_mtr_Outware_Q.xaml.cs">
+      <DependentUpon>Win_mtr_Outware_Q.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Material\Win_mtr_ProdLocStock_Q.xaml.cs">
+      <DependentUpon>Win_mtr_ProdLocStock_Q.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Material\Win_mtr_Stock_Q.xaml.cs">
+      <DependentUpon>Win_mtr_Stock_Q.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Material\Win_mtr_StuffIN_Inspect_U.xaml.cs">
+      <DependentUpon>Win_mtr_StuffIN_Inspect_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Material\Win_mtr_Stuffin_Q.xaml.cs">
+      <DependentUpon>Win_mtr_Stuffin_Q.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Material\Win_mtr_Subul_Q.xaml.cs">
+      <DependentUpon>Win_mtr_Subul_Q.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Material\Win_sbl_LotStockSilsa_U.xaml.cs">
+      <DependentUpon>Win_sbl_LotStockSilsa_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MIS\Win_MIS_CustomArticleInSum_DD_Q.xaml.cs">
+      <DependentUpon>Win_MIS_CustomArticleInSum_DD_Q.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MIS\Win_MIS_CustomArticleInSum_MM_Q.xaml.cs">
+      <DependentUpon>Win_MIS_CustomArticleInSum_MM_Q.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MIS\Win_MIS_CustomArticleOutSum_DD_Q.xaml.cs">
+      <DependentUpon>Win_MIS_CustomArticleOutSum_DD_Q.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MIS\Win_MIS_CustomArticleOutSum_MM_Q.xaml.cs">
+      <DependentUpon>Win_MIS_CustomArticleOutSum_MM_Q.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MIS\Win_MIS_DefectArticle_Q.xaml.cs">
+      <DependentUpon>Win_MIS_DefectArticle_Q.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MIS\Win_MIS_RunningRate_Q.xaml.cs">
+      <DependentUpon>Win_MIS_RunningRate_Q.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Order\Win_ord_ControlStock_U.xaml.cs">
+      <DependentUpon>Win_ord_ControlStock_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Order\Win_ord_InOutSum_Q.xaml.cs">
+      <DependentUpon>Win_ord_InOutSum_Q.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Order\Win_ord_OrderClose_U.xaml.cs">
+      <DependentUpon>Win_ord_OrderClose_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Order\Win_ord_Order_U.xaml.cs">
+      <DependentUpon>Win_ord_Order_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Order\Win_ord_OutWare_Product_Q.xaml.cs">
+      <DependentUpon>Win_ord_OutWare_Product_Q.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Order\Win_ord_ProductNeedMonth_U.xaml.cs">
+      <DependentUpon>Win_ord_ProductNeedMonth_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Outware\PopUp\Win_pop_OutwareReq.xaml.cs">
+      <DependentUpon>Win_pop_OutwareReq.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Outware\Win_ord_OutWare_Scan.xaml.cs">
+      <DependentUpon>Win_ord_OutWare_Scan.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Order\Win_ord_StockControl_U.xaml.cs">
+      <DependentUpon>Win_ord_StockControl_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Order\Win_ord_Stock_Q.xaml.cs">
+      <DependentUpon>Win_ord_Stock_Q.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Order\Win_ord_Subul_Q.xaml.cs">
+      <DependentUpon>Win_ord_Subul_Q.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Outware\Win_Out_OutwareReq_U.xaml.cs">
+      <DependentUpon>Win_Out_OutwareReq_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PlusFinder.xaml.cs">
+      <DependentUpon>PlusFinder.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="plusfinder\PlusFind.xaml.cs">
+      <DependentUpon>PlusFind.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="plusfinder\PlusFinderWindow.xaml.cs">
+      <DependentUpon>PlusFinderWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PopUp\ChoiceAorB.xaml.cs">
+      <DependentUpon>ChoiceAorB.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PopUp\ExportExcelxaml.xaml.cs">
+      <DependentUpon>ExportExcelxaml.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PopUp\FavoriterAddtionPopUP.xaml.cs">
+      <DependentUpon>FavoriterAddtionPopUP.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PopUp\FontPopUP.xaml.cs">
+      <DependentUpon>FontPopUP.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PopUp\LargeImagePopUp.xaml.cs">
+      <DependentUpon>LargeImagePopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PopUp\Loading.xaml.cs">
+      <DependentUpon>Loading.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PopUp\LoginPage.xaml.cs">
+      <DependentUpon>LoginPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PopUp\Login_PersonInfoUse.xaml.cs">
+      <DependentUpon>Login_PersonInfoUse.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PopUp\Login_PwChange.xaml.cs">
+      <DependentUpon>Login_PwChange.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PopUp\Win_pop_CycleTime.xaml.cs">
+      <DependentUpon>Win_pop_CycleTime.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PopUp\MultiLevelSort.xaml.cs">
+      <DependentUpon>MultiLevelSort.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PopUp\MuniChoice.xaml.cs">
+      <DependentUpon>MuniChoice.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PopUp\NoRunningMachineInfo.xaml.cs">
+      <DependentUpon>NoRunningMachineInfo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PopUp\NoticeMessage.xaml.cs">
+      <DependentUpon>NoticeMessage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="INI\SettingINI.cs" />
+    <Compile Include="PopUp\ScreenShot.xaml.cs">
+      <DependentUpon>ScreenShot.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PopUp\ShowCircleGraph.xaml.cs">
+      <DependentUpon>ShowCircleGraph.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PopUp\Stuffin_Inspect.xaml.cs">
+      <DependentUpon>Stuffin_Inspect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PopUp\Win_comMCRunningTarget_PopUP.xaml.cs">
+      <DependentUpon>Win_comMCRunningTarget_PopUP.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PopUp\Win_Zip_Address.xaml.cs">
+      <DependentUpon>Win_Zip_Address.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Print\PrintWorkAll.cs" />
+    <Compile Include="Procedure.cs" />
+    <Compile Include="Product\BaseData\Win_prd_MachineCode_U.xaml.cs">
+      <DependentUpon>Win_prd_MachineCode_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Product\BaseData\Win_prd_PatternCode_U.xaml.cs">
+      <DependentUpon>Win_prd_PatternCode_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Product\BaseData\Win_prd_Process_U.xaml.cs">
+      <DependentUpon>Win_prd_Process_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Product\MachineData\Win_prd_EvalBasis_U.xaml.cs">
+      <DependentUpon>Win_prd_EvalBasis_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Product\MachineData\Win_prd_MCCode_U.xaml.cs">
+      <DependentUpon>Win_prd_MCCode_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Product\MachineData\Win_prd_MCTool_U.xaml.cs">
+      <DependentUpon>Win_prd_MCTool_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Product\MachineData\Win_prd_PartStuffin_U.xaml.cs">
+      <DependentUpon>Win_prd_PartStuffin_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Product\MachineData\Win_prd_RegularInspectBasis_U.xaml.cs">
+      <DependentUpon>Win_prd_RegularInspectBasis_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Product\MachineData\Win_prd_RegularInspect_U.xaml.cs">
+      <DependentUpon>Win_prd_RegularInspect_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Product\MachineData\Win_prd_Repair_U.xaml.cs">
+      <DependentUpon>Win_prd_Repair_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Product\MachineSearch\Win_prd_Eval_Q.xaml.cs">
+      <DependentUpon>Win_prd_Eval_Q.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Product\MachineSearch\Win_prd_PartStock_Q.xaml.cs">
+      <DependentUpon>Win_prd_PartStock_Q.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Product\MachineSearch\Win_prd_PartSubul_Q.xaml.cs">
+      <DependentUpon>Win_prd_PartSubul_Q.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Product\MachineSearch\Win_Prd_RegularInspectList_Q.xaml.cs">
+      <DependentUpon>Win_Prd_RegularInspectList_Q.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Product\MachineSearch\Win_prd_RegularInspect_Q.xaml.cs">
+      <DependentUpon>Win_prd_RegularInspect_Q.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Product\MachineSearch\Win_prd_Repair_Q.xaml.cs">
+      <DependentUpon>Win_prd_Repair_Q.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Product\MachineSearch\Win_prd_sts_RunningRateDetail_Q.xaml.cs">
+      <DependentUpon>Win_prd_sts_RunningRateDetail_Q.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Product\MachineSearch\Win_prd_sts_RunningRate_Q.xaml.cs">
+      <DependentUpon>Win_prd_sts_RunningRate_Q.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Product\MachineSearch\Win_prd_TemperWorkLog_Q.xaml.cs">
+      <DependentUpon>Win_prd_TemperWorkLog_Q.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Product\MachineSearch\Win_Prd_WorkLog_Q.xaml.cs">
+      <DependentUpon>Win_Prd_WorkLog_Q.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Product\MoldData\Win_dvl_InOutWare_Mold_U.xaml.cs">
+      <DependentUpon>Win_dvl_InOutWare_Mold_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Product\MoldData\Win_dvl_InOutWare_Mold_U_CodeView.cs" />
+    <Compile Include="Product\MoldData\Win_dvl_Molding_U.xaml.cs">
+      <DependentUpon>Win_dvl_Molding_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Product\MoldData\Win_dvl_MoldRegularInspectBasis_U.xaml.cs">
+      <DependentUpon>Win_dvl_MoldRegularInspectBasis_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Product\MoldData\Win_dvl_MoldRegularInspect_U.xaml.cs">
+      <DependentUpon>Win_dvl_MoldRegularInspect_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Product\MoldData\Win_dvl_MoldRegularInspect_U_CodeView.cs" />
+    <Compile Include="Product\MoldData\Win_dvl_MoldRepair_U.xaml.cs">
+      <DependentUpon>Win_dvl_MoldRepair_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Product\MoldData\Win_dvl_MoldRepair_U_CodeView.cs" />
+    <Compile Include="Product\MoldData\Win_Mold_sMoldHistory.xaml.cs">
+      <DependentUpon>Win_Mold_sMoldHistory.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Product\Pop\NoWorkInfo.xaml.cs">
+      <DependentUpon>NoWorkInfo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Product\Pop\ReFresh.xaml.cs">
+      <DependentUpon>ReFresh.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Product\ProductData\Win_prd_MCArticleRunningGoal_U.xaml.cs">
+      <DependentUpon>Win_prd_MCArticleRunningGoal_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Product\ProductData\Win_prd_PlanInputArticleView_U.xaml.cs">
+      <DependentUpon>Win_prd_PlanInputArticleView_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Product\ProductData\Win_prd_PlanInputView_U.xaml.cs">
+      <DependentUpon>Win_prd_PlanInputView_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Product\ProductData\Win_prd_PlanInput_U.xaml.cs">
+      <DependentUpon>Win_prd_PlanInput_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Product\ProductSearch\Win_Prd_Workcall.xaml.cs">
+      <DependentUpon>Win_Prd_Workcall.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Product\ProductSearch\Win_Prd_DailyProcessResult_Q.xaml.cs">
+      <DependentUpon>Win_Prd_DailyProcessResult_Q.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Product\ProductSearch\Win_prd_DailyWorkerProcessResult_Q.xaml.cs">
+      <DependentUpon>Win_prd_DailyWorkerProcessResult_Q.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Product\ProductSearch\Win_prd_JaturiMove_Q.xaml.cs">
+      <DependentUpon>Win_prd_JaturiMove_Q.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Product\ProductSearch\Win_prd_KPI_Q.xaml.cs">
+      <DependentUpon>Win_prd_KPI_Q.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Product\ProductSearch\Win_prd_LotDetail_Q.xaml.cs">
+      <DependentUpon>Win_prd_LotDetail_Q.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Product\ProductSearch\Win_prd_MonthlyMachineDeactivated_Q.xaml.cs">
+      <DependentUpon>Win_prd_MonthlyMachineDeactivated_Q.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Product\ProductSearch\Win_prd_MonthlyWorkerProcessResult_Q.xaml.cs">
+      <DependentUpon>Win_prd_MonthlyWorkerProcessResult_Q.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Product\ProductSearch\Win_Prd_ProcessResultSum_Q.xaml.cs">
+      <DependentUpon>Win_Prd_ProcessResultSum_Q.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Product\ProductSearch\Win_Prd_ProcessResult_Q.xaml.cs">
+      <DependentUpon>Win_Prd_ProcessResult_Q.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Product\ProductSearch\Win_Prd_ProdResult_U.xaml.cs">
+      <DependentUpon>Win_Prd_ProdResult_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Product\ProductSearch\Win_prd_RemainMove_Q.xaml.cs">
+      <DependentUpon>Win_prd_RemainMove_Q.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Quality\Analysis,Search\Win_Qul_DailyProdDefect_Q.xaml.cs">
+      <DependentUpon>Win_Qul_DailyProdDefect_Q.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Quality\Analysis,Search\Win_Qul_InspectDefectResultTotal_Q.xaml.cs">
+      <DependentUpon>Win_Qul_InspectDefectResultTotal_Q.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Quality\Analysis,Search\Win_Qul_DateBox_Q.xaml.cs">
+      <DependentUpon>Win_Qul_DateBox_Q.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Quality\Analysis,Search\Win_Qul_DateProd_Q.xaml.cs">
+      <DependentUpon>Win_Qul_DateProd_Q.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Quality\Analysis,Search\Win_Qul_DefectArticle_Q.xaml.cs">
+      <DependentUpon>Win_Qul_DefectArticle_Q.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Quality\Analysis,Search\Win_Qul_DefectRepair_Q.xaml.cs">
+      <DependentUpon>Win_Qul_DefectRepair_Q.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Quality\Analysis,Search\Win_Qul_DefectTotal_Q.xaml.cs">
+      <DependentUpon>Win_Qul_DefectTotal_Q.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Quality\Analysis,Search\Win_Qul_DefectTotal_Q_View.cs" />
+    <Compile Include="Quality\Analysis,Search\Win_Qul_sts_XBarR_Q.xaml.cs">
+      <DependentUpon>Win_Qul_sts_XBarR_Q.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Quality\Analysis,Search\Win_Qul_sts_XBarR_Q_View.cs" />
+    <Compile Include="Quality\Analysis,Search\Win_Qul_XBarR_Q.xaml.cs">
+      <DependentUpon>Win_Qul_XBarR_Q.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Quality\BasicData\Win_Qul_Drawing_U.xaml.cs">
+      <DependentUpon>Win_Qul_Drawing_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BaseCode\Person\Win_hr_Education_U.xaml.cs">
+      <DependentUpon>Win_hr_Education_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Quality\BasicData\Win_Qul_InspectAutoBasis_U.xaml.cs">
+      <DependentUpon>Win_Qul_InspectAutoBasis_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Quality\BasicData\Win_Qul_InspectAutoBasis_U_CodeView.cs" />
+    <Compile Include="Quality\BasicData\Win_Qul_InspectCode_U.xaml.cs">
+      <DependentUpon>Win_Qul_InspectCode_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Quality\BasicData\Win_Qul_InspectCode_U_CodeView.cs" />
+    <Compile Include="BaseCode\Person\Win_hr_License_U.xaml.cs">
+      <DependentUpon>Win_hr_License_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Quality\BasicData\Win_Qul_MeasureMachine_U.xaml.cs">
+      <DependentUpon>Win_Qul_MeasureMachine_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Quality\BasicData\Win_Qul_MeasureMachine_U_CodeView.cs" />
+    <Compile Include="Quality\BasicData\Win_Qul_QulDefectGoal_U.xaml.cs">
+      <DependentUpon>Win_Qul_QulDefectGoal_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Quality\BasicData\Win_Qul_QulDefectGoal_U_CodeView.cs" />
+    <Compile Include="Quality\PopUp\InspectAuto_PopUp.xaml.cs">
+      <DependentUpon>InspectAuto_PopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Quality\QulEnroll\Win_Qul_4MChange_U.xaml.cs">
+      <DependentUpon>Win_Qul_4MChange_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Quality\QulEnroll\Win_Qul_CustomDefect_U.xaml.cs">
+      <DependentUpon>Win_Qul_CustomDefect_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Quality\QulEnroll\Win_Qul_InspectAutoRepair_U.xaml.cs">
+      <DependentUpon>Win_Qul_InspectAutoRepair_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Quality\QulEnroll\Win_Qul_InspectAuto_U.xaml.cs">
+      <DependentUpon>Win_Qul_InspectAuto_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Quality\QulEnroll\Win_Qul_Measure_U.xaml.cs">
+      <DependentUpon>Win_Qul_Measure_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Quality\QulEnroll\Win_Qul_Measure_U_CodeView.cs" />
+    <Compile Include="Quality\QulEnroll\Win_Qul_PastDefect_U.xaml.cs">
+      <DependentUpon>Win_Qul_PastDefect_U.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Quality\QulEnroll\Win_Qul_Sts_AnalDetail_Q.xaml.cs">
+      <DependentUpon>Win_Qul_Sts_AnalDetail_Q.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl2.xaml.cs">
+      <DependentUpon>UserControl2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Util.cs" />
+    <Compile Include="base\BaseView.cs" />
+    <Compile Include="plusfinder\PlusFinderView.cs" />
+    <Compile Include="Util\FilterWithPopupControl.xaml.cs">
+      <DependentUpon>FilterWithPopupControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\ArticleData.cs" />
+    <Compile Include="ViewModel\ChartInfoMCRunningRate.cs" />
+    <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\ViewModelLocator.cs" />
+    <Page Include="BaseCode\Article\Win_com_ArticleCode_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="BaseCode\Article\Win_com_Article_BOM_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="BaseCode\Article\Win_com_CustomArticle_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="BaseCode\Common\Win_com_Bank_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="BaseCode\Common\Win_com_Custom_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="BaseCode\Common\Win_com_ModelMaster_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="BaseCode\Common\Win_com_OrderCode_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="BaseCode\Common\Win_com_WDCar_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="BaseCode\Info\Win_com_Info.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="BaseCode\Info\Win_com_InfoSet.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="BaseCode\Person\Win_com_BuseoJikChaek_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="BaseCode\Person\Win_com_Person_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="BaseSystem\Win_com_Code_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="BaseSystem\Win_com_Company_Setting.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="BaseSystem\Win_com_UserMenuLog_Q.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Material\PopUp\Win_pop_Stock_LotNo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Material\PopUp\Win_pop_Stock_LotNoPF.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Material\PopUp\Win_pop_Stock_LotNo_2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Material\Win_mtr_LotStockControl_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Material\Win_mtr_LotStock_Q.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Material\Win_mtr_LotSubul_Q.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Material\Win_mtr_Move_Prd.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Material\Win_mtr_Move_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Material\Win_mtr_ocReq_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Material\Win_mtr_ocStuffIN_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Material\Win_mtr_Outware_Excpt.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Material\Win_mtr_Outware_Q.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Material\Win_mtr_ProdLocStock_Q.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Material\Win_mtr_Stock_Q.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Material\Win_mtr_StuffIN_Inspect_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Material\Win_mtr_Stuffin_Q.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Material\Win_mtr_Subul_Q.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Material\Win_sbl_LotStockSilsa_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MIS\Win_MIS_CustomArticleInSum_DD_Q.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MIS\Win_MIS_CustomArticleInSum_MM_Q.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MIS\Win_MIS_CustomArticleOutSum_DD_Q.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MIS\Win_MIS_CustomArticleOutSum_MM_Q.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MIS\Win_MIS_DefectArticle_Q.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MIS\Win_MIS_RunningRate_Q.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MRPPlusResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Order\Win_ord_ControlStock_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Order\Win_ord_InOutSum_Q.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="Order\Win_ord_OrderClose_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Order\Win_ord_Order_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Order\Win_ord_OutWare_Product_Q.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Order\Win_ord_ProductNeedMonth_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Outware\PopUp\Win_pop_OutwareReq.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Outware\Win_ord_OutWare_Scan.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Order\Win_ord_StockControl_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Order\Win_ord_Stock_Q.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Order\Win_ord_Subul_Q.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Outware\Win_Out_OutwareReq_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PlusFinder.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="plusfinder\PlusFind.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="plusfinder\PlusFinderWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PopUp\ChoiceAorB.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PopUp\ExportExcelxaml.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PopUp\FavoriterAddtionPopUP.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PopUp\FontPopUP.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PopUp\LargeImagePopUp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PopUp\Loading.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PopUp\LoginPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PopUp\Login_PersonInfoUse.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PopUp\Login_PwChange.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PopUp\Win_pop_CycleTime.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PopUp\MultiLevelSort.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PopUp\MuniChoice.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PopUp\NoRunningMachineInfo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PopUp\NoticeMessage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PopUp\ScreenShot.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PopUp\ShowCircleGraph.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PopUp\Stuffin_Inspect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PopUp\Win_comMCRunningTarget_PopUP.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PopUp\Win_Zip_Address.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Product\BaseData\Win_prd_MachineCode_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Product\BaseData\Win_prd_PatternCode_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Product\BaseData\Win_prd_Process_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Product\MachineData\Win_prd_EvalBasis_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Product\MachineData\Win_prd_MCCode_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Product\MachineData\Win_prd_MCTool_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Product\MachineData\Win_prd_PartStuffin_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Product\MachineData\Win_prd_RegularInspectBasis_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Product\MachineData\Win_prd_RegularInspect_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Product\MachineData\Win_prd_Repair_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Product\MachineSearch\Win_prd_Eval_Q.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Product\MachineSearch\Win_prd_PartStock_Q.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Product\MachineSearch\Win_prd_PartSubul_Q.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Product\MachineSearch\Win_Prd_RegularInspectList_Q.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Product\MachineSearch\Win_prd_RegularInspect_Q.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Product\MachineSearch\Win_prd_Repair_Q.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Product\MachineSearch\Win_prd_sts_RunningRateDetail_Q.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Product\MachineSearch\Win_prd_sts_RunningRate_Q.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Product\MachineSearch\Win_prd_TemperWorkLog_Q.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Product\MachineSearch\Win_Prd_WorkLog_Q.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Product\MoldData\Win_dvl_InOutWare_Mold_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Product\MoldData\Win_dvl_Molding_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Product\MoldData\Win_dvl_MoldRegularInspectBasis_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Product\MoldData\Win_dvl_MoldRegularInspect_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Product\MoldData\Win_dvl_MoldRepair_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Product\MoldData\Win_Mold_sMoldHistory.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Product\Pop\NoWorkInfo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Product\Pop\ReFresh.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Product\ProductData\Win_prd_MCArticleRunningGoal_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Product\ProductData\Win_prd_PlanInputArticleView_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Product\ProductData\Win_prd_PlanInputView_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Product\ProductData\Win_prd_PlanInput_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Product\ProductSearch\Win_Prd_Workcall.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Product\ProductSearch\Win_Prd_DailyProcessResult_Q.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Product\ProductSearch\Win_prd_DailyWorkerProcessResult_Q.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Product\ProductSearch\Win_prd_JaturiMove_Q.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Product\ProductSearch\Win_prd_KPI_Q.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Product\ProductSearch\Win_prd_LotDetail_Q.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Product\ProductSearch\Win_prd_MonthlyMachineDeactivated_Q.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Product\ProductSearch\Win_prd_MonthlyWorkerProcessResult_Q.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Product\ProductSearch\Win_Prd_ProcessResultSum_Q.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Product\ProductSearch\Win_Prd_ProcessResult_Q.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Product\ProductSearch\Win_Prd_ProdResult_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Product\ProductSearch\Win_prd_RemainMove_Q.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Quality\Analysis,Search\Win_Qul_DailyProdDefect_Q.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Quality\Analysis,Search\Win_Qul_InspectDefectResultTotal_Q.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Quality\Analysis,Search\Win_Qul_DateBox_Q.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Quality\Analysis,Search\Win_Qul_DateProd_Q.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Quality\Analysis,Search\Win_Qul_DefectArticle_Q.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Quality\Analysis,Search\Win_Qul_DefectRepair_Q.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Quality\Analysis,Search\Win_Qul_DefectTotal_Q.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Quality\Analysis,Search\Win_Qul_sts_XBarR_Q.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Quality\Analysis,Search\Win_Qul_XBarR_Q.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Quality\BasicData\Win_Qul_Drawing_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="BaseCode\Person\Win_hr_Education_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Quality\BasicData\Win_Qul_InspectAutoBasis_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Quality\BasicData\Win_Qul_InspectCode_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="BaseCode\Person\Win_hr_License_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Quality\BasicData\Win_Qul_MeasureMachine_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Quality\BasicData\Win_Qul_QulDefectGoal_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Quality\PopUp\InspectAuto_PopUp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="Quality\QulEnroll\Win_Qul_4MChange_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Quality\QulEnroll\Win_Qul_CustomDefect_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Quality\QulEnroll\Win_Qul_InspectAutoRepair_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Quality\QulEnroll\Win_Qul_InspectAuto_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Quality\QulEnroll\Win_Qul_Measure_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Quality\QulEnroll\Win_Qul_PastDefect_U.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Quality\QulEnroll\Win_Qul_Sts_AnalDetail_Q.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControl2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Util\FilterWithPopupControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="XamlDictionay\WizardDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="MrpplusV2.0_TemporaryKey.pfx" />
+    <None Include="packages.config" />
+    <None Include="Properties\app.manifest" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5.2%28x86 및 x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="helpl.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="FodyWeavers.xml">
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="Microsoft.Office.Core">
+      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>4</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="Microsoft.Office.Interop.Excel">
+      <Guid>{00020813-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>6</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="stdole">
+      <Guid>{00020430-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="VBIDE">
+      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>5</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Image1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\icons8-print.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\boss.png" />
+    <Resource Include="Images\boxl.png" />
+    <Resource Include="Images\bugl.png" />
+    <Resource Include="Images\helpl.png" />
+    <Resource Include="Images\icons8-add-3.png" />
+    <Resource Include="Images\icons8-add.png" />
+    <Resource Include="Images\icons8-arrow-pointing-to-right.png" />
+    <Resource Include="Images\icons8-delete-button-2.png" />
+    <Resource Include="Images\icons8-delete.png" />
+    <Resource Include="Images\icons8-edit.png" />
+    <Resource Include="Images\icons8-microsoft-excel.png" />
+    <Resource Include="Images\icons8-plus-math-48.png" />
+    <Resource Include="Images\icons8-plus-math-96.png" />
+    <Resource Include="Images\icons8-product-code-8.png" />
+    <Resource Include="Images\icons8-save-3.png" />
+    <Resource Include="Images\icons8-search-48.png" />
+    <Resource Include="Images\icons8-search-96.png" />
+    <Resource Include="Images\icons8-simple-arrow.png" />
+    <Resource Include="Images\icons8-u-turn-sign-3.png" />
+    <Resource Include="Images\left_arrow1.png" />
+    <Resource Include="Images\orgl.png" />
+    <Resource Include="Images\savel.png" />
+    <Resource Include="Images\search.png" />
+    <Resource Include="Images\search1.png" />
+    <Resource Include="Images\search6.png" />
+    <Resource Include="Images\times.png" />
+    <Resource Include="Images\timesl.png" />
+    <Resource Include="Images\wizMes.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\icons8-green-check-mark.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\addLeft.bmp" />
+    <Resource Include="Images\AddNew.bmp" />
+    <Resource Include="Images\addRight.bmp" />
+    <Resource Include="Images\cancel.bmp" />
+    <Resource Include="Images\Close.bmp" />
+    <Resource Include="Images\Delete.bmp" />
+    <Resource Include="Images\Edit.bmp" />
+    <Resource Include="Images\Exel.bmp" />
+    <Resource Include="Images\ok.bmp" />
+    <Resource Include="Images\Print.bmp" />
+    <Resource Include="Images\save.bmp" />
+    <Resource Include="Images\Search.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Lib\CommonServiceLocator.dll" />
+    <EmbeddedResource Include="Lib\GalaSoft.MvvmLight.dll" />
+    <EmbeddedResource Include="Lib\GalaSoft.MvvmLight.Extras.dll" />
+    <EmbeddedResource Include="Lib\LiveCharts.dll" />
+    <EmbeddedResource Include="Lib\LiveCharts.Wpf.dll" />
+    <EmbeddedResource Include="Lib\MahApps.Metro.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Lib\System.Windows.Interactivity.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\HTML.ico" />
+    <Resource Include="Images\BarCode.ico" />
+    <EmbeddedResource Include="Lib\DataGridExtensions.dll" />
+    <Resource Include="WizardLogo.ico" />
+    <Resource Include="WizardLogo %281%29.ico" />
+    <Resource Include="WizardLogo-_1_.ico" />
+    <Resource Include="WizardLogo %282%29.ico" />
+    <Resource Include="WizardLogo-_3_.ico" />
+    <Resource Include="WizardLogo2.ico" />
+    <Resource Include="Images\Back.ico" />
+    <Resource Include="Images\Front.ico" />
+    <Resource Include="Images\Menu.ico" />
+    <Resource Include="Images\Monitor.ico" />
+    <Resource Include="Images\Quit.ico" />
+    <Resource Include="Images\Unfolder.ico" />
+    <Resource Include="Images\wizMES_Largesize_noIcon.jpg" />
+    <Resource Include="Images\login.bmp" />
+    <Resource Include="Images\notice_img.jpg" />
+    <Resource Include="Images\Refresh.bmp" />
+    <Resource Include="Images\icons8-book-48.png" />
+    <Resource Include="Images\icons8-copybook-48.png" />
+    <Resource Include="Images\icons8-literature-16.png" />
+    <Resource Include="Images\icons8-literature-64.png" />
+    <Resource Include="Images\icons8-paper-40.png" />
+    <Resource Include="Images\icons8-plus-math-40.png" />
+    <Resource Include="Images\OpenFolder_64pix.png" />
+    <Resource Include="Images\Readingfolder_64pix.png" />
+    <Resource Include="Images\Arrow_Down.png" />
+    <Resource Include="Images\Arrow_Up.png" />
+    <Resource Include="Images\icons8-subtract-40.png" />
+    <Resource Include="Images\Icon_Checked.png" />
+    <Resource Include="Images\Loading.png" />
+    <Resource Include="Images\icon_informationMark_16.png" />
+    <Resource Include="Images\icon_informationMark_32.png" />
+    <Resource Include="Quality\Analysis,Search\x-bar.PNG" />
+    <Resource Include="Images\icon_MES.JPG" />
+    <Resource Include="Images\Upload.bmp" />
+    <Resource Include="Images\wizMes_blueAreaStretched.jpg" />
+    <Content Include="x64\liblept172.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="x64\libtesseract304.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="x86\liblept172.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="x86\libtesseract304.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\Fody.1.29.2\build\dotnet\Fody.targets" Condition="Exists('..\packages\Fody.1.29.2\build\dotnet\Fody.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>이 프로젝트는 이 컴퓨터에 없는 NuGet 패키지를 참조합니다. 해당 패키지를 다운로드하려면 NuGet 패키지 복원을 사용하십시오. 자세한 내용은 http://go.microsoft.com/fwlink/?LinkID=322105를 참조하십시오. 누락된 파일은 {0}입니다.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Fody.1.29.2\build\dotnet\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.1.29.2\build\dotnet\Fody.targets'))" />
+  </Target>
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

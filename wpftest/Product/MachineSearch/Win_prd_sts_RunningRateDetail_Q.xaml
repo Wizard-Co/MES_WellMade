@@ -1,0 +1,243 @@
+﻿<UserControl x:Class="WizMes_WellMade.Win_prd_sts_RunningRateDetail_Q"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WizMes_WellMade"
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             mc:Ignorable="d" Loaded="UserControl_Loaded"
+             d:DesignHeight="620" d:DesignWidth="820">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="88*" />
+            <RowDefinition Height="532*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Background="{DynamicResource WizMes_WellMade}" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="22*" />
+                <RowDefinition Height="22*" />
+                <RowDefinition Height="22*" />
+                <RowDefinition Height="22*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100*" />
+                <ColumnDefinition Width="160*" />
+                <ColumnDefinition Width="180*" />
+                <ColumnDefinition Width="180*" />
+                <ColumnDefinition Width="200*" />
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="1" Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="75*" />
+                    <ColumnDefinition Width="85*" />
+                </Grid.ColumnDefinitions>
+                <Label x:Name="lblMcInOutDate" Grid.Column="0" 
+                       Style="{DynamicResource LabelSearch}">
+                    <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                            <CheckBox x:Name="chkMcInOutDate" VerticalAlignment="Center" IsChecked="True" IsEnabled="False"/>
+                        </Viewbox>
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}" >
+                            <TextBlock Text="기준일자" 
+                                       Style="{DynamicResource TextBlockInViewBoxSearch}"/>
+                        </Viewbox>
+                    </StackPanel>
+                </Label>
+                <DatePicker x:Name="dtpSDate" Grid.Column="1" IsEnabled="True" 
+                            Style="{DynamicResource DatePickerSearch}"/>
+            </Grid>
+            
+            <Grid Grid.Column="1" Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="75*" />
+                    <ColumnDefinition Width="85*" />
+                </Grid.ColumnDefinitions>
+                <DatePicker x:Name="dtpEDate" Grid.Column="1" IsEnabled="True" 
+                            Style="{DynamicResource DatePickerSearch}"/>
+            </Grid>
+            
+            <Grid Grid.Column="1" Grid.Row="2" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Button x:Name="btnLastMonth" Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="전월" 
+                        Click="btnLastMonth_Click"/>
+                <Button x:Name="btnThisMonth" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="금월" 
+                        Click="btnThisMonth_Click" />
+                <Button x:Name="btnYesterDay" Grid.Column="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="전일" 
+                        Click="btnYesterDay_Click"/>
+                <Button x:Name="btnToday" Grid.Column="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="금일" 
+                        Click="btnToday_Click"/>
+            </Grid>
+
+            <!--공정-->
+            <Grid Grid.Column="2" Grid.Row="0" x:Name="grdSrh">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="75*" />
+                    <ColumnDefinition Width="90*" />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" 
+                       Style="{DynamicResource LabelSearch}"
+                       MouseLeftButtonDown="lblProcessSrh_MouseLeftButtonDown">
+                    <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}" >
+                            <CheckBox x:Name="chkProcessSrh" VerticalAlignment="Center" 
+                                      Checked="chkProcessSrh_Checked" Unchecked="chkProcessSrh_Unchecked"/>
+                        </Viewbox>
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}" >
+                            <TextBlock Text="공  정" 
+                                       Style="{DynamicResource TextBlockInViewBoxSearch}"/>
+                        </Viewbox>
+                    </StackPanel>
+                </Label>
+                <ComboBox x:Name="cboProcess" Grid.Column="1" SelectionChanged="cboProcess_SelectionChanged"/>
+            </Grid>
+            
+            <!--호기-->
+            <Grid Grid.Column="2" Grid.Row="1" x:Name="grdSrh2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="75*" />
+                    <ColumnDefinition Width="90*" />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" 
+                       Style="{DynamicResource LabelSearch}"
+                       MouseLeftButtonDown="lblMachineSrh_MouseLeftButtonDown">
+                    <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}" >
+                            <CheckBox x:Name="chkMachineSrh" VerticalAlignment="Center" 
+                                      Checked="chkMachineSrh_Checked" Unchecked="chkMachineSrh_Unchecked"/>
+                        </Viewbox>
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}" >
+                            <TextBlock Text="호  기" 
+                                       Style="{DynamicResource TextBlockInViewBoxSearch}"/>
+                        </Viewbox>
+                    </StackPanel>
+                </Label>
+                <ComboBox x:Name="cboMachine" Grid.Column="1" />
+            </Grid>
+
+            <Grid Grid.Column="4" Grid.RowSpan="4" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="btnSearch" Grid.Column="2" Click="btnSearch_Click" Margin="1">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{DynamicResource btiSearch}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Source={StaticResource tblSearch},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="btnClose" Grid.Column="3" Click="btnClose_Click" Margin="1">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{DynamicResource btiClose}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Source={StaticResource tblClose},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                </Grid>
+                
+                <Grid Grid.Row="1" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="btnExcel" Grid.Column="3" Click="btnExcel_Click"  Margin="1">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{DynamicResource btiExcel}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Source={StaticResource tblExcel},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                </Grid>
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!--작업그리드-->
+            <DataGrid x:Name="dgdWork" Grid.Column="0" Margin="1" IsReadOnly="True" Style="{DynamicResource DataGridMultiLine}"
+                               >
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow">
+                        <Style.Resources>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#3399FF"/>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="White"/>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="#3399FF" />
+                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="White"/>
+                        </Style.Resources>
+                    </Style>
+                </DataGrid.RowStyle>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="작업일자" Binding="{Binding WorkDate}" Width="*" ElementStyle="{StaticResource DataGridCellCenter}"/>
+                    <DataGridTextColumn Header="품목" Binding="{Binding Article}" Width="*" ElementStyle="{StaticResource DataGridCellLeft}" />
+                    <DataGridTextColumn Header="작업자" Binding="{Binding Name}" Width="*" ElementStyle="{StaticResource DataGridCellLeft}"/>
+                    <DataGridTextColumn Header="작업자&#10;교육건수" Binding="{Binding EduCount}" Width="*" ElementStyle="{StaticResource DataGridCellRight}"/>
+                    <DataGridTextColumn Header="작업자&#10;자격증 명" Binding="{Binding License}"  Width="*" ElementStyle="{StaticResource DataGridCellLeft}"/>
+                    <DataGridTextColumn Header="작업자&#10;자격증" Binding="{Binding LicenseCnt}"  Width="*" ElementStyle="{StaticResource DataGridCellRight}"/>
+                    <DataGridTextColumn Header="작업자&#10;입사일" Binding="{Binding StartDate}"  Width="*" ElementStyle="{StaticResource DataGridCellCenter}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <!--호기그리드-->
+            <DataGrid x:Name="dgdMachine" Grid.Column="1"  Margin="1" IsReadOnly="True" Style="{DynamicResource DataGridMultiLine}"
+                      MouseDoubleClick="dgdMachine_MouseLeftButtonDown">
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow">
+                        <Style.Resources>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#3399FF"/>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="White"/>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="#3399FF" />
+                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="White"/>
+                        </Style.Resources>
+                    </Style>
+                </DataGrid.RowStyle>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="설비" Binding="{Binding MCNAME}" Width="*" ElementStyle="{StaticResource DataGridCellLeft}"/>
+                    <DataGridTextColumn Header="설비호기" Binding="{Binding MachineNo}"  Width="*" ElementStyle="{StaticResource DataGridCellLeft}"/>
+                    <DataGridTextColumn Header="설비&#10;마지막점검일" Binding="{Binding LastInspectDate}" Width="*" ElementStyle="{StaticResource DataGridCellCenter}"/>
+                    <DataGridTextColumn Header="설비점검이상&#10;발생건수" Binding="{Binding InspectCount}" Width="*" ElementStyle="{StaticResource DataGridCellRight}"/>
+                    <DataGridTextColumn Header="설비점검이상&#10;발생내용" Binding="{Binding DefectContents}" Width="*" ElementStyle="{StaticResource DataGridCellLeft}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <!-- 그리드-->
+            <DataGrid x:Name="dgdNoWork" Grid.Column="2"  Margin="1" IsReadOnly="True" Style="{DynamicResource DataGridMultiLine}">
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow">
+                        <Style.Resources>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#3399FF"/>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="White"/>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="#3399FF" />
+                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="White"/>
+                        </Style.Resources>
+                    </Style>
+                </DataGrid.RowStyle>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="무작업/비가동&#10;발생일" Binding="{Binding WorkDate}" Width="*" ElementStyle="{StaticResource DataGridCellCenter}"/>
+                    <DataGridTextColumn Header="발생사유" Binding="{Binding NoReworkReason}" Width="*" ElementStyle="{StaticResource DataGridCellLeft}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            
+        </Grid>
+        
+       
+
+
+    </Grid>
+</UserControl>

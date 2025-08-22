@@ -1,0 +1,79 @@
+﻿<Window x:Class="WizMes_WellMade.PlusFinderWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WizMes_WellMade"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="PlusFinderWindow" Height="300" Width="300">
+    <DockPanel>
+        <Grid DockPanel.Dock="Top">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="테스트1" Grid.Column="0" Grid.Row="0"/>
+            <TextBlock Text="테스트1" Grid.Column="1" Grid.Row="0"/>
+            <TextBlock Text="테스트1" Grid.Column="0" Grid.Row="1"/>
+            <TextBlock Text="테스트1" Grid.Column="1" Grid.Row="1"/>
+        </Grid>
+        <Grid DockPanel.Dock="Bottom">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="60"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button Content="기타" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"></Button>
+                <Button Content="가" Grid.Row="1" Grid.Column="0"></Button>
+                <Button Content="나" Grid.Row="1" Grid.Column="1"></Button>
+                <Button Content="다" Grid.Row="2" Grid.Column="0"></Button>
+                <Button Content="라" Grid.Row="2" Grid.Column="1"></Button>
+                <Button Content="마" Grid.Row="3" Grid.Column="0"></Button>
+                <Button Content="바" Grid.Row="3" Grid.Column="1"></Button>
+                <Button Content="사" Grid.Row="4" Grid.Column="0"></Button>
+                <Button Content="어" Grid.Row="4" Grid.Column="1"></Button>
+                <Button Content="자" Grid.Row="5" Grid.Column="0"></Button>
+                <Button Content="차" Grid.Row="5" Grid.Column="1"></Button>
+                <Button Content="카" Grid.Row="6" Grid.Column="0"></Button>
+                <Button Content="타" Grid.Row="6" Grid.Column="1"></Button>
+                <Button Content="파" Grid.Row="7" Grid.Column="0"></Button>
+                <Button Content="하" Grid.Row="7" Grid.Column="1"></Button>
+            </Grid>
+            <GridSplitter HorizontalAlignment="Right"
+                          VerticalAlignment="Stretch"
+                          Grid.Column="1" ResizeBehavior="PreviousAndNext"
+                          Width="5" Background="#FFBCBCBC"/>
+            <DataGrid x:Name="mDataGrid" Style="{DynamicResource DataGridSet1}"
+                          ScrollViewer.CanContentScroll="True" 
+                          ScrollViewer.HorizontalScrollBarVisibility="Auto" 
+                          ScrollViewer.VerticalScrollBarVisibility="Auto"
+                          VerticalAlignment="Stretch"
+                          AutoGenerateColumns="False"
+                          Margin="0" 
+                          Grid.Column="2" />
+        </Grid>
+    </DockPanel>
+</Window>

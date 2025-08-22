@@ -1,0 +1,173 @@
+﻿<Window x:Class="WizMes_WellMade.PopUp.Win_pop_CycleTime"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WizMes_WellMade.PopUp"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="CycleTime 호기 선택 저장" Height="500" Width="350" Loaded="Win_pop_CycleTime_Loaded">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="9*" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Background="{StaticResource WizMes_WellMadeNoIcon}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.5*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            
+            <!-- 콤보박스 -->
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="65*" />
+                    <ColumnDefinition Width="95*" />
+                </Grid.ColumnDefinitions>
+                <Label x:Name="lblAutoMcYN" Grid.Row="0" Grid.Column="0" Margin="1" HorizontalContentAlignment="Left" VerticalContentAlignment="Center">
+                    <StackPanel Orientation="Horizontal">
+                        <Viewbox>
+                            <CheckBox x:Name="chkAutoMcYN" VerticalAlignment="Center" IsChecked="True" IsEnabled="False"/>
+                        </Viewbox>
+                        <TextBlock Text="수동/자동" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Label>
+                <ComboBox x:Name="cboAutoMcYN" Grid.Row="0" Grid.Column="1" Background="White" Visibility="Visible"
+                          SelectionChanged="cboAutoMcYN_SelectionChanged"/>
+            </Grid>
+
+            <!-- 검색 버튼! -->
+            <Grid Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="2*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="1.2*" />
+                </Grid.RowDefinitions>
+                <Button x:Name="btnSave"  Grid.Column="1" Grid.ColumnSpan="2" Margin="1" Click="btnSave_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="{DynamicResource btiSave}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
+                        <TextBlock Text="일괄저장" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="35*"/>
+                <ColumnDefinition Width="657*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="10*" />
+                <RowDefinition Height="1.2*" />
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.1*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <CheckBox Grid.Row="1" x:Name="chkAll" Content="전체선택" Margin="5 2 1 1"
+                          Checked="AllCheck_Checked" Unchecked="AllCheck_Unchecked"/>
+            </Grid>
+
+            <DataGrid x:Name="dgdMain" Grid.Row="1" Style="{DynamicResource DataGridSet1}" Grid.ColumnSpan="2" >
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=FontColor}" Value="true">
+                                <Setter Property="Foreground" Value="Blue" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Path=FontColor}" Value="false">
+                                <Setter Property="Foreground" Value="Black" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.RowStyle>
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="선택" Width="auto">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox Click="CHK_Click_Sub">
+                                    <CheckBox.Style>
+                                        <Style TargetType="CheckBox">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Chk,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Value="true">
+                                                    <Setter Property="IsChecked" Value="True"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Chk,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Value="false">
+                                                    <Setter Property="IsChecked" Value="False"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                                            <Setter Property="VerticalAlignment" Value="Center"/>
+                                        </Style>
+                                    </CheckBox.Style>
+                                </CheckBox>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Header="공정">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Process}" Tag="{Binding ProcessID}" TextAlignment="Left"
+                                          VerticalAlignment="Center"  Padding="5 0"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Header="호기">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding MachineNo}" Tag="{Binding MachineID}" TextAlignment="Center"
+                                          VerticalAlignment="Center"  Padding="5 0"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Header="수동 / 자동">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding AutoMCName}" TextAlignment="Center"
+                                          VerticalAlignment="Center"  Padding="5 0"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <Grid Grid.Row="2" Margin="1" Grid.ColumnSpan="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Column="0" Grid.ColumnSpan="3" Margin="1">
+                    <TextBlock x:Name="tblCount" Text="▶선택한 갯수 : " />
+                </Grid>
+
+                <Button x:Name="btnCancel" Grid.Column="5" Margin="1" Content="닫기"
+                    Click="btnCancel_Click"/>
+
+            </Grid>
+
+        </Grid>
+    </Grid>
+</Window>

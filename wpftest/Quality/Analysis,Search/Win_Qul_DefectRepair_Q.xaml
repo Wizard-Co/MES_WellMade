@@ -1,0 +1,2209 @@
+﻿<UserControl x:Class="WizMes_WellMade.Win_Qul_DefectRepair_Q"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WizMes_WellMade"
+             mc:Ignorable="d" Loaded="UserControl_Loaded"
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             d:DesignHeight="620" d:DesignWidth="820">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="44*" />
+            <RowDefinition Height="259*" />
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Background="{DynamicResource WizMes_WellMade}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100*" />
+                <ColumnDefinition Width="160*" />
+                <ColumnDefinition Width="180*" />
+                <ColumnDefinition Width="180*" />
+                <ColumnDefinition Width="200*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="1" Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="65*" />
+                    <ColumnDefinition Width="85*" />
+                </Grid.ColumnDefinitions>
+                <Label x:Name="lblDate" Grid.Column="0" MouseLeftButtonDown="lblDate_MouseLeftButtonDown">
+                    <StackPanel Orientation="Horizontal" Margin="-2">
+                        <Viewbox>
+                            <CheckBox x:Name="chkDate" IsChecked="True" Click="chkDate_Click"/>
+                        </Viewbox>
+                        <TextBlock Text=" 일 자" VerticalAlignment="Center" Margin="-5, 0, 0, 0"/>
+                    </StackPanel>
+                </Label>
+                <DatePicker x:Name="dtpSDate" Grid.Column="1" Padding="0" />
+            </Grid>
+            <Grid Grid.Column="1" Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="65*" />
+                    <ColumnDefinition Width="85*" />
+                </Grid.ColumnDefinitions>
+                <DatePicker x:Name="dtpEDate" Grid.Column="1" Padding="0" />
+            </Grid>
+            <Grid Grid.Column="1" Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="btnLastYear" Grid.Column="0" HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center" Click="btnLastYear_Click">
+                    <TextBlock Margin="-2">전년</TextBlock>
+                </Button>
+                <Button x:Name="btnThisYear" Grid.Column="1" HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center" Click="btnThisYear_Click">
+                    <TextBlock Margin="-2">금년</TextBlock>
+                </Button>
+                <Button x:Name="btnLastSixMonth" Grid.Column="2" HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center" Click="btnLastSixMonth_Click">
+                    <TextBlock Margin="-3">최근6개월</TextBlock>
+                </Button>
+                <Button x:Name="btnThisMonth" Grid.Column="3" HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center" Click="btnThisMonth_Click">
+                    <TextBlock Margin="-2">금월</TextBlock>
+                </Button>
+            </Grid>
+
+            <Grid Grid.Column="2" Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="75*" />
+                    <ColumnDefinition Width="90*" />
+                    <ColumnDefinition Width="15*" />
+                </Grid.ColumnDefinitions>
+                <Label x:Name="lblDefectOccurStep" Grid.Column="0" Style ="{DynamicResource LabelSearch_Q}" >
+                    <StackPanel Style ="{DynamicResource StackPanelInLabel_Q}">
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
+                            <CheckBox x:Name="chkDefectOccurStep" IsChecked="True" IsEnabled="False"
+                                      Checked="chkDefectOccurStep_Checked" Unchecked="chkDefectOccurStep_Unchecked"/>
+                        </Viewbox>
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
+                            <TextBlock Text=" 불량발생단계" Style="{DynamicResource TextBlockInViewBoxSearch_Q}"/>
+                        </Viewbox>
+                    </StackPanel>
+                </Label>
+                <ComboBox x:Name="cboOccurStepSrh" Grid.Column="1" Background="White" IsEnabled="True"/>
+            </Grid>
+            <Grid Grid.Column="2" Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="75*" />
+                    <ColumnDefinition Width="90*" />
+                    <ColumnDefinition Width="15*" />
+                </Grid.ColumnDefinitions>
+                <Label x:Name="lblCustom" Grid.Column="0" MouseLeftButtonUp="lblCustom_MouseLeftButtonUp" Style="{DynamicResource LabelSearch_Q}">
+                    <StackPanel Style="{DynamicResource StackPanelInLabel_Q}">
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
+                            <CheckBox x:Name="chkCustom"
+                                      Checked="chkCustom_Checked" Unchecked="chkCustom_Unchecked"/>
+                        </Viewbox>
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
+                            <TextBlock Text=" 고 객 사" Style="{DynamicResource TextBlockInViewBoxSearch_Q}"/>
+                        </Viewbox>
+                    </StackPanel>
+                </Label>
+                <TextBox x:Name="txtCustom" Grid.Column="1" Background="White"
+                         Keyboard.KeyDown="txtCustom_KeyDown" IsEnabled="False"/>
+                <Button x:Name="btnPfCustom" Grid.Column="2" 
+                        Click="btnPfCustom_Click" IsEnabled="False">
+                    <Image Source="{DynamicResource btiPlusFind}" />
+                </Button>
+            </Grid>
+            <Grid Grid.Column="2" Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="75*" />
+                    <ColumnDefinition Width="90*" />
+                    <ColumnDefinition Width="15*" />
+                </Grid.ColumnDefinitions>
+                <Label x:Name="lblArticle" Grid.Column="0" 
+                       MouseLeftButtonUp="lblArticle_MouseLeftButtonUp" Style="{DynamicResource LabelSearch_Q}">
+                    <StackPanel Style="{DynamicResource StackPanelInLabel_Q}">
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
+                            <CheckBox x:Name="chkArticle"
+                                      Checked="chkArticle_Checked" Unchecked="chkArticle_Unchecked"/>
+                        </Viewbox>
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
+                            <TextBlock Text=" 품     번" Style="{DynamicResource TextBlockInViewBoxSearch_Q}"/>
+                        </Viewbox>
+                    </StackPanel>
+                </Label>
+                <TextBox x:Name="txtArticle" Grid.Column="1" Background="White"
+                         Keyboard.KeyDown="txtArticle_KeyDown" IsEnabled="False"/>
+                <Button x:Name="btnPfArticle" Grid.Column="2" 
+                        Click="btnPfArticle_Click" IsEnabled="False">
+                    <Image Source="{DynamicResource btiPlusFind}" />
+                </Button>
+            </Grid>
+
+            <Grid Grid.Column="2" Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="75*" />
+                    <ColumnDefinition Width="90*" />
+                    <ColumnDefinition Width="15*" />
+                </Grid.ColumnDefinitions>
+                <Label x:Name="lblArticleNo" Grid.Column="0" 
+                       MouseLeftButtonUp="lblArticleNo_MouseLeftButtonUp" Style="{DynamicResource LabelSearch_Q}">
+                    <StackPanel Style="{DynamicResource StackPanelInLabel_Q}">
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
+                            <CheckBox x:Name="chkArticleNo"
+                                      Checked="chkArticleNo_Checked" Unchecked="chkArticleNo_Unchecked"/>
+                        </Viewbox>
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
+                            <TextBlock Text=" 품     명" Style="{DynamicResource TextBlockInViewBoxSearch_Q}"/>
+                        </Viewbox>
+                    </StackPanel>
+                </Label>
+                <TextBox x:Name="txtArticleNo" Grid.Column="1" Background="White"
+                         Keyboard.KeyDown="txtArticleNo_KeyDown" IsEnabled="False"/>
+                <Button x:Name="btnPfArticleNo" Grid.Column="2" 
+                        Click="btnPfArticleNo_Click" IsEnabled="False">
+                    <Image Source="{DynamicResource btiPlusFind}" />
+                </Button>
+            </Grid>
+
+            <Grid Grid.Column="4" Grid.RowSpan="4">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="btnSearch" Grid.Column="2"  Click="btnSearch_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{DynamicResource btiSearch}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Source={StaticResource tblSearch},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="btnClose" Grid.Column="3"  Click="btnClose_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{DynamicResource btiClose}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Source={StaticResource tblClose},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                </Grid>
+                
+                
+                <Grid Grid.Row="1" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>             
+
+                    <Button x:Name="btnPrint" Grid.Column="0" Margin="1" Click="btnPrint_Click"
+                            Visibility="Collapsed">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{DynamicResource btiPrint}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Source={StaticResource tblPrint},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    
+                    <Button x:Name="btnExcel" Grid.Column="4"  Click="btnExcel_Click" >
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{DynamicResource btiExcel}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Source={StaticResource tblExcel},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Image x:Name="ImgImage" Width="820" Height="620" Visibility="Hidden"/>
+                </Grid>
+                
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="1" Grid.RowSpan="2">
+            <UniformGrid Columns="3" Margin="5,0">
+                <FrameworkElement x:Name="c1"/>
+            </UniformGrid>
+            <TabControl x:Name="tabconGrid" Grid.ColumnSpan="3">
+                <TabItem Header="전체" Width="{Binding Path=ActualWidth, ElementName=c1}" Height="25" MouseLeftButtonUp="All_MouseLeftButtonUp">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="9*"/>
+                            <RowDefinition Height="218*"/>
+                            <RowDefinition Height="50"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Column="0" Grid.RowSpan="2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="0.12*"/>
+                                <RowDefinition Height="2*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.8*" />
+                                <ColumnDefinition Width="1.2*" />
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Row="0" Grid.Column="0" Margin="1"
+                                   HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                                <TextBlock Text="불량유형별" />
+                            </Label>
+                            <Button x:Name="btnSymptomGraph" Grid.Row="0" Grid.Column="1" Margin="1"
+                                    Click="btnSymptomGraph_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="※※※ " Foreground="BlueViolet"/>
+                                    <TextBlock Text="유형별 불량 도표보기" />
+                                </StackPanel>
+                            </Button>
+                            <DataGrid x:Name="dgdAllDefectSymptom" Grid.Row="1" Grid.Column="0" 
+                                      Grid.ColumnSpan="2" Style="{DynamicResource DataGridSet1}" >
+                                <DataGrid.RowStyle>
+                                    <Style TargetType="DataGridRow">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=ColorBlue}" Value="true">
+                                                <Setter Property="Background" Value="#365fb1" />
+                                                <Setter Property="Foreground" Value="White" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </DataGrid.RowStyle>
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="" Binding="{Binding Num}"/>
+                                    <DataGridTextColumn Header="불량유형" Binding="{Binding GroupingName}"/>
+                                    <DataGridTextColumn Header="수량" Binding="{Binding DefectQty}" CellStyle="{StaticResource NumericDataGridCell}"/>
+                                    <DataGridTextColumn Header="시정수" Binding="{Binding RepairQty}" CellStyle="{StaticResource NumericDataGridCell}"/>
+                                    <DataGridTextColumn Header="시정률(%)" Binding="{Binding RepairRate}" CellStyle="{StaticResource NumericDataGridCell}"/>
+                                    <DataGridTextColumn Header="점유율(%)" Binding="{Binding RepairRate1}" CellStyle="{StaticResource NumericDataGridCell}"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                        </Grid>
+
+                        <Grid Grid.Column="1" Grid.RowSpan="2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="0.12*"/>
+                                <RowDefinition Height="2*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.8*" />
+                                <ColumnDefinition Width="1.2*" />
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Row="0" Grid.Column="0" Margin="1"
+                                   HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                                <TextBlock Text="불량원인별" />
+                            </Label>
+                            <Button x:Name="btnReasonGraph" Grid.Row="0" Grid.Column="1" Margin="1"
+                                    Click="btnReasonGraph_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="※※※ " Foreground="BlueViolet"/>
+                                    <TextBlock Text="원인별 불량 도표보기" />
+                                </StackPanel>
+                            </Button>
+                            <DataGrid x:Name="dgdAllDefectReason" Grid.Row="1" Grid.Column="0" 
+                                      Grid.ColumnSpan="2"  Style="{DynamicResource DataGridSet1}">
+                                <DataGrid.RowStyle>
+                                    <Style TargetType="DataGridRow">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=ColorBlue}" Value="true">
+                                                <Setter Property="Background" Value="#365fb1" />
+                                                <Setter Property="Foreground" Value="White" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </DataGrid.RowStyle>
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="" Binding="{Binding Num}"/>
+                                    <DataGridTextColumn Header="불량원인" Binding="{Binding GroupingName}"/>
+                                    <DataGridTextColumn Header="수량" Binding="{Binding DefectQty}" CellStyle="{StaticResource NumericDataGridCell}"/>
+                                    <DataGridTextColumn Header="시정수" Binding="{Binding RepairQty}" CellStyle="{StaticResource NumericDataGridCell}"/>
+                                    <DataGridTextColumn Header="시정률(%)" Binding="{Binding RepairRate}" CellStyle="{StaticResource NumericDataGridCell}"/>
+                                    <DataGridTextColumn Header="점유율(%)" Binding="{Binding RepairRate1}" CellStyle="{StaticResource NumericDataGridCell}"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+                        <Grid Grid.Column="2" Grid.RowSpan="2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="0.12*"/>
+                                <RowDefinition Height="2*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.8*" />
+                                <ColumnDefinition Width="1.2*" />
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Row="0" Grid.Column="0" Margin="1"
+                                   HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                                <TextBlock Text="업체별" />
+                            </Label>
+                            <Button x:Name="btnCustomGraph" Grid.Row="0" Grid.Column="1" Margin="1"
+                                    Click="btnCustomGraph_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="※※※ " Foreground="BlueViolet"/>
+                                    <TextBlock Text="업체별 불량 도표보기" />
+                                </StackPanel>
+                            </Button>
+                            <DataGrid x:Name="dgdAllDefectCustom" Grid.Row="1" Grid.Column="0" 
+                                      Grid.ColumnSpan="2" Style="{DynamicResource DataGridSet1}">
+                                <DataGrid.RowStyle>
+                                    <Style TargetType="DataGridRow">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=ColorBlue}" Value="true">
+                                                <Setter Property="Background" Value="#365fb1" />
+                                                <Setter Property="Foreground" Value="White" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </DataGrid.RowStyle>
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="" Binding="{Binding Num}"/>
+                                    <DataGridTextColumn Header="업체명" Binding="{Binding GroupingName}"/>
+                                    <DataGridTextColumn Header="수량" Binding="{Binding DefectQty}" CellStyle="{StaticResource NumericDataGridCell}"/>
+                                    <DataGridTextColumn Header="시정수" Binding="{Binding RepairQty}" CellStyle="{StaticResource NumericDataGridCell}"/>
+                                    <DataGridTextColumn Header="시정률(%)" Binding="{Binding RepairRate}" CellStyle="{StaticResource NumericDataGridCell}"/>
+                                    <DataGridTextColumn Header="점유율(%)" Binding="{Binding RepairRate1}" CellStyle="{StaticResource NumericDataGridCell}"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+                        
+                        <DataGrid x:Name="dgdTotal" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Style="{DynamicResource DataGridSet1}" >
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="" Binding="{Binding GroupingName}" Width="50" CellStyle="{StaticResource DataGridCellAndCentering}" ElementStyle="{DynamicResource DataGridCellCenter}" />
+                                <DataGridTextColumn Header="수량" Binding="{Binding DefectQty}" CellStyle="{StaticResource NumericDataGridCell}" Width="*" ElementStyle="{DynamicResource DataGridCellCenter}"/>
+                                <DataGridTextColumn Header="시정수" Binding="{Binding RepairQty}" CellStyle="{StaticResource NumericDataGridCell}" Width="*" ElementStyle="{DynamicResource DataGridCellCenter}"/>
+                                <DataGridTextColumn Header="시정률(%)" Binding="{Binding RepairRate}" CellStyle="{StaticResource NumericDataGridCell}" Width="*" ElementStyle="{DynamicResource DataGridCellCenter}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                    </Grid>
+
+                </TabItem>
+                <TabItem x:Name="TabItemTab" Header="일별" Width="{Binding Path=ActualWidth, ElementName=c1}" Height="25" MouseLeftButtonUp="TabItem_MouseLeftButtonUp">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1.5*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1.3*" />
+                                <RowDefinition Height="1.2*" />
+                            </Grid.RowDefinitions>
+                            <lvc:CartesianChart x:Name="lvcDayChart" Grid.Row="0" Margin="1" Series="{Binding SeriesCollection}">
+                            </lvc:CartesianChart>
+
+                            <Border Grid.Row="1" Margin="1">
+                                <DataGrid x:Name="dgdDefectRepairDaily" Style="{DynamicResource DataGridSet1}" >
+                                    <DataGrid.Columns>
+                                        <DataGridTemplateColumn Header="순" >
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                        </Grid.RowDefinitions>
+                                                        <TextBlock Grid.Row="0" Text="{Binding Num1}" Margin="3"
+                                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="1" Stroke="Black" StrokeThickness="2" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="2" Text="{Binding Num2}" Margin="3"
+                                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="3" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="4" Text="{Binding Num3}" Margin="3"
+                                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="5" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="6" Text="{Binding Num4}" Margin="3"
+                                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn Header="구분" >
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                        </Grid.RowDefinitions>
+                                                        <TextBlock Grid.Row="0" Text="{Binding strGubun1}" Margin="3"
+                                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="1" Stroke="Black" StrokeThickness="2" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="2" Text="{Binding strGubun2}" Margin="3"
+                                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="3" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="4" Text="{Binding strGubun3}" Margin="3"
+                                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="5" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="6" Text="{Binding strGubun4}" Margin="3"
+                                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn x:Name="dgdtpeDate01" Header="1일" >
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                        </Grid.RowDefinitions>
+                                                        <TextBlock Grid.Row="0" Text="{Binding ProdQty1}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center" />
+                                                        <Line Grid.Row="1" Stroke="Black" StrokeThickness="2" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="2" Text="{Binding DefectQty1}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="3" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="4" Text="{Binding RepairQty1}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="5" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="6" Text="{Binding RepairRate1}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn x:Name="dgdtpeDate02" Header="2일" >
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                        </Grid.RowDefinitions>
+                                                        <TextBlock Grid.Row="0" Text="{Binding ProdQty2}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="1" Stroke="Black" StrokeThickness="2" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="2" Text="{Binding DefectQty2}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="3" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="4" Text="{Binding RepairQty2}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="5" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="6" Text="{Binding RepairRate2}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn x:Name="dgdtpeDate03" Header="3일" >
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                        </Grid.RowDefinitions>
+                                                        <TextBlock Grid.Row="0" Text="{Binding ProdQty3}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="1" Stroke="Black" StrokeThickness="2" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="2" Text="{Binding DefectQty3}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="3" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="4" Text="{Binding RepairQty3}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="5" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="6" Text="{Binding RepairRate3}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn x:Name="dgdtpeDate04" Header="4일" >
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                        </Grid.RowDefinitions>
+                                                        <TextBlock Grid.Row="0" Text="{Binding ProdQty4}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="1" Stroke="Black" StrokeThickness="2" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="2" Text="{Binding DefectQty4}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="3" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="4" Text="{Binding RepairQty4}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="5" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="6" Text="{Binding RepairRate4}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn x:Name="dgdtpeDate05" Header="5일" >
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                        </Grid.RowDefinitions>
+                                                        <TextBlock Grid.Row="0" Text="{Binding ProdQty5}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="1" Stroke="Black" StrokeThickness="2" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="2" Text="{Binding DefectQty5}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="3" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="4" Text="{Binding RepairQty5}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="5" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="6" Text="{Binding RepairRate5}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn x:Name="dgdtpeDate06" Header="6일" >
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                        </Grid.RowDefinitions>
+                                                        <TextBlock Grid.Row="0" Text="{Binding ProdQty6}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="1" Stroke="Black" StrokeThickness="2" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="2" Text="{Binding DefectQty6}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="3" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="4" Text="{Binding RepairQty6}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="5" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="6" Text="{Binding RepairRate6}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn x:Name="dgdtpeDate07" Header="7일" >
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                        </Grid.RowDefinitions>
+                                                        <TextBlock Grid.Row="0" Text="{Binding ProdQty7}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="1" Stroke="Black" StrokeThickness="2" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="2" Text="{Binding DefectQty7}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="3" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="4" Text="{Binding RepairQty7}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="5" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="6" Text="{Binding RepairRate7}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn x:Name="dgdtpeDate08" Header="8일" >
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                        </Grid.RowDefinitions>
+                                                        <TextBlock Grid.Row="0" Text="{Binding ProdQty8}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="1" Stroke="Black" StrokeThickness="2" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="2" Text="{Binding DefectQty8}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="3" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="4" Text="{Binding RepairQty8}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="5" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="6" Text="{Binding RepairRate8}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn x:Name="dgdtpeDate09" Header="9일" >
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                        </Grid.RowDefinitions>
+                                                        <TextBlock Grid.Row="0" Text="{Binding ProdQty9}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="1" Stroke="Black" StrokeThickness="2" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="2" Text="{Binding DefectQty9}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="3" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="4" Text="{Binding RepairQty9}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="5" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="6" Text="{Binding RepairRate9}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn x:Name="dgdtpeDate10" Header="10일" >
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                        </Grid.RowDefinitions>
+                                                        <TextBlock Grid.Row="0" Text="{Binding ProdQty10}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="1" Stroke="Black" StrokeThickness="2" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="2" Text="{Binding DefectQty10}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="3" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="4" Text="{Binding RepairQty10}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="5" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="6" Text="{Binding RepairRate10}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn x:Name="dgdtpeDate11" Header="11일" >
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                        </Grid.RowDefinitions>
+                                                        <TextBlock Grid.Row="0" Text="{Binding ProdQty11}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="1" Stroke="Black" StrokeThickness="2" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="2" Text="{Binding DefectQty11}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="3" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="4" Text="{Binding RepairQty11}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="5" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="6" Text="{Binding RepairRate11}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn x:Name="dgdtpeDate12" Header="12일" >
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                        </Grid.RowDefinitions>
+                                                        <TextBlock Grid.Row="0" Text="{Binding ProdQty12}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="1" Stroke="Black" StrokeThickness="2" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="2" Text="{Binding DefectQty12}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="3" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="4" Text="{Binding RepairQty12}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="5" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="6" Text="{Binding RepairRate12}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn x:Name="dgdtpeDate13" Header="13일" >
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                        </Grid.RowDefinitions>
+                                                        <TextBlock Grid.Row="0" Text="{Binding ProdQty13}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="1" Stroke="Black" StrokeThickness="2" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="2" Text="{Binding DefectQty13}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="3" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="4" Text="{Binding RepairQty13}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="5" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="6" Text="{Binding RepairRate13}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn x:Name="dgdtpeDate14" Header="14일" >
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                        </Grid.RowDefinitions>
+                                                        <TextBlock Grid.Row="0" Text="{Binding ProdQty14}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="1" Stroke="Black" StrokeThickness="2" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="2" Text="{Binding DefectQty14}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="3" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="4" Text="{Binding RepairQty14}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="5" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="6" Text="{Binding RepairRate14}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn x:Name="dgdtpeDate15" Header="15일" >
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                        </Grid.RowDefinitions>
+                                                        <TextBlock Grid.Row="0" Text="{Binding ProdQty15}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="1" Stroke="Black" StrokeThickness="2" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="2" Text="{Binding DefectQty15}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="3" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="4" Text="{Binding RepairQty15}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="5" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="6" Text="{Binding RepairRate15}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn x:Name="dgdtpeDate16" Header="16일" >
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                        </Grid.RowDefinitions>
+                                                        <TextBlock Grid.Row="0" Text="{Binding ProdQty16}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="1" Stroke="Black" StrokeThickness="2" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="2" Text="{Binding DefectQty16}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="3" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="4" Text="{Binding RepairQty16}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="5" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="6" Text="{Binding RepairRate16}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn x:Name="dgdtpeDate17" Header="17일" >
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                        </Grid.RowDefinitions>
+                                                        <TextBlock Grid.Row="0" Text="{Binding ProdQty17}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="1" Stroke="Black" StrokeThickness="2" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="2" Text="{Binding DefectQty17}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="3" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="4" Text="{Binding RepairQty17}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="5" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="6" Text="{Binding RepairRate17}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn x:Name="dgdtpeDate18" Header="18일" >
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                        </Grid.RowDefinitions>
+                                                        <TextBlock Grid.Row="0" Text="{Binding ProdQty18}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="1" Stroke="Black" StrokeThickness="2" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="2" Text="{Binding DefectQty18}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="3" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="4" Text="{Binding RepairQty18}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="5" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="6" Text="{Binding RepairRate18}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn x:Name="dgdtpeDate19" Header="19일" >
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                        </Grid.RowDefinitions>
+                                                        <TextBlock Grid.Row="0" Text="{Binding ProdQty19}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="1" Stroke="Black" StrokeThickness="2" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="2" Text="{Binding DefectQty19}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="3" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="4" Text="{Binding RepairQty19}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="5" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="6" Text="{Binding RepairRate19}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn x:Name="dgdtpeDate20" Header="20일" >
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                        </Grid.RowDefinitions>
+                                                        <TextBlock Grid.Row="0" Text="{Binding ProdQty20}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="1" Stroke="Black" StrokeThickness="2" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="2" Text="{Binding DefectQty20}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="3" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="4" Text="{Binding RepairQty20}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="5" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="6" Text="{Binding RepairRate20}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn x:Name="dgdtpeDate21" Header="21일" >
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                        </Grid.RowDefinitions>
+                                                        <TextBlock Grid.Row="0" Text="{Binding ProdQty21}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="1" Stroke="Black" StrokeThickness="2" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="2" Text="{Binding DefectQty21}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="3" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="4" Text="{Binding RepairQty21}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="5" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="6" Text="{Binding RepairRate21}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn x:Name="dgdtpeDate22" Header="22일" >
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                        </Grid.RowDefinitions>
+                                                        <TextBlock Grid.Row="0" Text="{Binding ProdQty22}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="1" Stroke="Black" StrokeThickness="2" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="2" Text="{Binding DefectQty22}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="3" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="4" Text="{Binding RepairQty22}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="5" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="6" Text="{Binding RepairRate22}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn x:Name="dgdtpeDate23" Header="23일" >
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                        </Grid.RowDefinitions>
+                                                        <TextBlock Grid.Row="0" Text="{Binding ProdQty23}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="1" Stroke="Black" StrokeThickness="2" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="2" Text="{Binding DefectQty23}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="3" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="4" Text="{Binding RepairQty23}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="5" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="6" Text="{Binding RepairRate23}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn x:Name="dgdtpeDate24" Header="24일" >
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                        </Grid.RowDefinitions>
+                                                        <TextBlock Grid.Row="0" Text="{Binding ProdQty24}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="1" Stroke="Black" StrokeThickness="2" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="2" Text="{Binding DefectQty24}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="3" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="4" Text="{Binding RepairQty24}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="5" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="6" Text="{Binding RepairRate24}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn x:Name="dgdtpeDate25" Header="25일" >
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                        </Grid.RowDefinitions>
+                                                        <TextBlock Grid.Row="0" Text="{Binding ProdQty25}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="1" Stroke="Black" StrokeThickness="2" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="2" Text="{Binding DefectQty25}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="3" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="4" Text="{Binding RepairQty25}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="5" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="6" Text="{Binding RepairRate25}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn x:Name="dgdtpeDate26" Header="26일" >
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                        </Grid.RowDefinitions>
+                                                        <TextBlock Grid.Row="0" Text="{Binding ProdQty26}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="1" Stroke="Black" StrokeThickness="2" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="2" Text="{Binding DefectQty26}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="3" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="4" Text="{Binding RepairQty26}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="5" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="6" Text="{Binding RepairRate26}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn x:Name="dgdtpeDate27" Header="27일" >
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                        </Grid.RowDefinitions>
+                                                        <TextBlock Grid.Row="0" Text="{Binding ProdQty27}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="1" Stroke="Black" StrokeThickness="2" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="2" Text="{Binding DefectQty27}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="3" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="4" Text="{Binding RepairQty27}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="5" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="6" Text="{Binding RepairRate27}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn x:Name="dgdtpeDate28" Header="28일" >
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                        </Grid.RowDefinitions>
+                                                        <TextBlock Grid.Row="0" Text="{Binding ProdQty28}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="1" Stroke="Black" StrokeThickness="2" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="2" Text="{Binding DefectQty28}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="3" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="4" Text="{Binding RepairQty28}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="5" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="6" Text="{Binding RepairRate28}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn x:Name="dgdtpeDate29" Header="29일" >
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                        </Grid.RowDefinitions>
+                                                        <TextBlock Grid.Row="0" Text="{Binding ProdQty29}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="1" Stroke="Black" StrokeThickness="2" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="2" Text="{Binding DefectQty29}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="3" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="4" Text="{Binding RepairQty29}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="5" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="6" Text="{Binding RepairRate29}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn x:Name="dgdtpeDate30" Header="30일" >
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                        </Grid.RowDefinitions>
+                                                        <TextBlock Grid.Row="0" Text="{Binding ProdQty30}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="1" Stroke="Black" StrokeThickness="2" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="2" Text="{Binding DefectQty30}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="3" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="4" Text="{Binding RepairQty30}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="5" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="6" Text="{Binding RepairRate30}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn x:Name="dgdtpeDate31" Header="31일" >
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                        </Grid.RowDefinitions>
+                                                        <TextBlock Grid.Row="0" Text="{Binding ProdQty31}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="1" Stroke="Black" StrokeThickness="2" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="2" Text="{Binding DefectQty31}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="3" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="4" Text="{Binding RepairQty31}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="5" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="6" Text="{Binding RepairRate31}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <!--일평균 계산 이상해.. hidden-->
+                                        <DataGridTemplateColumn x:Name="dgdtpeAvgDaily" Header="일평균" Visibility="Hidden" >
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                        </Grid.RowDefinitions>
+                                                        <TextBlock Grid.Row="0" Text="{Binding AvgProdQty}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="1" Stroke="Black" StrokeThickness="2" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="2" Text="{Binding AvgDefectQty}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="3" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="4" Text="{Binding AvgRepairQty}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="5" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="6" Text="{Binding AvgRepairRate}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn x:Name="dgdtpeSum" Header="합계" >
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                            <RowDefinition Height="auto"/>
+                                                        </Grid.RowDefinitions>
+                                                        <TextBlock Grid.Row="0" Text="{Binding TProdQty}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="1" Stroke="Black" StrokeThickness="2" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="2" Text="{Binding TDefectQty}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="3" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="4" Text="{Binding TRepairQty}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                        <Line Grid.Row="5" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                        <TextBlock Grid.Row="6" Text="{Binding TRepairRate}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </Border>
+
+                        </Grid>
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="0.15*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="0.15*"/>
+                            </Grid.RowDefinitions>
+                            <StackPanel Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Orientation="Horizontal">
+                                <TextBlock Text="●" Foreground="Red"/>
+                                <TextBlock x:Name="tbkLabel1" Grid.Row="0" Grid.Column="0" Text="불량유형별" Margin="1"/>
+                            </StackPanel>
+
+                            <DataGrid x:Name="dgdDailyDefectSymptom" Grid.Row="1" Grid.Column="0" Style="{DynamicResource DataGridSet1}">
+                                <DataGrid.RowStyle>
+                                    <Style TargetType="DataGridRow">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=ColorBlue}" Value="true">
+                                                <Setter Property="Background" Value="#365fb1" />
+                                                <Setter Property="Foreground" Value="White" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </DataGrid.RowStyle>
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="" Binding="{Binding Num}"/>
+                                    <DataGridTextColumn Header="일자" Binding="{Binding InspectDate}"/>
+                                    <DataGridTextColumn Header="유형" Binding="{Binding GroupingName}"/>
+                                    <DataGridTextColumn Header="불량수" Binding="{Binding DefectQty}" CellStyle="{StaticResource NumericDataGridCell}"/>
+                                    <DataGridTextColumn Header="시정수" Binding="{Binding RepairQty}" CellStyle="{StaticResource NumericDataGridCell}"/>
+                                    <DataGridTextColumn Header="시정률(%)" Binding="{Binding RepairRate}" CellStyle="{StaticResource NumericDataGridCell}"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                            <StackPanel Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Orientation="Horizontal">
+                                <TextBlock Text="●" Foreground="Orange"/>
+                                <TextBlock x:Name="tbkLabel2" Grid.Row="0" Grid.Column="0" Text="불량원인별" Margin="1"/>
+                            </StackPanel>
+                            <DataGrid x:Name="dgdDailyDefectReason" Grid.Row="1" Grid.Column="1" Style="{DynamicResource DataGridSet1}" >
+                                <DataGrid.RowStyle>
+                                    <Style TargetType="DataGridRow">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=ColorBlue}" Value="true">
+                                                <Setter Property="Background" Value="#365fb1" />
+                                                <Setter Property="Foreground" Value="White" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </DataGrid.RowStyle>
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="" Binding="{Binding Num}"/>
+                                    <DataGridTextColumn Header="일자" Binding="{Binding InspectDate}"/>
+                                    <DataGridTextColumn Header="원인" Binding="{Binding GroupingName}"/>
+                                    <DataGridTextColumn Header="불량수" Binding="{Binding DefectQty}" CellStyle="{StaticResource NumericDataGridCell}"/>
+                                    <DataGridTextColumn Header="시정수" Binding="{Binding RepairQty}" CellStyle="{StaticResource NumericDataGridCell}"/>
+                                    <DataGridTextColumn Header="시정률(%)" Binding="{Binding RepairRate}" CellStyle="{StaticResource NumericDataGridCell}"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                            <StackPanel Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" Orientation="Horizontal">
+                                <TextBlock Text="●" Foreground="LightGreen"/>
+                                <TextBlock x:Name="tbkLabel3" Grid.Row="0" Grid.Column="0" Text="업체별" Margin="1"/>
+                            </StackPanel>
+                            <DataGrid x:Name="dgdDailyDefectCustom" Grid.Row="1" Grid.Column="2" Style="{DynamicResource DataGridSet1}" >
+                                <DataGrid.RowStyle>
+                                    <Style TargetType="DataGridRow">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=ColorBlue}" Value="true">
+                                                <Setter Property="Background" Value="#365fb1" />
+                                                <Setter Property="Foreground" Value="White" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </DataGrid.RowStyle>
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="" Binding="{Binding Num}"/>
+                                    <DataGridTextColumn Header="일자" Binding="{Binding InspectDate}"/>
+                                    <DataGridTextColumn Header="업체명" Binding="{Binding GroupingName}"/>
+                                    <DataGridTextColumn Header="불량수" Binding="{Binding DefectQty}" CellStyle="{StaticResource NumericDataGridCell}"/>
+                                    <DataGridTextColumn Header="시정수" Binding="{Binding RepairQty}" CellStyle="{StaticResource NumericDataGridCell}"/>
+                                    <DataGridTextColumn Header="시정률(%)" Binding="{Binding RepairRate}" CellStyle="{StaticResource NumericDataGridCell}"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            <DataGrid x:Name="dgdTotal2" Grid.Row="2" Grid.ColumnSpan="6"  Style="{DynamicResource DataGridSet1}" >
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="" Binding="{Binding GroupingName}"  CellStyle="{StaticResource DataGridCellAndCentering}" Width="50"/>
+                                    <DataGridTextColumn Header="불량수" Binding="{Binding DefectQty}" CellStyle="{StaticResource NumericDataGridCell}" Width="*"/>
+                                    <DataGridTextColumn Header="시정수" Binding="{Binding RepairQty}" CellStyle="{StaticResource NumericDataGridCell}" Width="*"/>
+                                    <DataGridTextColumn Header="시정률(%)" Binding="{Binding RepairRate}" CellStyle="{StaticResource NumericDataGridCell}" Width="*"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            <TextBlock Grid.Row="3" Grid.ColumnSpan="6" Margin="1" Foreground="Blue"  Background="#F0F0F0"
+                                       Text="※ 선택된 시작 월의 일별 불량 시정 조회" />
+                        </Grid>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="월별" Width="{Binding Path=ActualWidth, ElementName=c1}" Height="25" MouseLeftButtonUp="Month_TabItem_MouseLeftButtonUp">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="50"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1.4*" />
+                                <RowDefinition Height="1.1*" />
+                            </Grid.RowDefinitions>
+                            <lvc:CartesianChart x:Name="lvcMonthChart" Grid.Row="0" Margin="1" Series="{Binding SeriesCollection}">
+                            </lvc:CartesianChart>
+
+                            <DataGrid x:Name="dgdDefectRepairMonth" Grid.Row="1" Style="{DynamicResource DataGridSet1}">
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn Header="순" >
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                    </Grid.RowDefinitions>
+                                                    <TextBlock Grid.Row="0" Text="{Binding Num1}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    <Line Grid.Row="1" Stroke="Black" StrokeThickness="2" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                    <TextBlock Grid.Row="2" Text="{Binding Num2}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    <Line Grid.Row="3" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                    <TextBlock Grid.Row="4" Text="{Binding Num3}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    <Line Grid.Row="5" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                    <TextBlock Grid.Row="6" Text="{Binding Num4}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="구분" >
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                    </Grid.RowDefinitions>
+                                                    <TextBlock Grid.Row="0" Text="{Binding strGubun1}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    <Line Grid.Row="1" Stroke="Black" StrokeThickness="2" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                    <TextBlock Grid.Row="2" Text="{Binding strGubun2}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    <Line Grid.Row="3" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                    <TextBlock Grid.Row="4" Text="{Binding strGubun3}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    <Line Grid.Row="5" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                    <TextBlock Grid.Row="6" Text="{Binding strGubun4}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn x:Name="dgdtpeMonth01" Header="1월" >
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                    </Grid.RowDefinitions>
+                                                    <TextBlock Grid.Row="0" Text="{Binding ProdQty1}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    <Line Grid.Row="1" Stroke="Black" StrokeThickness="2" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                    <TextBlock Grid.Row="2" Text="{Binding DefectQty1}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    <Line Grid.Row="3" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                    <TextBlock Grid.Row="4" Text="{Binding RepairQty1}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    <Line Grid.Row="5" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                    <TextBlock Grid.Row="6" Text="{Binding RepairRate1}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn x:Name="dgdtpeMonth02" Header="2월" >
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                    </Grid.RowDefinitions>
+                                                    <TextBlock Grid.Row="0" Text="{Binding ProdQty2}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    <Line Grid.Row="1" Stroke="Black" StrokeThickness="2" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                    <TextBlock Grid.Row="2" Text="{Binding DefectQty2}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    <Line Grid.Row="3" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                    <TextBlock Grid.Row="4" Text="{Binding RepairQty2}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    <Line Grid.Row="5" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                    <TextBlock Grid.Row="6" Text="{Binding RepairRate2}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn x:Name="dgdtpeMonth03" Header="3월" >
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                    </Grid.RowDefinitions>
+                                                    <TextBlock Grid.Row="0" Text="{Binding ProdQty3}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    <Line Grid.Row="1" Stroke="Black" StrokeThickness="2" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                    <TextBlock Grid.Row="2" Text="{Binding DefectQty3}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    <Line Grid.Row="3" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                    <TextBlock Grid.Row="4" Text="{Binding RepairQty3}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    <Line Grid.Row="5" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                    <TextBlock Grid.Row="6" Text="{Binding RepairRate3}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn x:Name="dgdtpeMonth04" Header="4월" >
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                    </Grid.RowDefinitions>
+                                                    <TextBlock Grid.Row="0" Text="{Binding ProdQty4}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    <Line Grid.Row="1" Stroke="Black" StrokeThickness="2" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                    <TextBlock Grid.Row="2" Text="{Binding DefectQty4}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    <Line Grid.Row="3" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                    <TextBlock Grid.Row="4" Text="{Binding RepairQty4}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    <Line Grid.Row="5" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                    <TextBlock Grid.Row="6" Text="{Binding RepairRate4}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn x:Name="dgdtpeMonth05" Header="5월" >
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                    </Grid.RowDefinitions>
+                                                    <TextBlock Grid.Row="0" Text="{Binding ProdQty5}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    <Line Grid.Row="1" Stroke="Black" StrokeThickness="2" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                    <TextBlock Grid.Row="2" Text="{Binding DefectQty5}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    <Line Grid.Row="3" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                    <TextBlock Grid.Row="4" Text="{Binding RepairQty5}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    <Line Grid.Row="5" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                    <TextBlock Grid.Row="6" Text="{Binding RepairRate5}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn x:Name="dgdtpeMonth06" Header="6월" >
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                    </Grid.RowDefinitions>
+                                                    <TextBlock Grid.Row="0" Text="{Binding ProdQty6}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    <Line Grid.Row="1" Stroke="Black" StrokeThickness="2" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                    <TextBlock Grid.Row="2" Text="{Binding DefectQty6}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    <Line Grid.Row="3" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                    <TextBlock Grid.Row="4" Text="{Binding RepairQty6}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    <Line Grid.Row="5" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                    <TextBlock Grid.Row="6" Text="{Binding RepairRate6}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn x:Name="dgdtpeMonth07" Header="7월" >
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                    </Grid.RowDefinitions>
+                                                    <TextBlock Grid.Row="0" Text="{Binding ProdQty7}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    <Line Grid.Row="1" Stroke="Black" StrokeThickness="2" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                    <TextBlock Grid.Row="2" Text="{Binding DefectQty7}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    <Line Grid.Row="3" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                    <TextBlock Grid.Row="4" Text="{Binding RepairQty7}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    <Line Grid.Row="5" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                    <TextBlock Grid.Row="6" Text="{Binding RepairRate7}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn x:Name="dgdtpeMonth08" Header="8월" >
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                    </Grid.RowDefinitions>
+                                                    <TextBlock Grid.Row="0" Text="{Binding ProdQty8}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    <Line Grid.Row="1" Stroke="Black" StrokeThickness="2" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                    <TextBlock Grid.Row="2" Text="{Binding DefectQty8}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    <Line Grid.Row="3" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                    <TextBlock Grid.Row="4" Text="{Binding RepairQty8}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    <Line Grid.Row="5" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                    <TextBlock Grid.Row="6" Text="{Binding RepairRate8}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn x:Name="dgdtpeMonth09" Header="9월" >
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                    </Grid.RowDefinitions>
+                                                    <TextBlock Grid.Row="0" Text="{Binding ProdQty9}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    <Line Grid.Row="1" Stroke="Black" StrokeThickness="2" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                    <TextBlock Grid.Row="2" Text="{Binding DefectQty9}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    <Line Grid.Row="3" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                    <TextBlock Grid.Row="4" Text="{Binding RepairQty9}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    <Line Grid.Row="5" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                    <TextBlock Grid.Row="6" Text="{Binding RepairRate9}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn x:Name="dgdtpeMonth10" Header="10월" >
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                    </Grid.RowDefinitions>
+                                                    <TextBlock Grid.Row="0" Text="{Binding ProdQty10}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    <Line Grid.Row="1" Stroke="Black" StrokeThickness="2" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                    <TextBlock Grid.Row="2" Text="{Binding DefectQty10}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    <Line Grid.Row="3" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                    <TextBlock Grid.Row="4" Text="{Binding RepairQty10}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    <Line Grid.Row="5" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                    <TextBlock Grid.Row="6" Text="{Binding RepairRate10}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn x:Name="dgdtpeMonth11" Header="11월" >
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                    </Grid.RowDefinitions>
+                                                    <TextBlock Grid.Row="0" Text="{Binding ProdQty11}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    <Line Grid.Row="1" Stroke="Black" StrokeThickness="2" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                    <TextBlock Grid.Row="2" Text="{Binding DefectQty11}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    <Line Grid.Row="3" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                    <TextBlock Grid.Row="4" Text="{Binding RepairQty11}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    <Line Grid.Row="5" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                    <TextBlock Grid.Row="6" Text="{Binding RepairRate11}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn x:Name="dgdtpeMonth12" Header="12월" >
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                    </Grid.RowDefinitions>
+                                                    <TextBlock Grid.Row="0" Text="{Binding ProdQty12}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    <Line Grid.Row="1" Stroke="Black" StrokeThickness="2" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                    <TextBlock Grid.Row="2" Text="{Binding DefectQty12}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    <Line Grid.Row="3" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                    <TextBlock Grid.Row="4" Text="{Binding RepairQty12}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    <Line Grid.Row="5" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                    <TextBlock Grid.Row="6" Text="{Binding RepairRate12}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn x:Name="dgdtpeAvgMonth" Header="일평균" >
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                    </Grid.RowDefinitions>
+                                                    <TextBlock Grid.Row="0" Text="{Binding AvgProdQty}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    <Line Grid.Row="1" Stroke="Black" StrokeThickness="2" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                    <TextBlock Grid.Row="2" Text="{Binding AvgDefectQty}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    <Line Grid.Row="3" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                    <TextBlock Grid.Row="4" Text="{Binding AvgRepairQty}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    <Line Grid.Row="5" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                    <TextBlock Grid.Row="6" Text="{Binding AvgRepairRate}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn x:Name="dgdtpeSumMonth" Header="합계" >
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                    </Grid.RowDefinitions>
+                                                    <TextBlock Grid.Row="0" Text="{Binding TProdQty}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    <Line Grid.Row="1" Stroke="Black" StrokeThickness="2" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                    <TextBlock Grid.Row="2" Text="{Binding TDefectQty}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    <Line Grid.Row="3" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                    <TextBlock Grid.Row="4" Text="{Binding TRepairQty}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                    <Line Grid.Row="5" Stroke="Black" StrokeThickness="1" 
+                                                          Stretch="Fill" VerticalAlignment="Center" X2="1"/>
+                                                    <TextBlock Grid.Row="6" Text="{Binding TRepairRate}" Margin="3"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="0.12*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <StackPanel Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Orientation="Horizontal">
+                                <TextBlock Text="●" Foreground="Red"/>
+                                <TextBlock x:Name="tbkLabels1" Grid.Row="0" Grid.Column="0" Text="불량유형별" Margin="1"/>
+                            </StackPanel>
+
+                            <DataGrid x:Name="dgdMonthDefectSymptom" Grid.Row="1" Grid.Column="0" Style="{DynamicResource DataGridSet1}">
+                                <DataGrid.RowStyle>
+                                    <Style TargetType="DataGridRow">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=ColorBlue}" Value="true">
+                                                <Setter Property="Background" Value="#365fb1" />
+                                                <Setter Property="Foreground" Value="White" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </DataGrid.RowStyle>
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="" Binding="{Binding Num}"/>
+                                    <DataGridTextColumn Header="월" Binding="{Binding InspectMonth}"/>
+                                    <DataGridTextColumn Header="유형" Binding="{Binding GroupingName}"/>
+                                    <DataGridTextColumn Header="불량수" Binding="{Binding DefectQty}" CellStyle="{StaticResource NumericDataGridCell}"/>
+                                    <DataGridTextColumn Header="시정수" Binding="{Binding RepairQty}" CellStyle="{StaticResource NumericDataGridCell}"/>
+                                    <DataGridTextColumn Header="시정률(%)" Binding="{Binding RepairRate}" CellStyle="{StaticResource NumericDataGridCell}"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                            <StackPanel Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Orientation="Horizontal">
+                                <TextBlock Text="●" Foreground="Orange"/>
+                                <TextBlock x:Name="tbkLabels2" Grid.Row="0" Grid.Column="0" Text="불량원인별" Margin="1"/>
+                            </StackPanel>
+                            <DataGrid x:Name="dgdMonthDefectReason" Grid.Row="1" Grid.Column="1" Style="{DynamicResource DataGridSet1}" >
+                                <DataGrid.RowStyle>
+                                    <Style TargetType="DataGridRow">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=ColorBlue}" Value="true">
+                                                <Setter Property="Background" Value="#365fb1" />
+                                                <Setter Property="Foreground" Value="White" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </DataGrid.RowStyle>
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="" Binding="{Binding Num}"/>
+                                    <DataGridTextColumn Header="월" Binding="{Binding InspectMonth}"/>
+                                    <DataGridTextColumn Header="원인" Binding="{Binding GroupingName}"/>
+                                    <DataGridTextColumn Header="불량수" Binding="{Binding DefectQty}" CellStyle="{StaticResource NumericDataGridCell}"/>
+                                    <DataGridTextColumn Header="시정수" Binding="{Binding RepairQty}" CellStyle="{StaticResource NumericDataGridCell}"/>
+                                    <DataGridTextColumn Header="시정률(%)" Binding="{Binding RepairRate}" CellStyle="{StaticResource NumericDataGridCell}"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                            <StackPanel Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" Orientation="Horizontal">
+                                <TextBlock Text="●" Foreground="LightGreen"/>
+                                <TextBlock x:Name="tbkLabels3" Grid.Row="0" Grid.Column="0" Text="업체별" Margin="1"/>
+                            </StackPanel>
+                            <DataGrid x:Name="dgdMonthDefectCustom" Grid.Row="1" Grid.Column="2" Style="{DynamicResource DataGridSet1}">
+                                <DataGrid.RowStyle>
+                                    <Style TargetType="DataGridRow">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=ColorBlue}" Value="true">
+                                                <Setter Property="Background" Value="#365fb1" />
+                                                <Setter Property="Foreground" Value="White" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </DataGrid.RowStyle>
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="" Binding="{Binding Num}"/>
+                                    <DataGridTextColumn Header="월" Binding="{Binding InspectMonth}"/>
+                                    <DataGridTextColumn Header="업체명" Binding="{Binding GroupingName}"/>
+                                    <DataGridTextColumn Header="불량수" Binding="{Binding DefectQty}" CellStyle="{StaticResource NumericDataGridCell}"/>
+                                    <DataGridTextColumn Header="시정수" Binding="{Binding RepairQty}" CellStyle="{StaticResource NumericDataGridCell}"/>
+                                    <DataGridTextColumn Header="시정률(%)" Binding="{Binding RepairRate}" CellStyle="{StaticResource NumericDataGridCell}"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+                        <DataGrid x:Name="dgdTotal3" Grid.Row="2" Grid.ColumnSpan="6"  Style="{DynamicResource DataGridSet1}" >
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="" Binding="{Binding GroupingName}" CellStyle="{StaticResource DataGridCellAndCentering}" Width="50"/>
+                                <DataGridTextColumn Header="불량수" Binding="{Binding DefectQty}" CellStyle="{StaticResource NumericDataGridCell}" Width="*"/>
+                                <DataGridTextColumn Header="시정수" Binding="{Binding RepairQty}" CellStyle="{StaticResource NumericDataGridCell}" Width="*"/>
+                                <DataGridTextColumn Header="시정률(%)" Binding="{Binding RepairRate}" CellStyle="{StaticResource NumericDataGridCell}" Width="*"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+        </Grid>
+    </Grid>
+</UserControl>

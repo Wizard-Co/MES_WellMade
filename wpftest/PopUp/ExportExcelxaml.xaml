@@ -1,0 +1,37 @@
+﻿<Window x:Class="WizMes_WellMade.PopUP.ExportExcelxaml"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WizMes_WellMade.PopUP"
+        mc:Ignorable="d"
+        Name="ExportExcel" Height="250" Width="300" Title="엑셀 Export용 그리드 선택" Loaded="ExportExcel_Loaded">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Name="TopText" HorizontalAlignment="Center" Margin="2" >엑셀로 저장할 그리드를 선택하세요</TextBlock>
+        <GroupBox Grid.Row="1" Margin="3" BorderThickness="2" >
+            <CheckBox Name="FormCheck" Margin="2" Style="{DynamicResource chkInNoViewBox}" VerticalAlignment="Center">프리폼 출력</CheckBox>
+        </GroupBox>
+        <GroupBox Grid.Row="2" Margin="3" Header="그리드 선택">
+            <DataGrid Name="excelName" Height="auto" ItemsSource="{Binding ExcelDataBinding}" >
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="엑셀로 보낼 표명" Binding="{Binding Name}" Width="*" />
+                    <DataGridTextColumn Header="숨긴 이름" Binding="{Binding PropertyName}" Visibility="Hidden" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </GroupBox>
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Margin="2" BorderBrush="Gray" BorderThickness="2" Click="Button_Click" Style="{DynamicResource btnInNoViewBox}">엑셀로 내려받기</Button>
+            <Button Grid.Column="1" Margin="2" BorderBrush="Gray" BorderThickness="2" Click="Button_Click_1" Style="{DynamicResource btnInNoViewBox}">닫기</Button>
+        </Grid>
+    </Grid>
+</Window>

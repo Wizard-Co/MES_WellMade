@@ -1,0 +1,87 @@
+﻿<Window x:Class="WizMes_WellMade.PopUp.LoginPage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WizMes_WellMade.PopUp"
+        mc:Ignorable="d" Loaded="Window_Loaded"
+        Title="WizMes_WellMade 생산관리시스템" Height="300" Width="500">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="1.4*" />
+        </Grid.RowDefinitions>
+        <Border Grid.Row="0" Margin="1">
+            <Image Source="{DynamicResource btiLogo_IconMES}" HorizontalAlignment="Stretch"/>
+        </Border>
+        <Border Grid.Row="1" Background="#ededed" >
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="3*" />
+                    <RowDefinition Height="2*" />
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Margin="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1.5*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <GroupBox Grid.Column="0" >
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="0.2*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="0.1*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="0.2*" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="1.5*" />
+                            </Grid.ColumnDefinitions>
+                            <!--<Label Grid.Column="0" Grid.Row="0" Content="사 업 장" HorizontalContentAlignment="Center"
+                                   VerticalContentAlignment="Center" Margin="1"/>
+                            <ComboBox x:Name="cboInfo" Grid.Column="1" Grid.Row="0" Margin="1" Background="White"/>-->
+                            <Label Grid.Column="0" Grid.Row="1" Content="사용자 번호" HorizontalContentAlignment="Center"
+                                   VerticalContentAlignment="Center" Margin="1"/>
+                            <TextBox x:Name="txtUserID" Grid.Column="1" Grid.Row="1" Margin="1" Background="White" VerticalContentAlignment="Center"/>
+                            <Label Grid.Column="0" Grid.Row="3" Content="비밀 번호" HorizontalContentAlignment="Center"
+                                   VerticalContentAlignment="Center" Margin="1"/>
+                            <PasswordBox x:Name="txtPassWd" Grid.Column="1" Grid.Row="3" Margin="1" Background="White" VerticalContentAlignment="Center"
+                                         PasswordChar="*" KeyDown="txtPassWd_KeyDown"/>
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox Grid.Column="1" >
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="0.1*" />
+                                <!--<RowDefinition Height="*" />
+                                <RowDefinition Height="0.2*" />-->
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="0.1*" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*" />
+                                <ColumnDefinition Width="0.1*" />
+                                <ColumnDefinition Width="2*" />
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="btnLogin" Grid.Row="1" Grid.Column="0" Content="로그인(O)" Margin="1"
+                                    Click="btnLogin_Click"/>
+                            <Button x:Name="btnCancel" Grid.Row="1" Grid.Column="2" Content="취소(C)" Margin="1" Padding="11"
+                                    Click="btnCancel_Click"/>
+                        </Grid>
+                    </GroupBox>
+                    <Grid Grid.Column="1" ></Grid>
+                </Grid>
+                <Grid Grid.Row="1" Margin="1">
+                    <Viewbox Margin="10">
+                        <!--<TextBlock Text="Copyright(C) 2016 WizMes_WellMade&#10;       ALL Right are Reserved" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>-->
+                        <StackPanel>
+                            <TextBlock Text="Copyright(C) WizMes_WellMade" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
+                            <TextBlock Text="ALL Right are Reserved" VerticalAlignment="Top" HorizontalAlignment="Center" />
+                        </StackPanel>
+                    </Viewbox>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

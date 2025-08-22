@@ -1,0 +1,136 @@
+﻿<Window x:Class="WizMes_WellMade.PopUp.NoRunningMachineInfo"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WizMes_WellMade.PopUp"
+        mc:Ignorable="d" Loaded="Window_Loaded"
+        Title="비가동 시간 정보" Height="450" Width="550">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="15*" />
+            <RowDefinition Height="532*" />
+        </Grid.RowDefinitions>
+
+        <!-- 전체 중 하단 -->
+        <Border Grid.Row="1" BorderBrush="Gray" BorderThickness="1" Margin="2">
+            <DataGrid x:Name="dgdResult" ItemsSource="{Binding ovcProcessResult_Q}" Style="{DynamicResource DataGridSet1}"
+                      AutoGenerateColumns="False">
+                <DataGrid.Resources>
+                    <Style TargetType="DataGridRow">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding cls}" Value="3">
+                                <Setter Property="Background" Value="#e9e9e9" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding cls}" Value="2">
+                                <Setter Property="Background" Value="#e9e9e9" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding cls}" Value="4">
+                                <Setter Property="Background" Value="#ababab" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding cls}" Value="9">
+                                <Setter Property="Background" Value="#ababab" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.Resources>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="순번" Binding="{Binding Num}" />
+                    <DataGridTemplateColumn Header="일자" SortMemberPath="ScanDate">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock>
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding cls}" Value="3">
+                                                    <Setter Property="Text" Value="" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding cls}" Value="4">
+                                                    <Setter Property="Text" Value="구분별 계" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding cls}" Value="9">
+                                                    <Setter Property="Text" Value="총계" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding cls}" Value="1">
+                                                    <Setter Property="Text" Value="{Binding ScanDate}" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <!-- 품명코드 -->
+                    <DataGridTemplateColumn Header="품명" SortMemberPath="Article">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Article}" Tag="{Binding Articleid}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="비가동 시간" SortMemberPath="Time">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Time}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="등록자" SortMemberPath="Worker">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Worker}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="비가동 사유" SortMemberPath="NoReworkName">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding NoReworkName}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="소요시간(시)" SortMemberPath="WorkHour">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding WorkHour}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <!--<DataGridTemplateColumn Header="JodID" SortMemberPath="JobID">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock>
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding cls}" Value="3">
+                                                    <Setter Property="Text" Value="" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding cls}" Value="2">
+                                                    <Setter Property="Text" Value="" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding cls}" Value="4">
+                                                    <Setter Property="Text" Value="" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding cls}" Value="9">
+                                                    <Setter Property="Text" Value="" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding cls}" Value="1">
+                                                    <Setter Property="Text" Value="{Binding JobID}" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>-->
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
+        <!-- //전체 중 하단 -->
+    </Grid>
+</Window>

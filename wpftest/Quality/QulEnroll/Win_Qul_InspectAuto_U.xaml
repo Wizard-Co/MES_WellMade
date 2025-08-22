@@ -1,0 +1,1854 @@
+﻿<UserControl x:Class="WizMes_WellMade.Win_Qul_InspectAuto_U"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WizMes_WellMade" 
+             mc:Ignorable="d" Loaded="UserControl_Loaded"
+             d:DesignHeight="620" d:DesignWidth="820">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="88*"/>
+            <RowDefinition Height="532*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Background="{DynamicResource WizMes_WellMade}" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100*"/>
+                <ColumnDefinition Width="160*"/>
+                <ColumnDefinition Width="220*"/>
+                <ColumnDefinition Width="140*"/>
+                <ColumnDefinition Width="200*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="1" Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="75*" />
+                    <ColumnDefinition Width="85*" />
+                </Grid.ColumnDefinitions>
+                <Label x:Name="lblDate" Grid.Column="0" Style="{DynamicResource LabelSearch_Q}"
+                       MouseLeftButtonUp="lblDate_MouseLeftButtonUp">
+                    <StackPanel Style="{DynamicResource StackPanelInLabel_Q}">
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
+                            <CheckBox x:Name="chkDate" Checked="chkDate_Checked" Unchecked="chkDate_Unchecked"/>
+                        </Viewbox>
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
+                            <TextBlock Text=" 검사일자" Style="{DynamicResource TextBlockInViewBoxSearch_Q}"/>
+                        </Viewbox>
+                    </StackPanel>
+                </Label>
+                <DatePicker x:Name="dtpSDate" Grid.Column="1" TabIndex="1" IsEnabled="True" Style="{DynamicResource DatePickerSearch}"/>
+            </Grid>
+            <Grid Grid.Column="1" Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="37.5*"/>
+                    <ColumnDefinition Width="37.5*"/>
+                    <ColumnDefinition Width="85*"/>
+                </Grid.ColumnDefinitions>
+                <DatePicker x:Name="dtpEDate" Grid.Column="2" TabIndex="2" IsEnabled="True" Style="{DynamicResource DatePickerSearch}"/>
+            </Grid>
+            <Grid Grid.Column="1" Grid.Row="2" Margin="0,0,1,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="75*"/>
+                    <ColumnDefinition Width="42.5*"/>
+                    <ColumnDefinition Width="42.5*"/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="btnThisMonth" Grid.Column="1" Content="금월" Margin="0,1" Click="btnThisMonth_Click" />
+                <Button x:Name="btnToday" Grid.Column="2" Content="금일" Margin="0,1" Click="btnToday_Click"/>
+            </Grid>
+            <Grid Grid.Column="1" Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+            </Grid>
+
+            <Grid Grid.Column="2" Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <!--<Border Grid.Column="0" Grid.Row="0" BorderThickness="1.5 1.5 1.5 0.9" BorderBrush="#424242" CornerRadius="4 4 0 0"
+                            Background="White">
+                    <ToggleButton x:Name="tbnIncomeInspect" Grid.Column="0" Click="tbnIncomeInspect_Click" FontWeight="Normal" >
+                        <StackPanel Orientation="Horizontal">
+                            <Viewbox Margin="0.5">
+                                <TextBlock Text="수입검사" />
+                            </Viewbox>
+                        </StackPanel>
+                        <ToggleButton.Style>
+                            <Style TargetType="{x:Type ToggleButton}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ToggleButton">
+                                            <Border BorderBrush="{TemplateBinding Background}" Background="{TemplateBinding Background}">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="IsChecked" Value="True">
+                                        <Setter Property="Background" Value="#6C757D" />
+                                        <Setter Property="Foreground" Value="White" />
+                                    </Trigger>
+                                    <Trigger Property="IsChecked" Value="False">
+                                        <Setter Property="Background" Value="#F3F7FF" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ToggleButton.Style>
+                        --><!--<ToggleButton.Style>
+                        <Style TargetType="{x:Type ToggleButton}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                        <Border Background="{TemplateBinding Background}">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter Property="Background" Value="Yellow"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ToggleButton.Style>--><!--
+                    </ToggleButton>
+                </Border>-->
+            </Grid>
+            <Grid Grid.Column="2" Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <!--<Border Grid.Column="0" Grid.Row="1" BorderThickness="1.5 0.9 1.5 1.5" BorderBrush="#424242" CornerRadius="0 0 0 0"
+                            Background="White">
+                    <ToggleButton x:Name="tbnProcessCycle" Grid.Column="0" Click="tbnProcessCycle_Click" IsChecked="True" FontWeight="Normal">
+                        <StackPanel Orientation="Horizontal">
+                            <Viewbox Margin="0.5">
+                                <TextBlock Text="공정순회" />
+                            </Viewbox>
+                        </StackPanel>
+                        <ToggleButton.Style>
+                            <Style TargetType="{x:Type ToggleButton}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ToggleButton">
+                                            <Border BorderBrush="{TemplateBinding Background}" Background="{TemplateBinding Background}">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="IsChecked" Value="True">
+                                        <Setter Property="Background" Value="#6C757D" />
+                                        <Setter Property="Foreground" Value="White" />
+                                    </Trigger>
+                                    <Trigger Property="IsChecked" Value="False">
+                                        <Setter Property="Background" Value="#F3F7FF" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ToggleButton.Style>
+                        --><!--<ToggleButton.Style>
+                        <Style TargetType="{x:Type ToggleButton}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                        <Border Background="{TemplateBinding Background}">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter Property="Background" Value="Yellow"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ToggleButton.Style>--><!--
+                    </ToggleButton>
+                </Border>-->
+            </Grid>
+            <Grid Grid.Column="2" Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <!--<Border Grid.Column="0" Grid.Row="1" BorderThickness="1.5 0.9 1.5 1.5" BorderBrush="#424242" CornerRadius="0 0 0 0"
+                            Background="White">
+                    <ToggleButton x:Name="tbnInspect" Grid.Column="1" Click="tbnInspect_Click" FontWeight="Normal">
+                        <StackPanel Orientation="Horizontal">
+                            <Viewbox Margin="0.5">
+                                <TextBlock Text="자주검사" />
+                            </Viewbox>
+                        </StackPanel>
+                        <ToggleButton.Style>
+                            <Style TargetType="{x:Type ToggleButton}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ToggleButton">
+                                            <Border BorderBrush="{TemplateBinding Background}" Background="{TemplateBinding Background}">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="IsChecked" Value="True">
+                                        <Setter Property="Background" Value="#6C757D" />
+                                        <Setter Property="Foreground" Value="White" />
+                                    </Trigger>
+                                    <Trigger Property="IsChecked" Value="False">
+                                        <Setter Property="Background" Value="#F3F7FF" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ToggleButton.Style>
+                    </ToggleButton>
+                </Border>-->
+            </Grid>
+            <Grid Grid.Column="2" Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <!--<Border Grid.Column="0" Grid.Row="1" BorderThickness="1.5 0.9 1.5 1.5" BorderBrush="#424242" CornerRadius="0 0 4 4"
+                            Background="White">
+                    <ToggleButton x:Name="tbnOutcomeInspect" Grid.Column="0" Click="tbnOutcomeInspect_Click" FontWeight="Normal">
+                        <StackPanel Orientation="Horizontal">
+                            <Viewbox Margin="0.5">
+                                <TextBlock Text="출하검사" />
+                            </Viewbox>
+                        </StackPanel>
+                        <ToggleButton.Style>
+                            <Style TargetType="{x:Type ToggleButton}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ToggleButton">
+                                            <Border BorderBrush="{TemplateBinding Background}" Background="{TemplateBinding Background}">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="IsChecked" Value="True">
+                                        <Setter Property="Background" Value="#6C757D" />
+                                        <Setter Property="Foreground" Value="White" />
+                                    </Trigger>
+                                    <Trigger Property="IsChecked" Value="False">
+                                        <Setter Property="Background" Value="#F3F7FF" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ToggleButton.Style>
+                        --><!--<ToggleButton.Style>
+                        <Style TargetType="{x:Type ToggleButton}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                        <Border Background="{TemplateBinding Background}">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter Property="Background" Value="Yellow"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ToggleButton.Style>--><!--
+                    </ToggleButton>
+                </Border>-->
+            </Grid>
+
+            <!--품명-->
+            <Grid Grid.Column="2" Grid.Row="1" Visibility="Hidden">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="75*" />
+                    <ColumnDefinition Width="90*" />
+                    <ColumnDefinition Width="15*" />
+                </Grid.ColumnDefinitions>
+                <Label  x:Name="lblArticleIDSrh" Grid.Column="0" MouseLeftButtonUp="CommonControl_Click" Style="{DynamicResource LabelSearch}">
+                    <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                            <CheckBox x:Name="chkArticleIDSrh" Click="CommonControl_Click" VerticalAlignment="Center"/>
+                        </Viewbox>
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                            <TextBlock Text=" 품   명" Style="{DynamicResource TextBlockInViewBoxSearch}"/>
+                        </Viewbox>
+                    </StackPanel>
+                </Label>
+                <TextBox x:Name="txtArticleIDSrh" Grid.Column="1" KeyDown="txtArticleIDSrh_KeyDown" Style="{DynamicResource TextBoxSearch}"/>
+                <Button x:Name="btnArticleIDSrh"  Grid.Column="2" Click="btnArticleIDSrh_Click" IsEnabled="False">
+                    <Image Source="{DynamicResource btiPlusFind}" Style="{DynamicResource imgPlusFind}" Margin="-2"/>
+                </Button>
+            </Grid>
+
+            <!--품번-->
+            <Grid Grid.Column="2" Grid.Row="0" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="75*" />
+                    <ColumnDefinition Width="90*" />
+                    <ColumnDefinition Width="15*" />
+                </Grid.ColumnDefinitions>
+                <Label  x:Name="lblBuyerArticleNoSrh" Grid.Column="0" MouseLeftButtonUp="CommonControl_Click" Style="{DynamicResource LabelSearch_Q}">
+                    <StackPanel Orientation="Horizontal" Style="{DynamicResource StackPanelInLabel_Q}">
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
+                            <CheckBox x:Name="chkBuyerArticleNoSrh" Click="CommonControl_Click" ></CheckBox>
+                        </Viewbox>
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
+                            <TextBlock Text=" 품   번" Style="{DynamicResource TextBlockInViewBoxSearch_Q}"/>
+                        </Viewbox>
+                    </StackPanel>
+                </Label>
+                <TextBox x:Name="txtBuyerArticleNoSrh" Grid.Column="1" KeyDown="txtBuyerArticleNoSrh_KeyDown" Style="{DynamicResource TextBoxSearch_Q}"/>
+                <Button x:Name="btnBuyerArticleNoSrh"  Grid.Column="2" Click="btnBuyerArticleNoSrh_Click" Height="22" VerticalAlignment="Top"  IsEnabled="False" >
+                    <Image Source="{DynamicResource btiPlusFind}" Style="{DynamicResource imgPlusFind}"/>
+                </Button>
+            </Grid>
+
+            <!--판정결과-->
+            <Grid Grid.Column="2" Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="75*" />
+                    <ColumnDefinition Width="90*" />
+                    <ColumnDefinition Width="15*" />
+                </Grid.ColumnDefinitions>
+                <Label x:Name="lblResultSrh" Grid.Column="0" VerticalContentAlignment="Center" MouseLeftButtonUp="lblResultSrh_MouseLeftButtonUp" Style="{DynamicResource LabelSearch}">
+                    <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                            <CheckBox x:Name="chkResultSrh" Checked="chkResultSrh_Checked" Unchecked="chkResultSrh_Unchecked" VerticalAlignment="Center"/>
+                        </Viewbox>
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                            <TextBlock Text=" 판정결과" Style="{DynamicResource TextBlockInViewBoxSearch}"/>
+                        </Viewbox>
+                    </StackPanel>
+                </Label>
+                <ComboBox x:Name="cboResultSrh" Grid.Column="1" Background="White" IsEnabled="False" Style="{DynamicResource ComboBoxSearchString}"/>
+            </Grid>
+
+            <!--점검주기구분-->
+            <Grid Grid.Column="2" Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="75*" />
+                    <ColumnDefinition Width="90*" />
+                    <ColumnDefinition Width="15*" />
+                </Grid.ColumnDefinitions>
+                <Label x:Name="lblInsCycleSrh" Grid.Column="0" VerticalContentAlignment="Center" MouseLeftButtonUp="CommonControl_Click" Style="{DynamicResource LabelSearch}">
+                    <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                            <CheckBox x:Name="chkInsCycleSrh" Click="CommonControl_Click" VerticalAlignment="Center"/>
+                        </Viewbox>
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                            <TextBlock Text=" 점검주기구분" Style="{DynamicResource TextBlockInViewBoxSearch}"/>
+                        </Viewbox>
+                    </StackPanel>
+                </Label>
+                <ComboBox x:Name="cboInsCycleSrh" Grid.Column="1" Background="White" IsEnabled="False" Style="{DynamicResource ComboBoxSearchString}"/>
+            </Grid>
+
+            <Grid Grid.Column="3" Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Label x:Name="lblRemainAddSrh" Grid.Column="0" Grid.ColumnSpan="2" Style="{DynamicResource LabelSearch}" >
+                <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                    <Viewbox  Style="{DynamicResource ViewBoxSetMaxMinHeight}" >
+                        <CheckBox x:Name="chkRemainAddSrh"/>
+                    </Viewbox>
+                    <Viewbox  Style="{DynamicResource ViewBoxSetMaxMinHeight}" >
+                        <TextBlock Text=" LOTNO 유지추가"  Style="{DynamicResource TextBlockInViewBoxSearch}"/>
+                    </Viewbox>
+                </StackPanel>
+            </Label>
+            </Grid>
+            
+            <Grid Grid.Column="5" Grid.Row="0" Grid.RowSpan="4" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="btnAdd" Grid.Column="0"  Click="btnAdd_Click" Margin="1">
+                        <StackPanel Orientation="Horizontal" >
+                            <Image Source="{DynamicResource btiInsert}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Source={StaticResource tblInsert},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="btnUpdate" Grid.Column="1" Click="btnUpdate_Click" Margin="1">
+                        <StackPanel Orientation="Horizontal" >
+                            <Image Source="{DynamicResource btiUpdate}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Source={StaticResource tblUpdate},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="btnDelete" Grid.Column="2"  Click="btnDelete_Click" Margin="1">
+                        <StackPanel Orientation="Horizontal" >
+                            <Image Source="{DynamicResource btiDelete}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Source={StaticResource tblDelete},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="btnClose" Grid.Column="3" Click="btnClose_Click" Margin="1">
+                        <StackPanel Orientation="Horizontal" >
+                            <Image Source="{DynamicResource btiClose}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Source={StaticResource tblClose},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                </Grid>
+                <Grid Grid.Row="1" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50*" />
+                        <ColumnDefinition Width="50*" />
+                        <ColumnDefinition Width="50*" />
+                        <ColumnDefinition Width="50*" />
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="btnPrint" Grid.Column="0"  Click="btnPrint_Click" Margin="1" >
+                        <StackPanel Orientation="Horizontal" >
+                            <Image Source="{DynamicResource btiPrint}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="검사" VerticalAlignment="Center"/>
+                                <TextBlock Text="성적서" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </StackPanel>
+                        <Button.ContextMenu>
+                            <ContextMenu x:Name="menu">
+                                <MenuItem x:Name="menuSeeAhead" Header="미리보기" Click="menuSeeAhead_Click" ></MenuItem>
+                                <MenuItem x:Name="menuRightPrint" Header="바로인쇄" Click="menuRightPrint_Click" ></MenuItem>
+                                <MenuItem x:Name="menuCellSettings" Header="설정" Click="menuCellSettings_Click" ></MenuItem>
+                                <MenuItem x:Name="menuClose" Header="닫   기" Click="menuClose_Click" ></MenuItem>
+                            </ContextMenu>
+                        </Button.ContextMenu>
+                    </Button>             
+
+                    
+                    <Button x:Name="btnSearch" Grid.Column="1" Click="btnSearch_Click" Margin="1">
+                        <StackPanel Orientation="Horizontal" >
+                            <Image Source="{DynamicResource btiSearch}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Source={StaticResource tblSearch},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    
+                    <Button x:Name="btnSave" Grid.Column="2"  Visibility="Hidden" Click="btnSave_Click"  Margin="1">
+                        <StackPanel Orientation="Horizontal" >
+                            <Image Source="{DynamicResource btiSave}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Source={StaticResource tblSave},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="btnCancel" Grid.Column="4"  Visibility="Hidden" Click="btnCancel_Click" Margin="1">
+                        <StackPanel Orientation="Horizontal" >
+                            <Image Source="{DynamicResource btiCancle}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Source={StaticResource tblCancle},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="btnExcel" Grid.Column="5"  Click="btnExcel_Click" Margin="1">
+                        <StackPanel Orientation="Horizontal" >
+                            <Image Source="{DynamicResource btiExcel}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Source={StaticResource tblExcel},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                </Grid>
+                
+                <Grid Grid.Row="2" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50*" />
+                        <ColumnDefinition Width="50*" />
+                        <ColumnDefinition Width="50*" />
+                        <ColumnDefinition Width="50*" />
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="btnInsMachineValueUpload" Grid.Column="0" Click="btnInsMachineValueUpload_Click" Margin="1" Grid.ColumnSpan="2">
+                        <StackPanel Orientation="Vertical" >
+                            <TextBlock Text="만능시험기 데이터" />
+                            <TextBlock Text="불러오기" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                </Grid>
+            </Grid>
+            
+            <Grid Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="2">
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Border Grid.Column="0" Grid.Row="0" BorderThickness="1 1 1 1" BorderBrush="#424242" CornerRadius="0 0 0 0"
+                            Background="White">
+                        <ToggleButton x:Name="tbnIncomeInspect" Grid.Column="0" Click="tbnIncomeInspect_Click" FontWeight="Normal" >
+                            <StackPanel Orientation="Horizontal">
+                                <Viewbox Margin="0.5">
+                                    <TextBlock Text="수입검사" />
+                                </Viewbox>
+                            </StackPanel>
+                            <ToggleButton.Style>
+                                <Style TargetType="{x:Type ToggleButton}">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ToggleButton">
+                                                <Border BorderBrush="{TemplateBinding Background}" Background="{TemplateBinding Background}">
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsChecked" Value="True">
+                                            <Setter Property="Background" Value="#6C757D" />
+                                            <Setter Property="Foreground" Value="White" />
+                                        </Trigger>
+                                        <Trigger Property="IsChecked" Value="False">
+                                            <Setter Property="Background" Value="#F3F7FF" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ToggleButton.Style>
+                        </ToggleButton>
+                    </Border>
+                    <Border Grid.Column="1" Grid.Row="0" BorderThickness="1 1 1 1" BorderBrush="#424242" CornerRadius="0 0 0 0"
+                            Background="White">
+                        <ToggleButton x:Name="tbnProcessCycle" Grid.Column="0" Click="tbnProcessCycle_Click" FontWeight="Normal" >
+                            <StackPanel Orientation="Horizontal">
+                                <Viewbox Margin="0.5">
+                                    <TextBlock Text="공정순회" />
+                                </Viewbox>
+                            </StackPanel>
+                            <ToggleButton.Style>
+                                <Style TargetType="{x:Type ToggleButton}">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ToggleButton">
+                                                <Border BorderBrush="{TemplateBinding Background}" Background="{TemplateBinding Background}">
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsChecked" Value="True">
+                                            <Setter Property="Background" Value="#6C757D" />
+                                            <Setter Property="Foreground" Value="White" />
+                                        </Trigger>
+                                        <Trigger Property="IsChecked" Value="False">
+                                            <Setter Property="Background" Value="#F3F7FF" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ToggleButton.Style>
+                        </ToggleButton>
+                    </Border>
+                    <Border Grid.Column="2" Grid.Row="1" BorderThickness="1 1 1 1" BorderBrush="#424242" CornerRadius="0 0 0 0"
+                            Background="White">
+                        <ToggleButton x:Name="tbnInspect" Grid.Column="1" Click="tbnInspect_Click" FontWeight="Normal">
+                            <StackPanel Orientation="Horizontal">
+                                <Viewbox Margin="0.5">
+                                    <TextBlock Text="자주검사" />
+                                </Viewbox>
+                            </StackPanel>
+                            <ToggleButton.Style>
+                                <Style TargetType="{x:Type ToggleButton}">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ToggleButton">
+                                                <Border BorderBrush="{TemplateBinding Background}" Background="{TemplateBinding Background}">
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsChecked" Value="True">
+                                            <Setter Property="Background" Value="#6C757D" />
+                                            <Setter Property="Foreground" Value="White" />
+                                        </Trigger>
+                                        <Trigger Property="IsChecked" Value="False">
+                                            <Setter Property="Background" Value="#F3F7FF" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ToggleButton.Style>
+                        </ToggleButton>
+                    </Border>
+                    <Border Grid.Column="3" Grid.Row="1" BorderThickness="1 1 1 1" BorderBrush="#424242" CornerRadius="0 0 0 0"
+                            Background="White">
+                        <ToggleButton x:Name="tbnOutcomeInspect" Grid.Column="0" Click="tbnOutcomeInspect_Click" FontWeight="Normal" IsChecked="True">
+                            <StackPanel Orientation="Horizontal">
+                                <Viewbox Margin="0.5">
+                                    <TextBlock Text="출하검사" />
+                                </Viewbox>
+                            </StackPanel>
+                            <ToggleButton.Style>
+                                <Style TargetType="{x:Type ToggleButton}">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ToggleButton">
+                                                <Border BorderBrush="{TemplateBinding Background}" Background="{TemplateBinding Background}">
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsChecked" Value="True">
+                                            <Setter Property="Background" Value="#6C757D" />
+                                            <Setter Property="Foreground" Value="White" />
+                                        </Trigger>
+                                        <Trigger Property="IsChecked" Value="False">
+                                            <Setter Property="Background" Value="#F3F7FF" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ToggleButton.Style>
+                        </ToggleButton>
+                    </Border>
+                </Grid>
+
+            </Grid>
+            <!--<Grid Grid.Column="2" Grid.Row="3" >
+                <ToggleButton x:Name="tbnProcessCycle" HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center" Click="tbnProcessCycle_Click">
+                        <Viewbox Margin="-2">
+                            <TextBlock Text="공정순회" />
+                        </Viewbox>
+                        <ToggleButton.Style>
+                            <Style TargetType="{x:Type ToggleButton}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                            <Border Background="{TemplateBinding Background}">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="IsChecked" Value="True">
+                                        <Setter Property="Background" Value="Yellow"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ToggleButton.Style>
+                    </ToggleButton>
+                <Border BorderThickness="1.5 0.9 1.5 1.5" BorderBrush="#424242" CornerRadius="0 0 0 0"
+                            Background="White">
+                        <ToggleButton x:Name="tbnProcessCycle" Grid.Column="0" Click="tbnProcessCycle_Click" IsChecked="True" FontWeight="Normal">
+                            <StackPanel Orientation="Horizontal">
+                                <Viewbox Margin="0.5">
+                                    <TextBlock Text="공정순회" />
+                                </Viewbox>
+                            </StackPanel>
+                            <ToggleButton.Style>
+                                <Style TargetType="{x:Type ToggleButton}">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ToggleButton">
+                                                <Border BorderBrush="{TemplateBinding Background}" Background="{TemplateBinding Background}">
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsChecked" Value="True">
+                                            <Setter Property="Background" Value="#6C757D" />
+                                            <Setter Property="Foreground" Value="White" />
+                                        </Trigger>
+                                        <Trigger Property="IsChecked" Value="False">
+                                            <Setter Property="Background" Value="#F3F7FF" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ToggleButton.Style>
+                        </ToggleButton>
+                    </Border>
+            </Grid>-->
+            <!--<Grid Grid.Column="3" Grid.Row="3" >
+                    <ToggleButton x:Name="tbnInspect" HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center" Click="tbnInspect_Click">
+                        <Viewbox Margin="-2">
+                            <TextBlock Text="자주검사" />
+                        </Viewbox>
+                        <ToggleButton.Style>
+                            <Style TargetType="{x:Type ToggleButton}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                            <Border Background="{TemplateBinding Background}">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="IsChecked" Value="True">
+                                        <Setter Property="Background" Value="Yellow"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ToggleButton.Style>
+                    </ToggleButton>
+                    <Border Grid.Column="0" Grid.Row="1" BorderThickness="1.5 0.9 1.5 1.5" BorderBrush="#424242" CornerRadius="0 0 0 0"
+                            Background="White">
+                        <ToggleButton x:Name="tbnInspect" Grid.Column="1" Click="tbnInspect_Click" FontWeight="Normal">
+                            <StackPanel Orientation="Horizontal">
+                                <Viewbox Margin="0.5">
+                                    <TextBlock Text="자주검사" />
+                                </Viewbox>
+                            </StackPanel>
+                            <ToggleButton.Style>
+                                <Style TargetType="{x:Type ToggleButton}">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ToggleButton">
+                                                <Border BorderBrush="{TemplateBinding Background}" Background="{TemplateBinding Background}">
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsChecked" Value="True">
+                                            <Setter Property="Background" Value="#6C757D" />
+                                            <Setter Property="Foreground" Value="White" />
+                                        </Trigger>
+                                        <Trigger Property="IsChecked" Value="False">
+                                            <Setter Property="Background" Value="#F3F7FF" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ToggleButton.Style>
+                        </ToggleButton>
+                    </Border>
+                </Grid>-->
+            <!--<Grid Grid.Column="4" Grid.Row="3">
+                    
+                    <ToggleButton x:Name="tbnOutcomeInspect"  HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center" Click="tbnOutcomeInspect_Click">
+                        <Viewbox Margin="-2">
+                            <TextBlock Text="출하검사" />
+                        </Viewbox>
+                        <ToggleButton.Style>
+                            <Style TargetType="{x:Type ToggleButton}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                            <Border Background="{TemplateBinding Background}">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="IsChecked" Value="True">
+                                        <Setter Property="Background" Value="Yellow"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ToggleButton.Style>
+                    </ToggleButton>
+                    <Border Grid.Column="0" Grid.Row="1" BorderThickness="1.5 0.9 1.5 1.5" BorderBrush="#424242" CornerRadius="0 0 4 4"
+                            Background="White">
+                        <ToggleButton x:Name="tbnOutcomeInspect" Grid.Column="0" Click="tbnOutcomeInspect_Click" FontWeight="Normal">
+                            <StackPanel Orientation="Horizontal">
+                                <Viewbox Margin="0.5">
+                                    <TextBlock Text="출하" />
+                                </Viewbox>
+                            </StackPanel>
+                            <ToggleButton.Style>
+                                <Style TargetType="{x:Type ToggleButton}">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ToggleButton">
+                                                <Border BorderBrush="{TemplateBinding Background}" Background="{TemplateBinding Background}">
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsChecked" Value="True">
+                                            <Setter Property="Background" Value="#6C757D" />
+                                            <Setter Property="Foreground" Value="White" />
+                                        </Trigger>
+                                        <Trigger Property="IsChecked" Value="False">
+                                            <Setter Property="Background" Value="#F3F7FF" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ToggleButton.Style>
+                        </ToggleButton>
+                    </Border>
+                </Grid>-->
+            
+
+        </Grid>
+
+        <Grid Grid.Row="1" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="11*"/>
+                <RowDefinition Height="9*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="2*" />
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="14*" />
+                        <RowDefinition Height="1*" />
+                    </Grid.RowDefinitions>
+                    
+                    <DataGrid x:Name="dgdMain" Grid.Row="0" SelectionChanged="dgdMain_SelectionChanged"  Style="{DynamicResource DataGridSet1}">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="선택" >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox Click="chkInspect_Click">
+                                            <CheckBox.Style>
+                                                <Style TargetType="CheckBox">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Chk,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Value="true">
+                                                            <Setter Property="IsChecked" Value="True"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Chk,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Value="false">
+                                                            <Setter Property="IsChecked" Value="False"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                                </Style>
+                                            </CheckBox.Style>
+                                        </CheckBox>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTextColumn Header="순" Binding="{Binding Num}" ElementStyle="{StaticResource DataGridCellRight}"/>
+                            <DataGridTextColumn Header="InspectID" Binding="{Binding InspectID}" Visibility="Hidden"/>
+                            <DataGridTextColumn Header="검사일자" Binding="{Binding InspectDate_CV}" ElementStyle="{StaticResource DataGridCellCenter}"/>
+                            <DataGridTextColumn Header="시리얼번호" Binding="{Binding SerialNo}" ElementStyle="{StaticResource DataGridCellCenter}" Visibility="Hidden"/>
+                            <DataGridTextColumn Header="품번" Binding="{Binding BuyerArticleNo}"/>
+                            <DataGridTextColumn Header="품명" Binding="{Binding Article}"/>
+
+
+                            <DataGridTextColumn Header="검사구분" Binding="{Binding InspectGubun}" Visibility="Hidden"/>
+                            <DataGridTextColumn Header="LOTNO" Binding="{Binding LotID}" />
+                            <DataGridTextColumn Header="검사수량" Binding="{Binding InspectQty}" ElementStyle="{StaticResource DataGridCellRight}"/>
+                            <DataGridTextColumn Header="검사기준번호" Binding="{Binding InspectBasisID}" ElementStyle="{StaticResource DataGridCellCenter}"/>
+                            <DataGridTextColumn Header="특이사항" Binding="{Binding Comments}"/>
+
+                            <DataGridTextColumn Header="검사수준" Binding="{Binding InspectLevel}" ElementStyle="{StaticResource DataGridCellRight}"/>
+                            <DataGridTextColumn Header="검사자" Binding="{Binding Name}"/>
+                            <DataGridTextColumn Header="약도경로" Binding="{Binding SketchPath}"/>
+                            <DataGridTextColumn Header="약도파일명" Binding="{Binding SketchFile}"/>
+                            <DataGridTextColumn Header="파일경로" Binding="{Binding AttachedPath}"/>
+
+                            <DataGridTextColumn Header="파일명" Binding="{Binding AttachedFile}"/>
+                            <DataGridTextColumn Header="공정" Binding="{Binding Process}"/>
+                            <DataGridTextColumn Header="불합격" Binding="{Binding DefectYN}" ElementStyle="{StaticResource DataGridCellCenter}"/>
+                            <DataGridTextColumn Header="InspectBasisID" Binding="{Binding InspectBasisID}" Visibility="Hidden"/>
+                            <DataGridTextColumn Header="InspectBasisIDSeq" Binding="{Binding InspectBasisIDSeq}" Visibility="Hidden"/>
+
+                            <DataGridTextColumn Header="MachineID" Binding="{Binding MachineID}" Visibility="Hidden"/>
+                            <DataGridTextColumn Header="거래처" Binding="{Binding InOutCustom}"/>
+                            <DataGridTextColumn Header="거래처ID" Binding="{Binding INOutCustomID}" Visibility="Hidden"/>
+                            <DataGridTextColumn Header="입출고일자" Binding="{Binding INOutDate}"/>
+                            <DataGridTextColumn Header="품질위험도" Binding="{Binding IRELevelName}"/>
+
+                            <DataGridTextColumn Header="부품중요도 보안" Binding="{Binding ImportSecYN}" ElementStyle="{StaticResource DataGridCellCenter}"/>
+                            <DataGridTextColumn Header="부품중요도 법규" Binding="{Binding ImportlawYN}" ElementStyle="{StaticResource DataGridCellCenter}"/>
+                            <DataGridTextColumn Header="부품중요도 중요" Binding="{Binding ImportImpYN}" ElementStyle="{StaticResource DataGridCellCenter}"/>
+                            <DataGridTextColumn Header="부품중요도 일반" Binding="{Binding ImportNorYN}" ElementStyle="{StaticResource DataGridCellCenter}"/>
+                            <DataGridTextColumn Header="차종ID" Binding="{Binding BuyerModelID}"/>
+
+                            <DataGridTextColumn Header="차종" Binding="{Binding BuyerModel}"/>
+                            <DataGridTextColumn Header="초.중.종품구분" Binding="{Binding FMLGubun}" Visibility="Hidden"/>
+                            <DataGridTextColumn Header="초.중.종품구분" Binding="{Binding FMLGubunName}"/>
+                            <DataGridTextColumn Header="불량제품수" Binding="{Binding TotalDefectQty}" ElementStyle="{StaticResource DataGridCellRight}"/>
+                            <DataGridTextColumn Header="InspectUserID" Binding="{Binding InspectUserID}" ElementStyle="{StaticResource DataGridCellLeft}"/>
+                            <DataGridTextColumn Header="MilSheetNo" Binding="{Binding MilSheetNo}" Visibility="Hidden"/>
+                            <DataGridTextColumn Header="INOUTCustomDate" Binding="{Binding INOUTCustomDate}" Visibility="Hidden"/>
+                            <DataGridTextColumn Header="기준일자" Binding="{Binding MoldNo}" Visibility="Hidden"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <TextBlock x:Name="tbkIndexCount" Grid.Row="1" Text="▶검색결과 : " VerticalAlignment="Center" HorizontalAlignment="Right" Margin="1"/>
+                </Grid>
+
+                <GridSplitter Grid.Column="1" Width="5" ResizeBehavior="PreviousAndNext"/>
+
+                <Grid x:Name="grdInput" Grid.Column="2" IsHitTestVisible="False">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="3.1*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <GroupBox Grid.Row="0" Header="검사성적서등록">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="70*" />
+                                <ColumnDefinition Width="70*" />
+                                <ColumnDefinition Width="20*" />
+                                <ColumnDefinition Width="70*" />
+                                <ColumnDefinition Width="70*" />
+                                <ColumnDefinition Width="20*" />
+                                <ColumnDefinition Width="70*" />
+                                <ColumnDefinition Width="70*" />
+                                <ColumnDefinition Width="20*"/>
+                                <ColumnDefinition Width="50*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Label Grid.Column="0" Grid.Row="1" Style="{DynamicResource LabelInputArea}" >
+                                <TextBlock Text="검사번호" />
+                            </Label>
+                            <TextBox x:Name="txtinspectID" Grid.Column="1" Grid.Row="1" IsReadOnly="True"
+                                     Style="{DynamicResource TextBoxInputAutoCreate}" Text="{Binding InspectID}"/>
+
+                            <Label x:Name="lblMsg" Grid.Row="0" Grid.ColumnSpan="10" 
+                                Style="{DynamicResource LabelStateMessage}" >
+                                <TextBlock x:Name="tbkMsg" Text="자료 입력 중" FontWeight="Bold"  Style="{DynamicResource DataGridCellCenter}"/>
+                            </Label>
+
+                            <Label Grid.Column="0" Grid.Row="2" Style="{DynamicResource LabelInputArea}" >
+                                <TextBlock Text="LOTNO" />
+                            </Label>
+                            <TextBox x:Name="txtLotNO" Grid.Column="1" Grid.Row="2" Style="{DynamicResource TextBoxInputNecessary}"
+                                     Text="{Binding LotID}"  Keyboard.KeyDown="txtLotNO_KeyDown"/>
+                            <Button x:Name="btnPfLotNO" Grid.Column="2" Grid.Row="2"
+                                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                                    Click="btnPfLotNO_Click">
+                                <Image Source="{DynamicResource btiPlusFind}" />
+                            </Button>
+
+                            <Label Grid.Column="3" Grid.Row="2" Style="{DynamicResource LabelInputArea}">
+                                <TextBlock Text="EO-기준-순번" />
+                            </Label>
+                            <ComboBox x:Name="cboEcoNO" Grid.Column="4" Grid.Row="2"
+                                      Style="{DynamicResource ComboBoxInputString}"
+                                      SelectionChanged="cboEcoNO_SelectionChanged"
+                                      SelectedValue="{Binding InspectBasisID}"/>
+
+                            <Label x:Name="lblInOutCustom" Grid.Column="6" Grid.Row="1" Style="{DynamicResource LabelInputArea}">
+                                <TextBlock x:Name="tbkInOutCustom" Text="입고거래처" />
+                            </Label>
+                            <TextBox x:Name="txtInOutCustom" Grid.Column="7" Grid.Row="1" 
+                                     Keyboard.KeyDown="txtInOutCustom_KeyDown" 
+                                     Text="{Binding InOutCustom}" Tag="{Binding INOUTCustomID}" Style="{DynamicResource TextBoxInputArea}"/>
+                            <Grid Grid.Column="8" Grid.Row="1" >
+                                <Button x:Name="btnPfInOutCustom" Grid.Column="0" 
+                                        HorizontalContentAlignment="Center" VerticalContentAlignment="Center" 
+                                        Click="btnPfInOutCustom_Click">
+                                    <Image Source="{DynamicResource btiPlusFind}" />
+                                </Button>
+                            </Grid>
+
+                            <Label Grid.Column="0" Grid.Row="3" HorizontalContentAlignment="Center"
+                                   VerticalContentAlignment="Center" Style="{DynamicResource LabelInputArea}" >
+                                <TextBlock Text="차     종" />
+                            </Label>
+                            <TextBox x:Name="txtBuyerModel" Grid.Column="1" Grid.Row="3" Style="{DynamicResource TextBoxInputArea}"
+                                     Keyboard.KeyDown="txtBuyerModel_KeyDown"
+                                     Text="{Binding BuyerModel}" Tag="{Binding BuyerModelID}"/>
+                            <Button x:Name="btnPfBuyerModel" Grid.Column="2" Grid.Row="3" 
+                                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                                    Click="btnPfBuyerModel_Click">
+                                <Image Source="{DynamicResource btiPlusFind}" />
+                            </Button>
+
+                            <Label x:Name="lblProcess" Grid.Column="3" Grid.Row="3" Style="{DynamicResource LabelInputArea}">
+                                <TextBlock Text="공     정" />
+                            </Label>
+                            <ComboBox x:Name="cboProcess" Grid.Column="4" Grid.Row="3" SelectionChanged="cboProcess_SelectionChanged"
+                                      Style="{DynamicResource ComboBoxInputString}"
+                                      SelectedValue="{Binding ProcessID,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                            <Label x:Name="lblInOutDate" Grid.Column="6" Grid.Row="2" Style="{DynamicResource LabelInputArea}">
+                                <TextBlock x:Name="tbkInOutDate" Text="입고일"  />
+                            </Label>
+
+                            <DatePicker x:Name="dtpInOutDate" Grid.Column="7" Grid.Row="2" Style="{DynamicResource DatePickerInputArea}" 
+                                        SelectedDate="{Binding INOUTCustomDate}" Grid.ColumnSpan="2"/>
+                           
+                            <Label Grid.Column="0" Grid.Row="4" HorizontalContentAlignment="Center"
+                                   VerticalContentAlignment="Center" Style="{DynamicResource LabelInputArea}" >
+                                <TextBlock Text="품     번" />
+                            </Label>
+                            <TextBox x:Name="txtArticleName" Grid.Column="1" Grid.Row="4" 
+                                     Style="{DynamicResource TextBoxInputNecessary}"
+                                     Keyboard.KeyDown="txtArticleName_KeyDown"
+                                     Text="{Binding BuyerArticleNo}" Tag="{Binding ArticleID}"/>
+                            <Button x:Name="btnPfArticleName" Grid.Column="2" Grid.Row="4" 
+                                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                                    Click="btnPfArticleName_Click">
+                                <Image Source="{DynamicResource btiPlusFind}" />
+                            </Button>
+
+                            <Label x:Name="lblMachine" Grid.Column="3" Grid.Row="4" Style="{DynamicResource LabelInputArea}">
+                                <TextBlock Text="호     기" />
+                            </Label>
+                            <ComboBox x:Name="cboMachine" Grid.Column="4" Grid.Row="4" Background="White" Style="{DynamicResource ComboBoxInputString}"
+                                      SelectedValue="{Binding MachineID,Mode=OneWay}"/>
+
+                            <Label Grid.Column="0" Grid.Row="5" HorizontalContentAlignment="Center" Style="{DynamicResource LabelInputArea}" 
+                                   VerticalContentAlignment="Center">
+                                <TextBlock Text="품     명" />
+                            </Label>
+                            <TextBox x:Name="txtBuyerArticle" Grid.Column="1" Grid.Row="5" IsReadOnly="True" Style="{DynamicResource TextBoxInputArea}"
+                                     Text="{Binding Article}"/>
+
+                            <Label Grid.Column="3" Grid.Row="5" Style="{DynamicResource LabelInputArea}">
+                                <TextBlock Text="검사수준" />
+                            </Label>
+                            <ComboBox x:Name="cboInspectClss" Grid.Column="4" Grid.Row="5" 
+                                      Style="{DynamicResource ComboBoxInputString}"
+                                      SelectedValue="{Binding InspectLevel}"/>
+
+                            <Label Grid.Column="0" Grid.Row="6" HorizontalContentAlignment="Center" Style="{DynamicResource LabelInputArea}" 
+                                   VerticalContentAlignment="Center">
+                                <TextBlock Text="검사일자" />
+                            </Label>
+                            <DatePicker x:Name="dtpInspectDate" Grid.Column="1" Grid.Row="6" Padding="0" Grid.ColumnSpan="2" Style="{DynamicResource DatePickerInputArea}"
+                                        SelectedDate="{Binding InspectDate_CV}"/>
+
+                            <Label Grid.Column="3" Grid.Row="6" Style="{DynamicResource LabelInputArea}">
+                                <TextBlock Text="검사구분" />
+                            </Label>
+                            <ComboBox x:Name="cboInspectGbn" Grid.Column="4" Grid.Row="6" 
+                                      Style="{DynamicResource ComboBoxInputString}"
+                                      SelectedValue="{Binding InspectGubun}"/>
+
+
+                            <Label Grid.Column="0" Grid.Row="7" HorizontalContentAlignment="Center" Style="{DynamicResource LabelInputArea}" 
+                                   VerticalContentAlignment="Center">
+                                <TextBlock Text="검 사 자" />
+                            </Label>
+                            <TextBox x:Name="txtInspectUserID" Grid.Column="1" Grid.Row="7" 
+                                     Style="{DynamicResource TextBoxInputNecessary}"
+                                     Keyboard.KeyDown="txtInspectUserID_KeyDown"
+                                     Text="{Binding Name}" Tag="{Binding InspectUserID}"/>
+                            <Button x:Name="btnPfUser" Grid.Column="2" Grid.Row="7" 
+                                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                                    Click="btnPfUser_Click">
+                                <Image Source="{DynamicResource btiPlusFind}" />
+                            </Button>
+
+                            <Label Grid.Column="3" Grid.Row="7" Style="{DynamicResource LabelInputArea}">
+                                <TextBlock Text="부품품질위험도"/>
+                            </Label>
+                            <ComboBox x:Name="cboIRELevel" Grid.Column="4" Grid.Row="7" Style="{DynamicResource ComboBoxInputString}"
+                                      SelectedValue="{Binding IRELevel}"/>
+
+                            <Label Grid.Column="0" Grid.Row="8" HorizontalContentAlignment="Center" Style="{DynamicResource LabelInputArea}" 
+                                   VerticalContentAlignment="Center">
+                                <TextBlock Text="특이사항" />
+                            </Label>
+                            <TextBox x:Name="txtComments" Grid.Column="1" Grid.Row="8" Style="{DynamicResource TextBoxInputArea}"
+                                     Grid.ColumnSpan="4" Text="{Binding Comments}"/>
+
+                            <Label Grid.Column="6" Grid.Row="3" Style="{DynamicResource LabelInputArea}" >
+                                <TextBlock Text="부품중요도" />
+                            </Label>
+                            <Grid Grid.Column="7" Grid.Row="3" Grid.ColumnSpan="3" VerticalAlignment="Center" >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <CheckBox x:Name="chkImportSecYN" Grid.Column="0" Grid.Row="3" Style="{DynamicResource CheckBoxInputArea}">
+                                    <TextBlock >보안</TextBlock>
+                                </CheckBox>
+                                <CheckBox x:Name="chkImportlawYN" Grid.Column="1" Grid.Row="3" Style="{DynamicResource CheckBoxInputArea}">
+                                    <TextBlock >법규</TextBlock>
+                                </CheckBox>
+                                <CheckBox x:Name="chkImportImpYN" Grid.Column="2" Grid.Row="4" Style="{DynamicResource CheckBoxInputArea}">
+                                    <TextBlock >중요</TextBlock>
+                                </CheckBox>
+                                <CheckBox x:Name="chkImportNorYN" Grid.Column="3" Grid.Row="4" Style="{DynamicResource CheckBoxInputArea}">
+                                    <TextBlock >일반</TextBlock>
+                                </CheckBox>
+                            </Grid>
+
+                            <Label Grid.Column="6" Grid.Row="4" Style="{DynamicResource LabelInputArea}">
+                                <TextBlock Text="초.중.종 구분" />
+                            </Label>
+                            <ComboBox x:Name="cboFML" Grid.Column="7" Grid.Row="4" Style="{DynamicResource ComboBoxInputString}"
+                                      SelectedValue="{Binding FMLGubun}"/>
+
+                            <Label Grid.Column="6" Grid.Row="5" Style="{DynamicResource LabelInputArea}">
+                                <TextBlock Text="검사항목 수" />
+                            </Label>
+                            <Label Grid.Column="7" Grid.Row="5" Style="{DynamicResource LabelInputArea}">
+                                <TextBlock Text="판정결과" />
+                            </Label>
+                            <Label Grid.Column="8" Grid.Row="5" Style="{DynamicResource LabelInputArea}" Grid.ColumnSpan="2">
+                                <TextBlock Text="불량항목 수" />
+                            </Label>
+
+                            <TextBox x:Name="txtInspectQty" Grid.Column="6" Grid.Row="6" 
+                                     Text="{Binding InspectQty}" Style="{DynamicResource TextBoxInput_Integer_Right}"/>
+                            <ComboBox x:Name="cboDefectYN" Grid.Column="7" Grid.Row="6" Style="{DynamicResource ComboBoxInputString}"
+                                      SelectedValue="{Binding DefectYN}"/>
+                            <TextBox x:Name="txtTotalDefectQty" Grid.Column="8" Grid.Row="6"  Grid.ColumnSpan="2"
+                                     Text="{Binding TotalDefectQty}"  Style="{DynamicResource TextBoxInput_Integer_Right}"/>
+
+                            <Label Grid.Column="6" Grid.Row="7" Style="{DynamicResource LabelInputArea}">
+                                <TextBlock Text="합계 검사수량" />
+                            </Label>
+                            <TextBox x:Name="txtSumInspectQty" Grid.Column="7" Grid.Row="7" Text="{Binding SumInspectQty}"  Style="{DynamicResource TextBoxInput_Integer_Right}"/>
+
+                            <Label Grid.Column="6" Grid.Row="8" Style="{DynamicResource LabelInputArea}">
+                                <TextBlock Text="합계 불량수량" />
+                            </Label>
+                            <TextBox x:Name="txtSumDefectQty" Grid.Column="7" Grid.Row="8" Text="{Binding SumDefectQty}"  Style="{DynamicResource TextBoxInput_Integer_Right}"/>
+
+                            <Button x:Name="btnRepair" Grid.Column="6" Grid.Row="7" Grid.ColumnSpan="3"  Visibility="Hidden" Style="{DynamicResource btnInNoViewBox}">
+                                <TextBlock Text="조치등록 가기" />
+                            </Button>
+                        </Grid>
+                    </GroupBox>
+
+                    <GroupBox Grid.Row="1" Header="파일">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="70*" />
+                                <ColumnDefinition Width="70*" />
+                                <ColumnDefinition Width="20*" />
+                                <ColumnDefinition Width="70*" />
+                                <ColumnDefinition Width="70*" />
+                                <ColumnDefinition Width="70*" />
+                                <ColumnDefinition Width="70*" />
+                                <ColumnDefinition Width="70*" />
+                                <ColumnDefinition Width="20*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Button x:Name="btnSKetch" Grid.Row="0" Grid.Column="0" Click="btnSKetch_Click" Tag="SKetch" Style="{DynamicResource btnInNoViewBox}">
+                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
+                                    <TextBlock Text="약도등록" Margin="1.5"/>
+                                </Viewbox>
+                            </Button>
+                            <TextBox x:Name="txtSKetch" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" 
+                                     Text="{Binding SketchFile}" Tag="{Binding SketchPath}"/>
+                            <Button x:Name="btnSKetchDel" Grid.Row="0" Grid.Column="4"  Style="{DynamicResource btnInNoViewBox}" Click="btnSKetchDel_Click" Tag="SKetch">
+                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
+                                    <TextBlock Text="삭제" Margin="1.5" />
+                                </Viewbox>
+                            </Button>
+                            <Button x:Name="btnSKetchDown" Grid.Row="0" Grid.Column="5" Click="btnSKetchDown_Click" Tag="SKetch" Style="{DynamicResource btnInNoViewBox}">
+                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
+                                    <TextBlock Text="내려받기"  Margin="1.5"/>
+                                </Viewbox>
+                            </Button>
+                            <Label x:Name="lblMilsheet" Grid.Row="0" Grid.Column="6" Visibility="Hidden" Style="{DynamicResource LabelInputArea}" >
+                                <TextBlock Text="밀시트No"  />
+                            </Label>
+                            <TextBox x:Name="txtMilSheetNo" Grid.Row="0" Grid.Column="7" 
+                                     Visibility="Hidden" Text="{Binding MilSheetNo}"/>
+
+                            <Button x:Name="btnFileAdd" Grid.Row="1" Grid.Column="0" Click="btnFileAdd_Click" Tag="File" Style="{DynamicResource btnInNoViewBox}">
+                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
+                                    <TextBlock Text="파일등록"  Margin="1.5"/>
+                                </Viewbox>
+                            </Button>
+                            <TextBox x:Name="txtFile" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" 
+                                     Text="{Binding AttachedFile}" Tag="{Binding AttachedPath}"/>
+                            <Button x:Name="btnFileDel" Grid.Row="1" Grid.Column="4" Click="btnFileDel_Click" Tag="File" Style="{DynamicResource btnInNoViewBox}">
+                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
+                                    <TextBlock Text="삭제"  Margin="1.5"/>
+                                </Viewbox>
+                            </Button>
+                            <Button x:Name="btnFileDownload" Grid.Row="1" Grid.Column="5" Click="btnFileDownload_Click" Tag="File" Style="{DynamicResource btnInNoViewBox}">
+                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
+                                    <TextBlock Text="내려받기"  Margin="1.5"/>
+                                </Viewbox>
+                            </Button>
+                            <Button x:Name="btnInsCyCleFileAdd" Grid.Row="2" Grid.Column="0" Click="btnFileAdd_Click"  Tag="InsCycle" Style="{DynamicResource btnInNoViewBox}">
+                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
+                                    <TextBlock Text="정기점검결과등록"  Margin="1.5"/>
+                                </Viewbox>
+                            </Button>
+                            <TextBox x:Name="txtInsCycleFile" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" 
+                                     Text="{Binding InsCycleFile,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Tag="{Binding InsCyclePath,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
+                            <Button x:Name="btnInsCylcleFileDel" Grid.Row="2" Grid.Column="4" Click="btnFileDel_Click" Tag="InsCycle" Style="{DynamicResource btnInNoViewBox}">
+                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
+                                    <TextBlock Text="삭제"  Margin="1.5"/>
+                                </Viewbox>
+                            </Button>
+                            <Button x:Name="btnInsCycleFileDownload" Grid.Row="2" Grid.Column="5" Click="btnFileDownload_Click" Tag="InsCycle" Style="{DynamicResource btnInNoViewBox}">
+                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
+                                    <TextBlock Text="내려받기"  Margin="1.5"/>
+                                </Viewbox>
+                            </Button>
+                            <Button x:Name="btnInsCycleFormDownload" Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="6" Click="btnInsCycleFormDownload_Click">
+                                <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight_Q}">
+                                    <TextBlock Text="정기점검 기준서 내려받기"/>
+                                </Viewbox>
+                            </Button>
+                            <Viewbox Grid.Row="1" Grid.Column="6" Grid.ColumnSpan="2" Style="{DynamicResource ViewBoxSetMaxMinHeight}" >
+                                <TextBlock Text="  ※ 내려받기는 C:\Temp 로 내려집니다." Foreground="Blue"/>
+                            </Viewbox>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+            </Grid>
+
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="2*"/>
+                </Grid.RowDefinitions>
+                <GroupBox Grid.Row="0" Margin="1">
+                    <GroupBox.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="외관(정성적검사)" FontSize="10"/>
+                        </DataTemplate>
+                    </GroupBox.HeaderTemplate>
+                    <DataGrid x:Name="dgdSub1" Style="{DynamicResource DataGridSet1}">
+                        <DataGrid.Resources>
+                            <Style TargetType="DataGridCell">
+                                <EventSetter Event="PreviewKeyDown" Handler="DataGridSub1Cell_PreviewKeyDown"/>
+                                <EventSetter Event="KeyDown" Handler="DataGridSub1Cell_KeyDown" />
+                                <EventSetter Event="KeyUp" Handler="TextBoxFocusInDataGrid" />
+                                <EventSetter Event="MouseUp" Handler="TextBoxFocusInDataGrid_MouseUp" />
+                                <EventSetter Event="GotFocus" Handler="DataGridCell_GotFocus" />
+                            </Style>
+                        </DataGrid.Resources>
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="" >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Num,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="InspectBasisID" Visibility="Hidden">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding InspectBasisID,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="InspectBasisSeq" Visibility="Hidden">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Seq,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="InspectBasisSubSeq" Visibility="Hidden">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding SubSeq,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="검사항목" >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding insItemName,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Header="기준규격">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding insSpec,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="검사수량">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding InsSampleQty,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Style="{DynamicResource NumericTextBlock}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn x:Name="dgdtpeText1" Header="측정값1" >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Margin="2" Text="{Binding InspectText1,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Style="{DynamicResource TextBlockInDataGrid}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding InspectText1,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
+                                                 Tag="1" TextChanged="InspectText_TextChanged"
+                                                 LostFocus="ValueText_LostFocus"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn x:Name="dgdtpeText2" Header="측정값2" >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Margin="2" Text="{Binding InspectText2,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Style="{DynamicResource TextBlockInDataGrid}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding InspectText2,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                                 Tag="2" TextChanged="InspectText_TextChanged"
+                                                 LostFocus="ValueText_LostFocus"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn x:Name="dgdtpeText3" Header="측정값3" >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Margin="2" Text="{Binding InspectText3,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Style="{DynamicResource TextBlockInDataGrid}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding InspectText3,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                                 Tag="3" TextChanged="InspectText_TextChanged"
+                                                 LostFocus="ValueText_LostFocus"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn x:Name="dgdtpeText4" Header="측정값4" >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Margin="2" Text="{Binding InspectText4,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Style="{DynamicResource TextBlockInDataGrid}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding InspectText4,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                                 Tag="4" TextChanged="InspectText_TextChanged"
+                                                 LostFocus="ValueText_LostFocus"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn x:Name="dgdtpeText5" Header="측정값5" >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Margin="2" Text="{Binding InspectText5,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Style="{DynamicResource TextBlockInDataGrid}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding InspectText5,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                                 Tag="5" TextChanged="InspectText_TextChanged"
+                                                 LostFocus="ValueText_LostFocus"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn x:Name="dgdtpeText6" Header="측정값6" >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Margin="2" Text="{Binding InspectText6,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Style="{DynamicResource TextBlockInDataGrid}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding InspectText6,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                                 Tag="6" TextChanged="InspectText_TextChanged"
+                                                 LostFocus="ValueText_LostFocus"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn x:Name="dgdtpeText7" Header="측정값7" >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Margin="2" Text="{Binding InspectText7,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Style="{DynamicResource TextBlockInDataGrid}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding InspectText7,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                                 Tag="7" TextChanged="InspectText_TextChanged"
+                                                 LostFocus="ValueText_LostFocus"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn x:Name="dgdtpeText8" Header="측정값8" >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Margin="2" Text="{Binding InspectText8,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Style="{DynamicResource TextBlockInDataGrid}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding InspectText8,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                                 Tag="8" TextChanged="InspectText_TextChanged"
+                                                 LostFocus="ValueText_LostFocus"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn x:Name="dgdtpeText9" Header="측정값9" >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Margin="2" Text="{Binding InspectText9,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Style="{DynamicResource TextBlockInDataGrid}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding InspectText9,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                                 Tag="9" TextChanged="InspectText_TextChanged"
+                                                 LostFocus="ValueText_LostFocus"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn x:Name="dgdtpeText10" Header="측정값10" >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Margin="2" Text="{Binding InspectText10,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Style="{DynamicResource TextBlockInDataGrid}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding InspectText10,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                                 Tag="10" TextChanged="InspectText_TextChanged"
+                                                 LostFocus="ValueText_LostFocus"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="기준값" Visibility="Hidden">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding insSpec}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="최소값" Visibility="Hidden">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding insSpecMin}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="최대값" Visibility="Hidden">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding insSpecMax}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </GroupBox>
+
+                <GroupBox x:Name="grbDims"  Grid.Row="1" Margin="1">
+                    <GroupBox.Header>
+                        <TextBlock x:Name="txtDimsHeader" Text="DIMS(정량적검사)" FontSize="10"/>
+                    </GroupBox.Header>
+                    <DataGrid x:Name="dgdSub2" Grid.Row="1" 
+                              HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible"  Style="{DynamicResource DataGridEditSet}">
+                        <DataGrid.Resources>
+                            <Style TargetType="DataGridCell">
+                                <EventSetter Event="PreviewKeyDown" Handler="DataGridSub2Cell_PreviewKeyDown"/>
+                                <EventSetter Event="KeyDown" Handler="DataGridSub2Cell_KeyDown" />
+                                <EventSetter Event="KeyUp" Handler="TextBoxFocusInDataGrid" />
+                                <EventSetter Event="MouseUp" Handler="TextBoxFocusInDataGrid_MouseUp" />
+                                <EventSetter Event="GotFocus" Handler="DataGridCell_GotFocus" />
+                            </Style>
+                        </DataGrid.Resources>
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="" >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Num,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="InspectBasisID" Visibility="Hidden">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding InspectBasisID,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="InspectBasisSeq" Visibility="Hidden">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Seq,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="InspectBasisSubSeq" Visibility="Hidden">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding SubSeq,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="검사항목" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding insItemName,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Header="중심규격" Width="auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding insSpec,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="검사수량" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding InsSampleQty,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Style="{DynamicResource NumericTextBlock}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn x:Name="dgdtpeValue1" Header="1" Width="*">
+                                
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Margin="2" Text="{Binding InspectValue1,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" >
+                                            <TextBlock.Style>
+                                                <Style TargetType="{x:Type TextBlock}">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Path=ValueDefect1}" Value="true">
+                                                            <Setter Property="Foreground" Value="Red" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                    <Setter Property="TextAlignment" Value="Right"/>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding InspectValue1,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                                 Tag="1" TextChanged="InspectValue_TextChanged"
+                                                 PreviewTextInput="NumValue_PreviewTextInput"
+                                                 LostFocus="ValueText_LostFocus"
+                                                 KeyDown="ValueText_KeyDown" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                                 
+                            </DataGridTemplateColumn >
+                            <DataGridTemplateColumn x:Name="dgdtpeValue2" Header="2" Width="*">
+                                
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Margin="2" Text="{Binding InspectValue2,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" >
+                                            <TextBlock.Style>
+                                                <Style TargetType="{x:Type TextBlock}">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Path=ValueDefect2}" Value="true">
+                                                            <Setter Property="Foreground" Value="Red" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                    <Setter Property="TextAlignment" Value="Right"/>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding InspectValue2,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                                 Tag="2" TextChanged="InspectValue_TextChanged"
+                                                 PreviewTextInput="NumValue_PreviewTextInput"
+                                                 LostFocus="ValueText_LostFocus"
+                                                 KeyDown="ValueText_KeyDown" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn x:Name="dgdtpeValue3" Header="3" Width="*">
+                            
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Margin="2" Text="{Binding InspectValue3,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" >
+                                            <TextBlock.Style>
+                                                <Style TargetType="{x:Type TextBlock}">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Path=ValueDefect3}" Value="true">
+                                                            <Setter Property="Foreground" Value="Red" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                    <Setter Property="TextAlignment" Value="Right"/>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding InspectValue3,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                                 Tag="3" TextChanged="InspectValue_TextChanged"
+                                                 PreviewTextInput="NumValue_PreviewTextInput"
+                                                 LostFocus="ValueText_LostFocus"
+                                                 KeyDown="ValueText_KeyDown" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn x:Name="dgdtpeValue4" Header="4" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Margin="2" Text="{Binding InspectValue4,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" >
+                                            <TextBlock.Style>
+                                                <Style TargetType="{x:Type TextBlock}">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Path=ValueDefect4}" Value="true">
+                                                            <Setter Property="Foreground" Value="Red" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                    <Setter Property="TextAlignment" Value="Right"/>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding InspectValue4,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                                 Tag="4" TextChanged="InspectValue_TextChanged"
+                                                 PreviewTextInput="NumValue_PreviewTextInput"
+                                                 LostFocus="ValueText_LostFocus"
+                                                 KeyDown="ValueText_KeyDown"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn x:Name="dgdtpeValue5" Header="5" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Margin="2" Text="{Binding InspectValue5,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" >
+                                            <TextBlock.Style>
+                                                <Style TargetType="{x:Type TextBlock}">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Path=ValueDefect5}" Value="true">
+                                                            <Setter Property="Foreground" Value="Red" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                    <Setter Property="TextAlignment" Value="Right"/>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding InspectValue5,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                                 Tag="5" TextChanged="InspectValue_TextChanged"
+                                                 PreviewTextInput="NumValue_PreviewTextInput"
+                                                 LostFocus="ValueText_LostFocus"
+                                                 KeyDown="ValueText_KeyDown"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn x:Name="dgdtpeValue6" Header="6" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Margin="2" Text="{Binding InspectValue6,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" >
+                                            <TextBlock.Style>
+                                                <Style TargetType="{x:Type TextBlock}">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Path=ValueDefect6}" Value="true">
+                                                            <Setter Property="Foreground" Value="Red" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                    <Setter Property="TextAlignment" Value="Right"/>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding InspectValue6,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                                 Tag="6" TextChanged="InspectValue_TextChanged"
+                                                 PreviewTextInput="NumValue_PreviewTextInput"
+                                                 LostFocus="ValueText_LostFocus"
+                                                 KeyDown="ValueText_KeyDown"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn x:Name="dgdtpeValue7" Header="7" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Margin="2" Text="{Binding InspectValue7,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" >
+                                            <TextBlock.Style>
+                                                <Style TargetType="{x:Type TextBlock}">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Path=ValueDefect7}" Value="true">
+                                                            <Setter Property="Foreground" Value="Red" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                    <Setter Property="TextAlignment" Value="Right"/>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding InspectValue7,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                                 Tag="7" TextChanged="InspectValue_TextChanged"
+                                                 PreviewTextInput="NumValue_PreviewTextInput"
+                                                 LostFocus="ValueText_LostFocus"
+                                                 KeyDown="ValueText_KeyDown"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn x:Name="dgdtpeValue8" Header="8" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Margin="2" Text="{Binding InspectValue8,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" >
+                                            <TextBlock.Style>
+                                                <Style TargetType="{x:Type TextBlock}">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Path=ValueDefect8}" Value="true">
+                                                            <Setter Property="Foreground" Value="Red" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                    <Setter Property="TextAlignment" Value="Right"/>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding InspectValue8,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                                 Tag="8" TextChanged="InspectValue_TextChanged"
+                                                 PreviewTextInput="NumValue_PreviewTextInput"
+                                                 LostFocus="ValueText_LostFocus"
+                                                 KeyDown="ValueText_KeyDown"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn x:Name="dgdtpeValue9" Header="9" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Margin="2" Text="{Binding InspectValue9,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" >
+                                            <TextBlock.Style>
+                                                <Style TargetType="{x:Type TextBlock}">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Path=ValueDefect9}" Value="true">
+                                                            <Setter Property="Foreground" Value="Red" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                    <Setter Property="TextAlignment" Value="Right"/>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding InspectValue9,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                                 Tag="9" TextChanged="InspectValue_TextChanged"
+                                                 PreviewTextInput="NumValue_PreviewTextInput"
+                                                 LostFocus="ValueText_LostFocus"
+                                                 KeyDown="ValueText_KeyDown"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn x:Name="dgdtpeValue10" Header="10" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Margin="2" Text="{Binding InspectValue10,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" >
+                                            <TextBlock.Style>
+                                                <Style TargetType="{x:Type TextBlock}">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Path=ValueDefect10}" Value="true">
+                                                            <Setter Property="Foreground" Value="Red" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                    <Setter Property="TextAlignment" Value="Right"/>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding InspectValue10,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                                 Tag="10" TextChanged="InspectValue_TextChanged"
+                                                 PreviewTextInput="NumValue_PreviewTextInput"
+                                                 LostFocus="ValueText_LostFocus"
+                                                 KeyDown="ValueText_KeyDown"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+                            
+                            <DataGridTemplateColumn Header="하한" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding InsTPSpecMin}" Style="{DynamicResource NumericTextBlock}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="상한" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding InsTPSpecMax}" Style="{DynamicResource NumericTextBlock}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="하한" Width="*" Visibility="Hidden">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding SpecMin}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Header="상한" Width="*" Visibility="Hidden">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding SpecMax}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="중심값" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding insSpec}" Style="{DynamicResource TextBlockInDataGrid}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </GroupBox>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

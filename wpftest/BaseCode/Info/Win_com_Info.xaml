@@ -1,0 +1,149 @@
+﻿<UserControl x:Class="WizMes_WellMade.Win_com_Info"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WizMes_WellMade"
+             mc:Ignorable="d" 
+             d:DesignHeight="620" d:DesignWidth="820" Loaded="UserControl_Loaded">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="88*" />
+            <RowDefinition Height="532*" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Margin="1" Background="{DynamicResource WizMes_WellMade}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100*" />
+                <ColumnDefinition Width="160*" />
+                <ColumnDefinition Width="180*" />
+                <ColumnDefinition Width="180*" />
+                <ColumnDefinition Width="200*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="2" Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="95*"/>
+                    <ColumnDefinition Width="95*"/>
+                    <ColumnDefinition Width="20*"/>
+                </Grid.ColumnDefinitions>
+
+                <Label x:Name="lblWorkplace" Grid.Column="0" Style="{DynamicResource LabelSearch}"
+                       MouseLeftButtonUp="lblWorkplace_MouseLeftButtonUp">
+                    <StackPanel Style="{DynamicResource StackPanelInLabel}">
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                            <CheckBox x:Name="chkWorkplace" Checked="chkWorkplace_Checked" Unchecked="chkWorkplace_Unchecked"/>
+                        </Viewbox>
+                        <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                            <TextBlock Text="매출사업장" Style="{DynamicResource TextBlockInViewBoxSearch}" />
+                        </Viewbox>
+
+                    </StackPanel>
+                </Label>
+                <ComboBox x:Name="cboWorkplace" Grid.Column="1" Style="{DynamicResource ComboBoxSearchString}" IsEnabled="False" Background="White" SelectedIndex="0"/>
+            </Grid>
+
+            <Grid Grid.Column="4" Grid.Row="0" Grid.RowSpan="4">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="btnRefresh" Grid.Column="2" Margin="1" Click="btnRefresh_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{DynamicResource btiRefresh}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Source={StaticResource tblRefresh},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="btnClose" Grid.Column="3" Margin="1" Click="btnClose_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{DynamicResource btiClose}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Source={StaticResource tblClose},Mode=OneWay,Path=Text}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                </Grid>
+            </Grid>
+        </Grid>
+
+
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="6*" />
+                    <ColumnDefinition Width="4*" />
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="9*" />
+                    </Grid.RowDefinitions>
+
+                    <Label x:Name="lblAllNotice" Grid.Row="0" Margin="1" Content="전체 알림사항" HorizontalContentAlignment="Center"
+                               Background="#365fb1" Foreground="White"/>
+                    <TextBox x:Name="txtAllNotice" Grid.Row="1" Margin="1" 
+                                     Text="▶ 오늘은 몇년 몇월 며칠 입니다." TextWrapping="Wrap" AcceptsReturn="True" 
+                                     VerticalScrollBarVisibility="Visible" IsReadOnly="True"/>
+                </Grid>
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="9*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <GroupBox Header="첨부문서(전체공지용)" Margin="1" Grid.Row="0">
+                        <DataGrid x:Name="dgAttachFile" Style="{DynamicResource DataGridSet1}">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Info ID" Width="auto" MinWidth="100" Binding="{Binding Path=ColInfoID}" />
+                                <DataGridTextColumn Header="첨부파일" Width="auto" MinWidth="100" Binding="{Binding Path=ColAttachFile}" />
+                                <DataGridTextColumn Header="첨부파일 경로" MaxWidth="0" Width="0" Binding="{Binding Path=ColAttachPath}" />
+                                <DataGridTemplateColumn Header="다운" Width="*" MinWidth="100">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Click="btn_GridAttach_Click" Height="30">다운로드</Button>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </GroupBox>
+                    <Label Content="※내려받기는 C\Temp로 내려집니다." Margin="1,3,1,1" BorderBrush="Blue" BorderThickness="1"  Grid.Row="1"/>
+                </Grid>
+
+            </Grid>
+
+
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="9*" />
+                </Grid.RowDefinitions>
+
+                <Label x:Name="lblPersonNotice" Grid.Row="0" Margin="1" Content="사용자별 알림사항" HorizontalContentAlignment="Center"
+                               Background="#365fb1" Foreground="White"/>
+                <TextBox x:Name="txtPersonNotice" Grid.Row="1" Margin="1" 
+                                     Text="▶ 홍길동님은 오늘 당직입니다." TextWrapping="Wrap" AcceptsReturn="True" 
+                                     VerticalScrollBarVisibility="Visible" IsReadOnly="True"/>
+            </Grid>
+
+        </Grid>
+
+    </Grid>
+</UserControl>

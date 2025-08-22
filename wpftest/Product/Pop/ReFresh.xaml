@@ -1,0 +1,38 @@
+﻿<Window x:Class="WizMes_WellMade.PopUp.ReFresh"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WizMes_WellMade.PopUp"
+        mc:Ignorable="d" Loaded="Window_Loaded"
+        WindowStartupLocation="CenterScreen"
+        Title="생산집계 업데이트 기간 선택" Height="150" Width="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="125*" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150*" />
+            <ColumnDefinition Width="150*" />
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0" Grid.Row="0">
+            <Button x:Name="btnDayUpdate" Grid.Column="0" Margin="1" Click="btnDayUpdate_Click">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="{DynamicResource btiUpdate}" Style="{DynamicResource imgSize}" VerticalAlignment="Center"/>
+                    <TextBlock Text="새로고침" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+        </Grid>
+        <Grid Grid.Column="1" Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30*" />
+                <RowDefinition Height="30*" />
+                <RowDefinition Height="30*" />
+            </Grid.RowDefinitions>
+            <DatePicker x:Name="FromDay" Grid.Column="0"  Grid.Row="0" Margin="1"  VerticalAlignment="Center"/>
+            <DatePicker x:Name="ToDay" Grid.Column="0"  Grid.Row="1" Margin="1" VerticalAlignment="Center"/>
+            <TextBlock Text="최대 1분 소요됩니다(1일)" Grid.Column="0"  Grid.Row="2" Margin="1" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+        </Grid>
+    </Grid>
+</Window>

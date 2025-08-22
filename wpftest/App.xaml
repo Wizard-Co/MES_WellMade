@@ -1,0 +1,1548 @@
+<Application x:Class="WizMes_WellMade.App" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:WizMes_WellMade" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             d1p1:Ignorable="d" xmlns:d1p1="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             Startup="Application_Startup" >
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source ="/XamlDictionay/WizardDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <!-- 전체의 글꼴 및 글자크기 설정 -->
+            <Style TargetType="{x:Type Window}" x:Name="AllFont">
+                <Setter Property="FontFamily" Value="{Binding FontFamily,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Window}}" />
+                <Setter Property="FontStyle" Value="{Binding FontStyle,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Window}}" />
+            </Style>
+            
+            <Style TargetType="ComboBox">
+                <Setter Property="Padding" Value="3 0 0 0" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <EventSetter Event="SizeChanged" Handler="ComboBox_SizeChanged"/>
+                <EventSetter Event="Loaded" Handler="ComboBox_Loaded"/>
+                <!--<Setter Property="FontSize" Value="10"/>-->
+            </Style>
+
+            <Style TargetType="TextBox">
+                <EventSetter Event="SizeChanged" Handler="TextBox_SizeChanged"/>
+                <EventSetter Event="Loaded" Handler="TextBox_Loaded"/>
+                <!--<Setter Property="FontSize" Value="10"/>-->
+            </Style>
+
+            <Style TargetType="DataGrid" >
+                <Setter Property="IsReadOnly" Value="True" />
+                <Setter Property="AutoGenerateColumns" Value="False" />
+                <Setter Property="EnableColumnVirtualization" Value="True"/>
+                <Setter Property="EnableRowVirtualization" Value="True" />
+                
+                <!--<Setter Property="FontSize" Value="10"/>-->
+                <EventSetter Event="MouseLeftButtonDown" Handler="MouseLeftDoubleClick"/>
+                
+                
+            </Style>
+
+            <Style TargetType="DataGridRow">
+                <Style.Resources>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#3399FF"/>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black"/>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="#3399FF" />
+                    <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="Black"/>
+                </Style.Resources>
+            </Style>
+
+
+            <Style x:Key="RowHeaderStyle" TargetType="DataGridRowHeader">
+
+                <Setter Property="Background" Value="#365fb1" />
+                <Setter Property="BorderBrush" Value="White" />
+                <Setter Property="Foreground" Value="White" />
+                <Setter Property="BorderThickness" Value="0.7" />
+                <Setter Property="FontWeight" Value="Thin" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="DataGridRowHeader">
+                            <Grid>
+                                <Border BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                      Background="{TemplateBinding Background}">
+                                    <ContentPresenter HorizontalAlignment="Center" 
+                                        VerticalAlignment="Center"
+                                        Content="{TemplateBinding Content}"/>
+                                </Border>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+
+            <!-- 전체 데이터 그리드의 칼럼 헤더를 중간으로 -->
+            <Style TargetType="{x:Type DataGridColumnHeader}">
+                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                <Setter Property="Background" Value="#365fb1" />
+                <Setter Property="Foreground" Value="White" />
+                <Setter Property="BorderThickness" Value="0.7" />
+                <Setter Property="BorderBrush" Value="White" />
+                <Setter Property="FontSize" Value="10"/>
+                
+                <!--2021-08-26 주석처리(현달씨), 실행이 되지 않아 주석처리함-->
+                <!--<Style.Triggers>
+                    <DataTrigger Binding="{Binding TheFont,RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" Value="8">
+                        <Setter Property="FontSize" Value="9.6" />
+                        
+                <Setter Property="Margin" Value="6,0,6,0" />
+                
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding TheFont,RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" Value="10">
+                        <Setter Property="FontSize" Value="12" />
+                        
+                <Setter Property="Margin" Value="7,0,7,0" />
+                
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding TheFont,RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" Value="11">
+                        <Setter Property="FontSize" Value="13.2" />
+                        
+                <Setter Property="Margin" Value="7.5,0,7.5,0" />
+                
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding TheFont,RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" Value="12">
+                        <Setter Property="FontSize" Value="14.4" />
+                        
+                <Setter Property="Margin" Value="8,0,8,0" />
+                
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding TheFont,RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" Value="13">
+                        <Setter Property="FontSize" Value="15.6" />
+                        
+                <Setter Property="Margin" Value="8.5,0,8.5,0" />
+                
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding TheFont,RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" Value="14">
+                        <Setter Property="FontSize" Value="16.8" />
+                        
+                <Setter Property="Margin" Value="9,0,9,0" />
+                
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding TheFont,RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" Value="15">
+                        <Setter Property="FontSize" Value="18" />
+                        
+                <Setter Property="Margin" Value="9.5,0,9.5,0" />
+                
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding TheFont,RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" Value="16">
+                        <Setter Property="FontSize" Value="19.2" />
+                        
+                <Setter Property="Margin" Value="10,0,10,0" />
+                
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding TheFont,RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" Value="18">
+                        <Setter Property="FontSize" Value="21.6" />
+                        
+                <Setter Property="Margin" Value="11,0,11,0" />
+                
+                    </DataTrigger>
+                </Style.Triggers>-->
+            </Style>
+
+            <Style TargetType="Button">
+                <Setter Property="Background" Value="#eff9ff" />
+                <!--<Setter Property="FontSize" Value="10"/>-->
+                <Setter Property="ContentTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <Viewbox>
+                                <ContentPresenter Content="{TemplateBinding Content}" Margin="2"/>
+                            </Viewbox>
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsEnabled" Value="False">
+                        <Setter Property="Opacity" Value="0.3" />
+                    </Trigger>
+                    <Trigger Property="IsEnabled" Value="True">
+                        <Setter Property="Opacity" Value="1.0" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style TargetType="ToggleButton" >
+                <Setter Property="Background" Value="#eff9ff" />
+            </Style>
+
+            <Style TargetType="DatePicker">
+                <Setter Property="Background" Value="White"/>
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <!--<Setter Property="FontSize" Value="10"/>-->
+                <EventSetter Event="PreviewKeyDown" Handler="DatePicker_EnterDown"/>
+                <EventSetter Event="SizeChanged" Handler="DatePicker_SizeChanged"/>
+                <EventSetter Event="Loaded" Handler="DatePicker_Loaded"/>
+            </Style>
+
+            <!--2021-09-13 주석처리(현달씨)-->
+            <!--<Style TargetType="DatePickerTextBox" >
+                <Setter Property="FontSize" Value="10"/>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding DatePickerDateFormat.DateFormat}" Value="yyyy">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate>
+                                    <Viewbox>
+                                        <TextBlock Text="{Binding Path=SelectedDate, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}},
+                                StringFormat='yyyy'}"  Margin="2"/>
+                                    </Viewbox>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding DatePickerDateFormat.DateFormat}" Value="yyyy-MM">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate>
+                                    <Viewbox>
+                                        <TextBlock Text="{Binding Path=SelectedDate, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}},
+                                StringFormat='yyyy-MM'}"  Margin="2"/>
+                                    </Viewbox>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding DatePickerDateFormat.DateFormat}" Value="yyyy-MM-dd">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate>
+                                    <Viewbox>
+                                        <TextBlock Text="{Binding Path=SelectedDate, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}},
+                                StringFormat='yyyy-MM-dd'}"  Margin="2"/>
+                                    </Viewbox>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>-->
+
+            <Style TargetType="CheckBox" >
+                <Setter Property="ContentTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <Viewbox Margin="3">
+                                <ContentPresenter Content="{TemplateBinding Content}" Margin="2"/>
+                            </Viewbox>
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style TargetType="{x:Type Label}">
+                <Setter Property="Background" Value="#ededed" />
+                <Setter Property="BorderBrush" Value="Gray" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="Padding" Value="2" />
+                <!--<Setter Property="FontSize" Value="10"/>-->
+                <Setter Property="Template" >
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Label}" >
+                            <Border BorderBrush="Gray"
+                                BorderThickness="1"
+                                Background="{TemplateBinding Background}"
+                                Padding="2"
+                                SnapsToDevicePixels="True"
+                                CornerRadius="5">
+                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+	                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="ContentTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <Viewbox>
+                                <ContentPresenter Content="{TemplateBinding Content}" Margin="2"/>
+                            </Viewbox>
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style TargetType="{x:Type Border}">
+                <Style.Triggers>
+                    <Trigger Property="IsFocused" Value="true">
+                        <Setter Property="Background" Value="Blue" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style x:Key="InputCommaZeroTextBox" TargetType="TextBox">
+                <EventSetter Event="TextChanged" Handler="TextBoxZero_TextChanged"/>
+                <Setter Property="TextAlignment" Value="Right"/>
+            </Style>
+            <Style x:Key="InputCommaOneTextBox" TargetType="TextBox">
+                <EventSetter Event="TextChanged" Handler="TextBoxOne_TextChanged"/>
+                <Setter Property="TextAlignment" Value="Right"/>
+            </Style>
+            <Style x:Key="InputCommaTwoTextBox" TargetType="TextBox">
+                <EventSetter Event="TextChanged" Handler="TextBoxTwo_TextChanged"/>
+                <Setter Property="TextAlignment" Value="Right"/>
+            </Style>
+            <Style x:Key="InputCommaZeroAndEssentialTextBox" TargetType="TextBox">
+                <EventSetter Event="TextChanged" Handler="TextBoxZero_TextChanged"/>
+                <Setter Property="TextAlignment" Value="Right"/>
+                <Setter Property="Background" Value="#fff2d2" />
+            </Style>
+            <Style x:Key="InputCommaOneAndEssentialTextBox" TargetType="TextBox">
+                <EventSetter Event="TextChanged" Handler="TextBoxOne_TextChanged"/>
+                <Setter Property="TextAlignment" Value="Right"/>
+                <Setter Property="Background" Value="#fff2d2" />
+            </Style>
+            <Style x:Key="InputCommaTwoAndEssentialTextBox" TargetType="TextBox">
+                <EventSetter Event="TextChanged" Handler="TextBoxTwo_TextChanged"/>
+                <Setter Property="TextAlignment" Value="Right"/>
+                <Setter Property="Background" Value="#fff2d2" />
+            </Style>
+            <Style x:Key="InputCommaZeroTextBoxNoRight" TargetType="TextBox">
+                <Setter Property="Margin" Value="1, 1, 1, 0" /> <!--정수정-->
+                <Setter Property="VerticalContentAlignment" Value="Center" /> <!--정수정-->
+                <EventSetter Event="TextChanged" Handler="TextBoxZero_TextChanged"/>
+            </Style>
+            <Style x:Key="InputCommaOneTextBoxNoRight" TargetType="TextBox">
+                <EventSetter Event="TextChanged" Handler="TextBoxOne_TextChanged"/>
+            </Style>
+            <Style x:Key="InputCommaTwoTextBoxNoRight" TargetType="TextBox">
+                <EventSetter Event="TextChanged" Handler="TextBoxTwo_TextChanged"/>
+            </Style>
+            <Style x:Key="InputCommaZeroAndEssentialTextBoxNoRight" TargetType="TextBox">
+                <EventSetter Event="TextChanged" Handler="TextBoxZero_TextChanged"/>
+                <Setter Property="Background" Value="#fff2d2" />
+            </Style>
+            <Style x:Key="InputCommaOneAndEssentialTextBoxNoRight" TargetType="TextBox">
+                <EventSetter Event="TextChanged" Handler="TextBoxOne_TextChanged"/>
+                <Setter Property="Background" Value="#fff2d2" />
+            </Style>
+            <Style x:Key="InputCommaTwoAndEssentialTextBoxNoRight" TargetType="TextBox">
+                <EventSetter Event="TextChanged" Handler="TextBoxTwo_TextChanged"/>
+                <Setter Property="Background" Value="#fff2d2" />
+            </Style>
+            <!-- 백 그라운드에 넣을 이미지 키값으로 지정 -->
+            <ImageBrush x:Key="WizMes_WellMade" ImageSource="Images/wizmes.jpg" />
+            <ImageBrush x:Key="WizMes_WellMadeNoIcon" ImageSource="Images/wizMES_Largesize_noIcon.jpg" />
+            <ImageBrush x:Key="WizMes_WellMadeNoIcon_Stretched" ImageSource="Images/wizMes_blueAreaStretched.jpg" />
+
+
+            <!--2019.05.08 NEW 4M용 스타일-->
+            <Style TargetType="{x:Type Label}" x:Key="CenterViewLabel">
+                <!--<Setter Property="FontSize" Value="10"/>-->
+                <Setter Property="Background" Value="#ededed" />
+                <Setter Property="BorderBrush" Value="Gray" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="Padding" Value="2" />
+                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="Template" >
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Label}" >
+                            <Border BorderBrush="Gray"
+                                BorderThickness="1"
+                                Background="{TemplateBinding Background}"
+                                Padding="2"
+                                SnapsToDevicePixels="True"
+                                CornerRadius="5">
+                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+	                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="ContentTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <Viewbox>
+                                <ContentPresenter Content="{TemplateBinding Content}" Margin="2"/>
+                            </Viewbox>
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="Win10ComboBox" TargetType="{x:Type ComboBox}">
+                <Setter Property="Margin" Value="1, 1, 1, 0" /> <!--정수정-->
+                <Setter Property="Padding" Value="5, 0, 0, 0" /> <!--정수정-->
+                <Setter Property="Background" Value="#fff2d2" /> <!--정수정-->
+
+                <!--<Setter Property="FontSize" Value="10"/>-->
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ComboBox">
+                            <Grid>
+                                <ToggleButton Grid.Column="2" Focusable="false" IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}" >
+                                    <ToggleButton.Template>
+                                        <ControlTemplate>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="5*" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <Border x:Name="Border"  Grid.ColumnSpan="2" CornerRadius="1" Background="LightGray" BorderBrush="LightGray" BorderThickness="1" />
+                                                <Border Grid.Column="0" CornerRadius="1"  Margin="1"  Background="#fff2d2"  BorderBrush="LightGray" BorderThickness="0,0,1,0" />
+                                                <Path x:Name="Arrow" Grid.Column="1"  Fill="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 4 4 L 8 0 Z"/>
+                                            </Grid>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="ToggleButton.IsMouseOver" Value="true">
+                                                    <Setter TargetName="Border" Property="Background" Value="Green" />
+                                                </Trigger>
+                                                <Trigger Property="ToggleButton.IsChecked" Value="true">
+                                                    <Setter TargetName="Border" Property="Background" Value="Green" />
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </ToggleButton.Template>
+                                </ToggleButton>
+                                <ContentPresenter Name="ContentSite" IsHitTestVisible="False"  Content="{TemplateBinding SelectionBoxItem}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" Margin="3"  />
+                                <TextBox x:Name="PART_EditableTextBox" Visibility="Hidden" IsReadOnly="{TemplateBinding IsReadOnly}"/>
+                                <Popup Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}" AllowsTransparency="True"  Focusable="False" PopupAnimation="Slide">
+                                    <Grid  Name="DropDown" SnapsToDevicePixels="True" MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                        <Border x:Name="DropDownBorder" Background="White" />
+                                        <ScrollViewer SnapsToDevicePixels="True">
+                                            <StackPanel IsItemsHost="True" />
+                                        </ScrollViewer>
+                                    </Grid>
+                                </Popup>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                </Style.Triggers>
+            </Style>
+
+            <!--///////생산, 설비에서 사용하려고 추가함////////-->
+            <!--/////////////////////////////////////////////////////////////////////////////////////-->
+            <!--/////////////////////////////////////////////////////////////////////////////////////-->
+            <BitmapImage x:Key="icon_Tooltip_Information_16" UriSource="Images/icon_informationMark_16.png" /> 
+            <BitmapImage x:Key="icon_Tooltip_Information_32" UriSource="Images/icon_informationMark_32.png" />
+
+            <Style TargetType="{x:Type Viewbox}" x:Key="ViewBoxSetMaxMinHeight" >
+                <Setter Property="MaxHeight" Value="25" />
+                <Setter Property="MinHeight" Value="20" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="Stretch" Value="Uniform" />
+            </Style>
+
+            <Style TargetType="{x:Type StackPanel}" x:Key="StackPanelInLabel" >
+                <Setter Property="Orientation" Value="Horizontal" />
+                <Setter Property="Margin" Value="-2" />
+            </Style>
+
+            <Style TargetType="{x:Type TextBox}" x:Key="TextBoxSearch" >
+                <Setter Property="IsEnabled" Value="False" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="Margin" Value="1, 1, 1, 0" />
+            </Style>
+
+            <Style TargetType="{x:Type TextBox}" x:Key="TextBoxInputNecessary" >
+                <Setter Property="Margin" Value="1, 1, 1, 0" />
+                <Setter Property="Background" Value="#fff2d2" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+            </Style>
+
+            <Style TargetType="{x:Type TextBox}" x:Key="TextBoxInputAutoCreate" >
+                <Setter Property="Margin" Value="1, 1, 1, 0" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="Background" Value="#c2fdc3" />
+                <Setter Property="IsReadOnly" Value="True" />
+            </Style>
+
+            <Style TargetType="{x:Type TextBox}" x:Key="TextBoxInputArea" >
+                <Setter Property="Margin" Value="1, 1, 1, 0" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+            </Style>
+
+            <Style TargetType="{x:Type TextBox}" x:Key="TextBoxMultiLineNecessary" >
+                <Setter Property="Margin" Value="1, 1, 1, 0" />
+                <Setter Property="Background" Value="#fff2d2" />
+                <Setter Property="TextWrapping" Value="Wrap" />
+                <Setter Property="AcceptsReturn" Value="True" />
+            </Style>
+
+            <Style TargetType="{x:Type TextBlock}" x:Key="TextBlockInViewBoxSearch" >
+                <Setter Property="Margin" Value="-10, 0, 0, 0" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+
+            <Style TargetType="{x:Type TextBlock}" x:Key="TextBlockInViewBoxInput" >
+                <Setter Property="Margin" Value="0, 0, 0, 0" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+
+            <Style TargetType="{x:Type TextBlock}" x:Key="TextBlockInDataGrid" >
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="TextAlignment" Value="Center" />
+            </Style>
+
+            <Style TargetType="{x:Type DataGrid}" x:Key="DataGridSet1" >
+                <Setter Property="IsReadOnly" Value="True" />
+                <Setter Property="AutoGenerateColumns" Value="False" />
+                <Setter Property="EnableColumnVirtualization" Value="True"/>
+                <Setter Property="EnableRowVirtualization" Value="True" />
+                <Setter Property="ColumnHeaderHeight" Value="30" />
+                <Setter Property="MinRowHeight" Value="23" />
+                <EventSetter Event="MouseLeftButtonDown" Handler="MouseLeftDoubleClick"/>
+                <EventSetter Event="SizeChanged" Handler="DataGrid_SizeChanged" />
+
+                <Style.Resources>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="MaxHeight" Value="25" />
+                        <Setter Property="MinHeight" Value="20" />
+                        <Setter Property="Background" Value="#365fb1" />
+                        <Setter Property="BorderBrush" Value="White" />
+                        <Setter Property="Foreground" Value="White" />
+                        <Setter Property="BorderThickness" Value="0.7" />
+                        <Setter Property="FontWeight" Value="Thin" />
+                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                    </Style>
+
+                    <Style TargetType="DataGridRow">
+                        <Style.Resources>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#3399FF"/>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="White"/>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="#3399FF" />
+                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="Black"/>
+                        </Style.Resources>
+                    </Style>
+
+                </Style.Resources>
+            </Style>
+
+            <Style TargetType="{x:Type Label}" x:Key="LabelStateMessage" >
+                <Setter Property="Margin" Value="1, 1, 1, 0" />
+                <Setter Property="Background" Value="Yellow" />
+                <Setter Property="Foreground" Value="Red" />
+                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="Visibility" Value="Hidden" />
+            </Style>
+
+            <Style TargetType="{x:Type Label}" x:Key="LabelInputArea">
+                <Setter Property="Background" Value="#ededed" />
+                <Setter Property="BorderBrush" Value="Gray" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="Margin" Value="1, 1, 1, 0" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                <Setter Property="Template" >
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Label}" >
+                            <Border BorderBrush="Gray"
+                                BorderThickness="1"
+                                Background="{TemplateBinding Background}"
+                                SnapsToDevicePixels="True"
+                                CornerRadius="5">
+                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+	                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="ContentTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <Viewbox>
+                                <ContentPresenter Content="{TemplateBinding Content}" Margin="2"/>
+                            </Viewbox>
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style TargetType="{x:Type CheckBox}" x:Key="CheckBoxInputArea" >
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="Margin" Value="5, 1, 1, 1" />
+            </Style>
+
+            <Style TargetType="{x:Type ComboBox}" x:Key="ComboBoxSearchString" >
+                <Setter Property="Padding" Value="5, 0, 0, 0" />
+                <Setter Property="Margin" Value="1, 1, 1, 0" />
+                <Setter Property="Background" Value="White" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="IsEnabled" Value="False" />
+            </Style>
+
+            <Style TargetType="{x:Type ComboBox}" x:Key="ComboBoxInputString" >
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="Margin" Value="1, 1, 1, 0" />
+                <Setter Property="Padding" Value="5, 0, 0, 0" />
+                <Setter Property="Background" Value="#fff2d2" />
+            </Style>
+
+            <Style TargetType="{x:Type DatePicker}" x:Key="DatePickerSearch">
+                <Setter Property="IsEnabled" Value="False" />
+                <Setter Property="Background" Value="White"/>
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="Margin" Value="1, 1, 1, 0" />
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <!--<EventSetter Event="PreviewKeyDown" Handler="DatePicker_EnterDown"/>	
+                <EventSetter Event="SizeChanged" Handler="DatePicker_SizeChanged"/>	
+                <EventSetter Event="Loaded" Handler="DatePicker_Loaded"/>-->
+            </Style>
+
+            <Style TargetType="{x:Type DatePicker}" x:Key="DatePickerMonthYearSearch">
+                <Setter Property="IsEnabled" Value="False" />
+                <Setter Property="Background" Value="White"/>
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="Margin" Value="1, 1, 1, 0" />
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="local:DatePickerMonthCalendar.IsMonthYear" Value="True" />
+                <Setter Property="local:DatePickerDateFormat.DateFormat" Value="yyyy-MM" />
+            </Style>
+
+            <Style TargetType="{x:Type DatePicker}" x:Key="DatePickerYearSearch">
+                <Setter Property="IsEnabled" Value="False" />
+                <Setter Property="Background" Value="White"/>
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="Margin" Value="1, 1, 1, 0" />
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="local:DatePickerMonthCalendar.IsYear" Value="True" />
+                <Setter Property="local:DatePickerDateFormat.DateFormat" Value="yyyy" />
+            </Style>
+
+            <Style TargetType="{x:Type DatePicker}" x:Key="DatePickerInputArea">
+                <Setter Property="Background" Value="White"/>
+                <Setter Property="Margin" Value="1, 1, 1, 0" />
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+            </Style>
+            <Style TargetType="{x:Type TextBox}" x:Key="TextBoxMultiLine" >
+                <Setter Property="Margin" Value="1, 1, 1, 0" />
+                <Setter Property="TextWrapping" Value="Wrap" />
+                <Setter Property="AcceptsReturn" Value="True" />
+            </Style>
+
+            <Style TargetType="{x:Type DataGridColumnHeader}" x:Key="DataGridColumnHeader1">
+                <Setter Property="MaxHeight" Value="25" />
+                <Setter Property="MinHeight" Value="20" />
+                <Setter Property="Background" Value="#365fb1" />
+                <Setter Property="BorderBrush" Value="White" />
+                <Setter Property="Foreground" Value="White" />
+                <Setter Property="BorderThickness" Value="0.7" />
+                <Setter Property="FontWeight" Value="Thin" />
+                <Setter Property="HorizontalContentAlignment" Value="Center" />
+            </Style>
+            <Style TargetType="{x:Type DataGrid}" x:Key="DataGridMultiLine" >
+                <Setter Property="IsReadOnly" Value="True" />
+                <Setter Property="AutoGenerateColumns" Value="False" />
+                <Setter Property="EnableColumnVirtualization" Value="True"/>
+                <Setter Property="EnableRowVirtualization" Value="True" />
+                <Setter Property="ColumnHeaderHeight" Value="30" />
+                <EventSetter Event="MouseLeftButtonDown" Handler="MouseLeftDoubleClick"/>
+                <EventSetter Event="SizeChanged" Handler="DataGrid_SizeChanged" />
+                <Style.Resources>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="MaxHeight" Value="50" />
+                        <Setter Property="MinHeight" Value="40" />
+                        <Setter Property="Background" Value="#365fb1" />
+                        <Setter Property="BorderBrush" Value="White" />
+                        <Setter Property="Foreground" Value="White" />
+                        <Setter Property="BorderThickness" Value="0.7" />
+                        <Setter Property="FontWeight" Value="Thin" />
+                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                    </Style>
+                    <Style TargetType="DataGridRow">
+                        <Style.Resources>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#3399FF"/>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="White"/>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="#3399FF" />
+                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="Black"/>
+                        </Style.Resources>
+                    </Style>
+                </Style.Resources>
+            </Style>
+
+            <Style TargetType="{x:Type TextBox}" x:Key="TextBoxInput_NumberCommaZero_Right" >
+                <Setter Property="Margin" Value="1, 1, 1, 0" />
+                <Setter Property="Padding" Value="0, 0, 5, 0" />
+                <Setter Property="Background" Value="White" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="HorizontalContentAlignment" Value="Right" />
+                <Setter Property="InputMethod.IsInputMethodEnabled" Value="False" />
+                <EventSetter Event="TextChanged" Handler="TextBoxZero_TextChanged"/>
+                <EventSetter Event="PreviewTextInput" Handler="TextBoxOnlyNumber_PreviewTextInput"/>
+                <EventSetter Event="KeyDown" Handler="TextBoxOnlyNumber_KeyDown" />
+            </Style>
+            
+            <Style TargetType="{x:Type TextBox}" x:Key="TextBoxInputNecessary_NumberCommaZero" >
+                <Setter Property="Margin" Value="1, 1, 1, 0" />
+                <Setter Property="Background" Value="#fff2d2" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="InputMethod.IsInputMethodEnabled" Value="False" />
+                <EventSetter Event="TextChanged" Handler="TextBoxZero_TextChanged"/>
+                <EventSetter Event="PreviewTextInput" Handler="TextBoxOnlyNumber_PreviewTextInput"/>
+                <EventSetter Event="KeyDown" Handler="TextBoxOnlyNumber_KeyDown" />
+            </Style>
+            
+            <Style TargetType="{x:Type TextBox}" x:Key="TextBoxInput_Number_Left" >
+                <Setter Property="Margin" Value="1, 1, 1, 0" />
+                <Setter Property="Padding" Value="5, 0, 0, 0" />
+                <Setter Property="Background" Value="White" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="HorizontalContentAlignment" Value="Left" />
+                <Setter Property="InputMethod.IsInputMethodEnabled" Value="False" />
+                <EventSetter Event="PreviewTextInput" Handler="TextBoxOnlyNumber_PreviewTextInput"/>
+                <EventSetter Event="KeyDown" Handler="TextBoxOnlyNumber_KeyDown" />
+            </Style>
+            
+            <Style TargetType="{x:Type TextBox}" x:Key="TextBoxInputNecessary_Number_Left" >
+                <Setter Property="Margin" Value="1, 1, 1, 0" />
+                <Setter Property="Padding" Value="5, 0, 0, 0" />
+                <Setter Property="Background" Value="#fff2d2" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="HorizontalContentAlignment" Value="Left" />
+                <Setter Property="InputMethod.IsInputMethodEnabled" Value="False" />
+                <EventSetter Event="PreviewTextInput" Handler="TextBoxOnlyNumber_PreviewTextInput"/>
+                <EventSetter Event="KeyDown" Handler="TextBoxOnlyNumber_KeyDown" />
+            </Style>
+
+            <Style TargetType="{x:Type Label}" x:Key="LabelSearch" >
+                <Setter Property="Background" Value="#ededed" />
+                <Setter Property="BorderBrush" Value="Gray" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="Margin" Value="1, 1, 1, 0" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="Template" >
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Label}" >
+                            <Border BorderBrush="Gray"
+                                BorderThickness="1"
+                                Background="{TemplateBinding Background}"
+                                Padding="2"
+                                SnapsToDevicePixels="True"
+                                CornerRadius="5">
+                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+	                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="ContentTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <Viewbox>
+                                <ContentPresenter Content="{TemplateBinding Content}" Margin="2"/>
+                            </Viewbox>
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style TargetType="{x:Type DataGridColumnHeader}" x:Key="DataGridColumnHeaderSet1" >
+                <Setter Property="MaxHeight" Value="25" />
+                <Setter Property="MinHeight" Value="20" />
+                <Setter Property="Background" Value="#365fb1" />
+                <Setter Property="BorderBrush" Value="White" />
+                <Setter Property="Foreground" Value="White" />
+                <Setter Property="BorderThickness" Value="0.7" />
+                <Setter Property="FontWeight" Value="Thin" />
+                <Setter Property="HorizontalContentAlignment" Value="Center" />
+            </Style>
+            
+            <Style TargetType="{x:Type DataGridColumnHeader}" x:Key="DataGridColumnHeaderMultiLineSet1" >
+                <Setter Property="MaxHeight" Value="50" />
+                <Setter Property="MinHeight" Value="40" />
+                <Setter Property="Background" Value="#365fb1" />
+                <Setter Property="BorderBrush" Value="White" />
+                <Setter Property="Foreground" Value="White" />
+                <Setter Property="BorderThickness" Value="0.7" />
+                <Setter Property="FontWeight" Value="Thin" />
+                <Setter Property="HorizontalContentAlignment" Value="Center" />
+            </Style>
+            <Style TargetType="{x:Type TextBox}" x:Key="TextBoxInput_NumberCommaTwo_Right" >
+                <Setter Property="Margin" Value="1, 1, 1, 0" />
+                <Setter Property="Padding" Value="0, 0, 5, 0" />
+                <Setter Property="Background" Value="White" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="HorizontalContentAlignment" Value="Right" />
+                <Setter Property="InputMethod.IsInputMethodEnabled" Value="False" />
+                <EventSetter Event="TextChanged" Handler="TextBoxTwo_TextChanged"/>
+                <EventSetter Event="PreviewTextInput" Handler="TextBoxOnlyNumber_PreviewTextInput"/>
+                <EventSetter Event="KeyDown" Handler="TextBoxOnlyNumber_KeyDown" />
+            </Style>
+            <!--/////////////////////////////////////////////////////////////////////////////////////-->
+            <!--/////////////////////////////////////////////////////////////////////////////////////-->
+            <!-- 품질디자인 -->
+            <!-- X-bar 기호-->
+            <Style TargetType="{x:Type Image}" x:Key="xbarImage" >
+                <Setter Property="Source" Value="Images/x-bar.PNG" />
+            </Style>
+            
+            <Style TargetType="{x:Type Label}" x:Key="LabelSearch_Q" >
+                <Setter Property="Background" Value="#ededed" />
+                <Setter Property="BorderBrush" Value="Gray" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="Margin" Value="1, 1, 1, 0" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="Template" >
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Label}" >
+                            <Border BorderBrush="Gray"
+                                BorderThickness="1"
+                                Background="{TemplateBinding Background}"
+                                Padding="2"
+                                SnapsToDevicePixels="True"
+                                CornerRadius="5">
+                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+	                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="ContentTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <Viewbox>
+                                <ContentPresenter Content="{TemplateBinding Content}" Margin="2"/>
+                            </Viewbox>
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style TargetType="{x:Type Label}" x:Key="LabelInputAreaCheck_Q">
+                <Setter Property="Background" Value="#ededed" />
+                <Setter Property="BorderBrush" Value="Gray" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="Margin" Value="1, 1, 1, 0" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="Template" >
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Label}" >
+                            <Border BorderBrush="Gray"
+                                BorderThickness="1"
+                                Background="{TemplateBinding Background}"
+                                SnapsToDevicePixels="True"
+                                CornerRadius="5">
+                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+                                             VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="ContentTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <Viewbox>
+                                <ContentPresenter Content="{TemplateBinding Content}" Margin="2"/>
+                            </Viewbox>
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+
+            <Style TargetType="{x:Type Label}" x:Key="LabelInputArea_GB_Q">
+                <Setter Property="Background" Value="#ededed" />
+                <Setter Property="BorderBrush" Value="Gray" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="Margin" Value="1, 1, 1, 0" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                <Setter Property="Template" >
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Label}" >
+                            <Border BorderBrush="Gray"
+                                BorderThickness="1"
+                                Background="{TemplateBinding Background}"
+                                SnapsToDevicePixels="True"
+                                CornerRadius="5">
+                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+	                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="ContentTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <Viewbox>
+                                <ContentPresenter Content="{TemplateBinding Content}" Margin="4"/>
+                            </Viewbox>
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+
+            <Style TargetType="{x:Type Label}" x:Key="LabelInputArea_Q">
+                <Setter Property="Background" Value="#ededed" />
+                <Setter Property="BorderBrush" Value="Gray" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="Margin" Value="1, 1, 1, 0" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                <Setter Property="Template" >
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Label}" >
+                            <Border BorderBrush="Gray"
+                                BorderThickness="1"
+                                Background="{TemplateBinding Background}"
+                                SnapsToDevicePixels="True"
+                                CornerRadius="5">
+                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+	                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="ContentTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <Viewbox>
+                                <ContentPresenter Content="{TemplateBinding Content}" Margin="2"/>
+                            </Viewbox>
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style TargetType="{x:Type Label}" x:Key="LabelInputArea_Two_Q">
+                <Setter Property="Background" Value="#ededed" />
+                <Setter Property="BorderBrush" Value="Gray" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="Margin" Value="1, 1, 1, 0" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                <Setter Property="Template" >
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Label}" >
+                            <Border BorderBrush="Gray"
+                                BorderThickness="1"
+                                Background="{TemplateBinding Background}"
+                                SnapsToDevicePixels="True"
+                                CornerRadius="5">
+                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+	                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="ContentTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <Viewbox>
+                                <ContentPresenter Content="{TemplateBinding Content}" Margin="4"/>
+                            </Viewbox>
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style TargetType="{x:Type DatePicker}" x:Key="DatePickerSearch_Q">
+                <Setter Property="IsEnabled" Value="True" />
+                <Setter Property="Background" Value="White"/>
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="Margin" Value="1, 1, 1, 0" />
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+            </Style>
+
+            <Style TargetType="{x:Type DatePicker}" x:Key="DatePickerInputNecessary_Q">
+                <Setter Property="Background" Value="#fff2d2"/>    
+                <Setter Property="Margin" Value="1, 1, 1, 0" />
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Style.Resources>
+                    <Style TargetType="{x:Type DatePickerTextBox}">
+                        <Setter Property="Background" Value="#fff2d2"/>
+                        <Setter Property="BorderBrush" Value="#fff2d2"/>
+                        <Setter Property="BorderThickness" Value="0"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type DatePickerTextBox}">
+                                    <Grid Background="#fff2d2">
+                                        <Grid.Resources>
+                                            <SolidColorBrush x:Key="WatermarkBrush" Color="#FFAAAAAA"/>
+                                        </Grid.Resources>
+                                        <VisualStateManager.VisualStateGroups>
+                                            <VisualStateGroup x:Name="CommonStates">
+                                                <VisualStateGroup.Transitions>
+                                                    <VisualTransition GeneratedDuration="0"/>
+                                                    <VisualTransition GeneratedDuration="0:0:0.1" To="MouseOver"/>
+                                                </VisualStateGroup.Transitions>
+                                                <VisualState x:Name="Normal"/>
+                                                <VisualState x:Name="MouseOver">
+                                                    <Storyboard>
+                                                        <ColorAnimation Duration="0:0:0.1" 
+                                                          To="#BBD1DC" 
+                                                          Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" 
+                                                          Storyboard.TargetName="BorderElement"/>
+                                                    </Storyboard>
+                                                </VisualState>
+                                            </VisualStateGroup>
+                                            <VisualStateGroup x:Name="WatermarkStates">
+                                                <VisualState x:Name="Unwatermarked"/>
+                                                <VisualState x:Name="Watermarked">
+                                                    <Storyboard>
+                                                        <DoubleAnimation Duration="0" To="0" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="PART_ContentHost"/>
+                                                        <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="PART_Watermark"/>
+                                                    </Storyboard>
+                                                </VisualState>
+                                            </VisualStateGroup>
+                                        </VisualStateManager.VisualStateGroups>
+                                        <Border x:Name="BorderElement" 
+                                  BorderThickness="1" 
+                                  BorderBrush="Transparent" 
+                                  Background="Transparent"/>
+                                        <ContentControl x:Name="PART_Watermark" 
+                                          Focusable="False" 
+                                          IsHitTestVisible="False" 
+                                          Opacity="0" 
+                                          Padding="2"/>
+                                        <ScrollViewer x:Name="PART_ContentHost" 
+                                        Background="Transparent"
+                                        Focusable="False"
+                                        HorizontalScrollBarVisibility="Hidden"
+                                        VerticalScrollBarVisibility="Hidden"
+                                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                    </Grid>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Style.Resources>
+            </Style>
+
+            <Style TargetType="{x:Type TextBox}" x:Key="TextBoxSearch_Q" >
+                <Setter Property="IsEnabled" Value="False" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="Margin" Value="1, 1, 1, 0" />
+            </Style>
+
+            <Style TargetType="{x:Type TextBox}" x:Key="TextBoxInputAutoCreate_Q" >
+                <Setter Property="Margin" Value="1, 1, 1, 0" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="Background" Value="#c2fdc3" />
+                <Setter Property="IsReadOnly" Value="True" />
+            </Style>
+
+            <Style TargetType="{x:Type TextBox}" x:Key="TextBoxInputNecessary_Q" >
+                <Setter Property="Margin" Value="1, 1, 1, 0" />
+                <Setter Property="Background" Value="#fff2d2" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+            </Style>
+
+            <Style TargetType="{x:Type TextBox}" x:Key="TextBoxInputArea_Q" >
+                <Setter Property="Margin" Value="1, 1, 1, 0" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+            </Style>
+
+            <Style TargetType="{x:Type Viewbox}" x:Key="ViewBoxSetMaxMinHeight_Q" >
+                <Setter Property="MaxHeight" Value="25" />
+                <Setter Property="MinHeight" Value="20" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="Stretch" Value="Uniform" />
+            </Style>
+
+            <Style TargetType="{x:Type TextBlock}" x:Key="TextBlockInViewBoxInput_Q" >
+                <Setter Property="Margin" Value="1, 0, 1, 0" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+            
+            <Style TargetType="{x:Type TextBlock}" x:Key="TextBlockInViewBoxInput_Title_Q" >
+                <Setter Property="Margin" Value="45, 0, 45, 0" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+            
+            <Style TargetType="{x:Type TextBlock}" x:Key="TextBlockInViewBoxInput_Two_Q" >
+                <Setter Property="Margin" Value="24, 0, 24, 0" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+            
+            <Style TargetType="{x:Type TextBlock}" x:Key="TextBlockInViewBoxInput_Three_Q" >
+                <Setter Property="Margin" Value="18, 0, 18, 0" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+            
+            <Style TargetType="{x:Type TextBlock}" x:Key="TextBlockInViewBoxInput_Four_Q" >
+                <Setter Property="Margin" Value="14, 0, 14, 0" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+            
+            <Style TargetType="{x:Type TextBlock}" x:Key="TextBlockInViewBoxInput_Five_Q" >
+                <Setter Property="Margin" Value="8, 0, 8, 0" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+            
+            <Style TargetType="{x:Type TextBlock}" x:Key="TextBlockInViewBoxInput_WithCheck_Q" >
+                <Setter Property="Margin" Value="-10, 1, 13, 1" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+
+            <Style TargetType="{x:Type TextBlock}" x:Key="TextBlockInViewBoxInput_WithCheck_Five_Q" >
+                <Setter Property="Margin" Value="-10, 1, 1, 1" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+
+            <Style TargetType="{x:Type TextBlock}" x:Key="TextBlockInViewBoxInput_AllSector_TwoBlock_Q" >
+                <Setter Property="Margin" Value="63, 0, 63, 0" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+
+            <Style TargetType="{x:Type TextBlock}" x:Key="TextBlockInViewBoxInput_AllSector_OneBlock_Q" >
+                <Setter Property="Margin" Value="28, 0, 28, 0" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+            
+            <Style TargetType="{x:Type TextBlock}" x:Key="TextBlockInViewBoxInput_AllSector_OneBlock_Long_Q">
+                <Setter Property="Margin" Value="13, 0, 13, 0" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+            
+            <Style TargetType="{x:Type TextBlock}" x:Key="TextBlockInViewBoxInput_AllSector_OneBlock_Three_Q">
+                <Setter Property="Margin" Value="15, 0, 15, 0" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+            
+            <Style TargetType="{x:Type TextBlock}" x:Key="TextBlockInViewBoxSearch_Q" >
+                <Setter Property="Margin" Value="-10, 0, 0, 0" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+
+            <Style TargetType="{x:Type ComboBox}" x:Key="ComboBoxInputString_Q" >
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="Margin" Value="1, 1, 1, 0" />
+                <Setter Property="Padding" Value="5, 0, 0, 0" />
+                <Setter Property="Background" Value="#fff2d2" />
+            </Style>
+
+            <Style TargetType="{x:Type StackPanel}" x:Key="StackPanelInLabel_Q" >
+                <Setter Property="Orientation" Value="Horizontal" />
+                <Setter Property="Margin" Value="-2" />
+            </Style>
+
+            <Style TargetType="{x:Type StackPanel}" x:Key="StackPanelInLabel_Wide_Q" >
+                <Setter Property="Orientation" Value="Horizontal" />
+            </Style>
+
+            <Style TargetType="{x:Type ComboBox}" x:Key="ComboBoxSearchString_Q" >
+                <Setter Property="Padding" Value="5, 0, 0, 0" />
+                <Setter Property="Margin" Value="1, 1, 1, 0" />
+                <Setter Property="Background" Value="White" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="IsEnabled" Value="False" />
+            </Style>
+
+            <Style TargetType="{x:Type TextBox}" x:Key="TextBoxMultiLineNecessary_Q" >
+                <Setter Property="Margin" Value="1, 1, 1, 0" />
+                <Setter Property="Background" Value="#fff2d2" />
+                <Setter Property="TextWrapping" Value="Wrap" />
+                <Setter Property="AcceptsReturn" Value="True" />
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+            </Style>
+
+            <Style TargetType="{x:Type DatePicker}" x:Key="DatePickerInputArea_Q">
+                <Setter Property="Background" Value="White"/>
+                <Setter Property="Margin" Value="1, 1, 1, 0" />
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+            </Style>
+
+            <Style TargetType="{x:Type TextBox}" x:Key="TextBoxInput_Number_Left_Q" >
+                <Setter Property="Margin" Value="1, 1, 1, 0" />
+                <Setter Property="Padding" Value="5, 0, 0, 0" />
+                <Setter Property="Background" Value="White" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="HorizontalContentAlignment" Value="Left" />
+                <Setter Property="InputMethod.IsInputMethodEnabled" Value="False" />
+                <EventSetter Event="PreviewTextInput" Handler="TextBoxOnlyNumber_PreviewTextInput"/>
+                <EventSetter Event="KeyDown" Handler="TextBoxOnlyNumber_KeyDown" />
+            </Style>
+
+            <Style TargetType="{x:Type DatePicker}" x:Key="DatePickerMonthYearSearch_Q">
+                <Setter Property="IsEnabled" Value="False" />
+                <Setter Property="Background" Value="White"/>
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="Margin" Value="1, 1, 1, 0" />
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="local:DatePickerMonthCalendar.IsMonthYear" Value="True" />
+                <Setter Property="local:DatePickerDateFormat.DateFormat" Value="yyyy-MM" />
+            </Style>
+
+            <Style TargetType="{x:Type TextBox}" x:Key="TextBoxInput_Integer_Right" >
+                <Setter Property="Margin" Value="1, 1, 1, 0" />
+                <Setter Property="Padding" Value="5, 0, 0, 0" />
+                <Setter Property="Background" Value="White" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="HorizontalContentAlignment" Value="Right" />
+                <Setter Property="InputMethod.IsInputMethodEnabled" Value="False" />
+                <EventSetter Event="PreviewTextInput" Handler="TextBoxOnlyNumber_Integer_PreviewTextInput"/>
+                <EventSetter Event="KeyDown" Handler="TextBoxOnlyNumber_KeyDown" />
+            </Style>
+
+            <Style TargetType="{x:Type TextBox}" x:Key="TextBoxInput_readonly_Right_Q" >
+                <Setter Property="Margin" Value="1, 1, 1, 0" />
+                <Setter Property="Padding" Value="0, 0, 5, 0" />
+                <Setter Property="Background" Value="White" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="HorizontalContentAlignment" Value="Right" />
+                
+            </Style>
+
+            <Style TargetType="{x:Type TextBlock}" x:Key="TextBlockInViewBoxInput_Small_Q" >
+                <Setter Property="Margin" Value="1, 1, 1, 1" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+
+            <Style TargetType="{x:Type TextBlock}" x:Key="TextBlockInViewBoxInput_WithCheck_Three_Q" >
+                <Setter Property="Margin" Value="0, 2, 10, 2" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+            
+            <Style TargetType="{x:Type TextBlock}" x:Key="TextBlockInViewBoxOneLine_Long_Q" >
+                <Setter Property="Margin" Value="5, 2.5, 100, 2.5" />
+            </Style>
+
+            <Style TargetType="{x:Type TextBlock}" x:Key="TextBlockInViewBoxOneLine_Q" >
+                <Setter Property="Margin" Value="0, 0, 100, 0" />
+            </Style>
+
+            <Style TargetType="{x:Type TextBlock}" x:Key="TextBlockInViewBoxInput_AllSector_OneBlock2_Q" >
+                <Setter Property="Margin" Value="120, 0, 120, 0" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+            
+            <Style TargetType="{x:Type DataGrid}" x:Key="DataGridSetNoHeader" >
+                <Setter Property="IsReadOnly" Value="True" />
+                <Setter Property="AutoGenerateColumns" Value="False" />
+                <Setter Property="EnableColumnVirtualization" Value="True"/>
+                <Setter Property="EnableRowVirtualization" Value="True" />
+                <Setter Property="ColumnHeaderHeight" Value="0" />
+                <Setter Property="RowHeight" Value="30" />
+                <Setter Property="MinRowHeight" Value="20" />
+                <EventSetter Event="MouseLeftButtonDown" Handler="MouseLeftDoubleClick"/>
+                <EventSetter Event="SizeChanged" Handler="DataGrid_SizeChanged" />
+
+                <Style.Resources>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="MaxHeight" Value="25" />
+                        <Setter Property="MinHeight" Value="20" />
+                        <Setter Property="Background" Value="#365fb1" />
+                        <Setter Property="BorderBrush" Value="White" />
+                        <Setter Property="Foreground" Value="White" />
+                        <Setter Property="BorderThickness" Value="0.7" />
+                        <Setter Property="FontWeight" Value="Thin" />
+                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                    </Style>
+
+                    <Style TargetType="DataGridRow">
+                        <Style.Resources>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#3399FF"/>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="White"/>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="#3399FF" />
+                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="Black"/>
+                        </Style.Resources>
+                    </Style>
+
+                </Style.Resources>
+            </Style>
+
+            <Style TargetType="{x:Type DataGrid}" x:Key="DataGridSetNoHeader_TwoLine" >
+                <Setter Property="IsReadOnly" Value="True" />
+                <Setter Property="AutoGenerateColumns" Value="False" />
+                <Setter Property="EnableColumnVirtualization" Value="True"/>
+                <Setter Property="EnableRowVirtualization" Value="True" />
+                <Setter Property="ColumnHeaderHeight" Value="0" />
+                <Setter Property="RowHeight" Value="31" />
+                <Setter Property="MinRowHeight" Value="20" />
+                <EventSetter Event="MouseLeftButtonDown" Handler="MouseLeftDoubleClick"/>
+                <EventSetter Event="SizeChanged" Handler="DataGrid_SizeChanged" />
+
+                <Style.Resources>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="MaxHeight" Value="25" />
+                        <Setter Property="MinHeight" Value="20" />
+                        <Setter Property="Background" Value="#365fb1" />
+                        <Setter Property="BorderBrush" Value="White" />
+                        <Setter Property="Foreground" Value="White" />
+                        <Setter Property="BorderThickness" Value="0.7" />
+                        <Setter Property="FontWeight" Value="Thin" />
+                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                    </Style>
+
+                    <Style TargetType="DataGridRow">
+                        <Style.Resources>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#3399FF"/>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="White"/>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="#3399FF" />
+                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="Black"/>
+                        </Style.Resources>
+                    </Style>
+
+                </Style.Resources>
+            </Style>
+
+            <!--디자인변경-->
+            <Style TargetType="{x:Type DataGrid}" x:Key="DataGridSetNoEvent" >
+                <Setter Property="IsReadOnly" Value="True" />
+                <Setter Property="AutoGenerateColumns" Value="False" />
+                <Setter Property="EnableColumnVirtualization" Value="True"/>
+                <Setter Property="EnableRowVirtualization" Value="True" />
+                <Setter Property="ColumnHeaderHeight" Value="30" />
+                <Setter Property="RowHeight" Value="23" />
+                <Setter Property="MinRowHeight" Value="20" />
+                <EventSetter Event="SizeChanged" Handler="DataGrid_SizeChanged" />
+
+                <Style.Resources>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="MaxHeight" Value="25" />
+                        <Setter Property="MinHeight" Value="20" />
+                        <Setter Property="Background" Value="#365fb1" />
+                        <Setter Property="BorderBrush" Value="White" />
+                        <Setter Property="Foreground" Value="White" />
+                        <Setter Property="BorderThickness" Value="0.7" />
+                        <Setter Property="FontWeight" Value="Thin" />
+                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                    </Style>
+
+                    <Style TargetType="DataGridRow">
+                        <Style.Resources>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#3399FF"/>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="White"/>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="#3399FF" />
+                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="White"/>
+                        </Style.Resources>
+                    </Style>
+                </Style.Resources>
+            </Style>
+            
+            <!--총계 그리드 디자인-->
+            <Style TargetType="{x:Type DataGrid}" x:Key="TotalGridSet1" >
+                <Setter Property="IsReadOnly" Value="True" />
+                <Setter Property="AutoGenerateColumns" Value="False" />
+                <Setter Property="EnableColumnVirtualization" Value="True"/>
+                <Setter Property="EnableRowVirtualization" Value="True" />
+                <Setter Property="ColumnHeaderHeight" Value="20" />
+                <!--<Setter Property="RowHeight" Value="30" />
+                <Setter Property="Height" Value="50"/>-->
+                <!--<EventSetter Event="SizeChanged" Handler="TotalDataGrid_SizeChanged" />-->
+                <!--<EventSetter Event="MouseLeftButtonDown" Handler="MouseLeftDoubleClick"/>-->
+                
+                <Style.Resources>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="MaxHeight" Value="30" />
+                        <Setter Property="MinHeight" Value="25" />
+                        <Setter Property="Background" Value="#365fb1" />
+                        <Setter Property="BorderBrush" Value="White" />
+                        <Setter Property="Foreground" Value="White" />
+                        <Setter Property="BorderThickness" Value="0.7" />
+                        <Setter Property="FontWeight" Value="Thin" />
+                        <Setter Property="FontSize" Value="11"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                    </Style>
+
+                    <!--<Style TargetType="DataGridRow">
+                        
+                        <Style.Resources>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#3399FF"/>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="White"/>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="#3399FF" />
+                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="White"/>
+                        </Style.Resources>
+                        
+                    </Style>-->
+                </Style.Resources>
+            </Style>
+
+            <!--총계 그리드 데이터 두줄 디자인-->
+            <Style TargetType="{x:Type DataGrid}" x:Key="TotalGridSet2" >
+                <Setter Property="IsReadOnly" Value="True" />
+                <Setter Property="AutoGenerateColumns" Value="False" />
+                <Setter Property="EnableColumnVirtualization" Value="True"/>
+                <Setter Property="EnableRowVirtualization" Value="True" />
+                <Setter Property="ColumnHeaderHeight" Value="25" />
+                <Setter Property="RowHeight" Value="30" />
+                <Setter Property="Height" Value="90"/>
+                <!--<EventSetter Event="SizeChanged" Handler="TotalDataGrid_SizeChanged" />-->
+                <EventSetter Event="MouseLeftButtonDown" Handler="MouseLeftDoubleClick"/>
+
+                <Style.Resources>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="Background" Value="#365fb1" />
+                        <Setter Property="BorderBrush" Value="White" />
+                        <Setter Property="Foreground" Value="White" />
+                        <Setter Property="BorderThickness" Value="0.7" />
+                        <Setter Property="FontWeight" Value="Thin" />
+                        <Setter Property="FontSize" Value="11"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                    </Style>
+
+                    <Style TargetType="DataGridRow">
+
+                        <Style.Resources>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#3399FF"/>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="White"/>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="#3399FF" />
+                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="White"/>
+                        </Style.Resources>
+
+                    </Style>
+                </Style.Resources>
+            </Style>
+
+            <!--총계 그리드 헤더 두줄 디자인-->
+            <Style TargetType="{x:Type DataGrid}" x:Key="TotalGridSet3" >
+                <Setter Property="IsReadOnly" Value="True" />
+                <Setter Property="AutoGenerateColumns" Value="False" />
+                <Setter Property="EnableColumnVirtualization" Value="True"/>
+                <Setter Property="EnableRowVirtualization" Value="True" />
+                <Setter Property="ColumnHeaderHeight" Value="50" />
+                <Setter Property="RowHeight" Value="30" />
+                <Setter Property="Height" Value="80"/>
+                <!--<EventSetter Event="SizeChanged" Handler="TotalDataGrid_SizeChanged" />-->
+                <EventSetter Event="MouseLeftButtonDown" Handler="MouseLeftDoubleClick"/>
+
+                <Style.Resources>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="Background" Value="#365fb1" />
+                        <Setter Property="BorderBrush" Value="White" />
+                        <Setter Property="Foreground" Value="White" />
+                        <Setter Property="BorderThickness" Value="0.7" />
+                        <Setter Property="FontWeight" Value="Thin" />
+                        <Setter Property="FontSize" Value="11"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                    </Style>
+
+                    <Style TargetType="DataGridRow">
+
+                        <Style.Resources>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#3399FF"/>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="White"/>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="#3399FF" />
+                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="White"/>
+                        </Style.Resources>
+
+                    </Style>
+                </Style.Resources>
+            </Style>
+            
+            <!--그리드에서수정하는 그리드 디자인-->
+            <Style TargetType="{x:Type DataGrid}" x:Key="DataGridEditSet" >
+                <Setter Property="IsReadOnly" Value="True" />
+                <Setter Property="AutoGenerateColumns" Value="False" />
+                <Setter Property="EnableColumnVirtualization" Value="True"/>
+                <Setter Property="EnableRowVirtualization" Value="True" />
+                <Setter Property="ColumnHeaderHeight" Value="30" />
+                <Setter Property="RowHeight" Value="23" />
+                <Setter Property="MinRowHeight" Value="20" />
+                <EventSetter Event="MouseLeftButtonDown" Handler="MouseLeftDoubleClick"/>
+                <EventSetter Event="SizeChanged" Handler="DataGrid_SizeChanged" />
+
+                <Style.Resources>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="MaxHeight" Value="25" />
+                        <Setter Property="MinHeight" Value="20" />
+                        <Setter Property="Background" Value="#365fb1" />
+                        <Setter Property="BorderBrush" Value="White" />
+                        <Setter Property="Foreground" Value="White" />
+                        <Setter Property="BorderThickness" Value="0.7" />
+                        <Setter Property="FontWeight" Value="Thin" />
+                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                    </Style>
+
+                    <Style TargetType="DataGridRow">
+                        <Style.Resources>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#3399FF"/>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black"/>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="#3399FF" />
+                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="Black"/>
+                        </Style.Resources>
+                    </Style>
+                </Style.Resources>
+            </Style>
+
+            <!--헤더가 두줄이고 수정하는 그리드-->
+            <Style TargetType="{x:Type DataGrid}" x:Key="DataGridSetTwoHeaderEdit" >
+                <Setter Property="IsReadOnly" Value="True" />
+                <Setter Property="AutoGenerateColumns" Value="False" />
+                <Setter Property="EnableColumnVirtualization" Value="True"/>
+                <Setter Property="EnableRowVirtualization" Value="True" />
+                <Setter Property="ColumnHeaderHeight" Value="40" />
+
+                <EventSetter Event="MouseLeftButtonDown" Handler="MouseLeftDoubleClick"/>
+                <EventSetter Event="SizeChanged" Handler="DataGrid_SizeChanged" />
+
+                <Style.Resources>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="MaxHeight" Value="45" />
+                        <Setter Property="MinHeight" Value="40" />
+                        <Setter Property="Background" Value="#365fb1" />
+                        <Setter Property="BorderBrush" Value="White" />
+                        <Setter Property="Foreground" Value="White" />
+                        <Setter Property="BorderThickness" Value="0.7" />
+                        <Setter Property="FontWeight" Value="Thin" />
+                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                    </Style>
+                    <Style TargetType="DataGridRow">
+                        <Style.Resources>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#3399FF"/>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="White"/>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="#3399FF" />
+                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="Black"/>
+                        </Style.Resources>
+                    </Style>
+                </Style.Resources>
+            </Style>
+            
+            <!--헤더가 세줄인 그리드 디자인-->
+            <Style TargetType="{x:Type DataGrid}" x:Key="DataGridSetThreeHeader" >
+                <Setter Property="IsReadOnly" Value="True" />
+                <Setter Property="AutoGenerateColumns" Value="False" />
+                <Setter Property="EnableColumnVirtualization" Value="True"/>
+                <Setter Property="EnableRowVirtualization" Value="True" />
+                <Setter Property="ColumnHeaderHeight" Value="55" />
+
+                <EventSetter Event="MouseLeftButtonDown" Handler="MouseLeftDoubleClick"/>
+                <EventSetter Event="SizeChanged" Handler="DataGrid_SizeChanged" />
+
+                <Style.Resources>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="MaxHeight" Value="60" />
+                        <Setter Property="MinHeight" Value="50" />
+                        <Setter Property="Background" Value="#365fb1" />
+                        <Setter Property="BorderBrush" Value="White" />
+                        <Setter Property="Foreground" Value="White" />
+                        <Setter Property="BorderThickness" Value="0.7" />
+                        <Setter Property="FontWeight" Value="Thin" />
+                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                    </Style>
+                    <Style TargetType="DataGridRow">
+                        <Style.Resources>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#3399FF"/>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="White"/>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="#3399FF" />
+                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="White"/>
+                        </Style.Resources>
+                    </Style>
+                </Style.Resources>
+            </Style>
+
+            <Style TargetType="{x:Type TextBox}" x:Key="TextBoxInput_Number_Right" >
+                <Setter Property="Margin" Value="1, 1, 1, 0" />
+                <Setter Property="Padding" Value="5, 0, 0, 0" />
+                <Setter Property="Background" Value="White" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="HorizontalContentAlignment" Value="Right" />
+                <Setter Property="InputMethod.IsInputMethodEnabled" Value="False" />
+                <EventSetter Event="PreviewTextInput" Handler="TextBoxOnlyNumber_PreviewTextInput"/>
+                <EventSetter Event="KeyDown" Handler="TextBoxOnlyNumber_KeyDown" />
+            </Style>
+            
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
