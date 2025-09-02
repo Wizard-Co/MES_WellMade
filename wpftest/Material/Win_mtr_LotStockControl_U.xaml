@@ -127,7 +127,7 @@
                 <Label  Grid.Column="0" MouseLeftButtonUp="chkToLocSrh_Click">
                     <StackPanel Orientation="Horizontal" Margin="-2">
                         <Viewbox VerticalAlignment="Center">
-                            <CheckBox x:Name="chkToLocSrh" Click="chkToLocSrh_Click" />
+                            <CheckBox x:Name="chkToLocSrh" Click="chkToLocSrh_Click" Margin="5,0,-5,0"/>
                         </Viewbox>
                         <TextBlock Text="창      고" VerticalAlignment="Center"/>
                     </StackPanel>

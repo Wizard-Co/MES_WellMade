@@ -817,6 +817,7 @@
                                     <DataGridTextColumn Header="단위" Binding="{Binding UnitClssName}" Width="auto" ElementStyle="{DynamicResource DataGridCellCenter}"/>
                                     <!--<DataGridTextColumn Header="수 량" Binding="{Binding FinalNeedQty}" Width="*"
                                                         CellStyle="{StaticResource NumericDataGridCell}"/>-->
+                                    <DataGridTextColumn Header="소요량" Binding="{Binding FinalNeedQty}" ElementStyle="{DynamicResource DataGridCellRight}"/>
                                     <DataGridTemplateColumn Header="현재고" Width="auto">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>

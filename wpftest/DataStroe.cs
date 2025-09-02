@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Windows;
 using WizMes_WellMade.Properties;
@@ -414,73 +416,114 @@ namespace WizMes_WellMade
         /// <param name="procedureName"></param>
         /// <param name="sqlParameter"></param>
         /// <returns></returns>
+        //public DataSet ProcedureToDataSet(string procedureName, Dictionary<string, object> sqlParameter, bool logOn)
+        //{
+        //    try
+        //    {
+        //        //Cursor.Current = Cursors.WaitCursor;
+
+        //        if (p_Connection.State == ConnectionState.Closed)
+        //        {
+        //            p_Connection.Open();
+        //        }
+
+        //        if (logOn == true)
+        //        {
+        //            // DB Log를 남긴다.
+        //            StringBuilder trxCommand = new StringBuilder(procedureName);
+
+        //            if (p_Command.Parameters.Count > 0)
+        //            {
+        //                trxCommand.Append(" ");
+
+        //                foreach (KeyValuePair<string, object> kvp in sqlParameter)
+        //                {
+        //                    trxCommand.Append(kvp.Key + " = " + kvp.Value.ToString());
+        //                    trxCommand.Append(", ");
+        //                }
+
+        //                trxCommand.Remove(trxCommand.Length - 2, 2);
+        //            }
+
+        //            InsertTrxLog(new System.Diagnostics.StackTrace(1, false).GetFrame(0).GetMethod(), trxCommand.ToString());
+        //        }
+
+        //        p_Command.CommandText = procedureName;
+        //        p_Command.CommandType = CommandType.StoredProcedure;
+        //        p_Command.Parameters.Clear();
+
+
+        //        if (sqlParameter != null)
+        //        {
+        //            foreach (KeyValuePair<string, object> kvp in sqlParameter)
+        //            {
+        //                p_Command.Parameters.AddWithValue(kvp.Key, kvp.Value);
+        //            }
+        //        }
+
+        //        SqlDataAdapter adapter = new SqlDataAdapter(p_Command);
+        //        DataSet dataset = new DataSet();
+        //        adapter.Fill(dataset);
+        //        adapter.Dispose();
+
+
+        //        return dataset;
+        //    }
+        //    catch (Exception e)
+
+        //    {
+        //        MessageBox.Show(e.Message, Resources.MSG_CAPTION_ERROR);
+        //        //MessageBox.Show(e.Message, Resources.MSG_CAPTION_ERROR, MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //        return null;
+        //    }
+        //    finally
+        //    {
+        //        //Cursor.Current = Cursors.Default;
+        //        //if (p_Connection.State != ConnectionState.Closed)
+        //        //{
+        //        //    p_Connection.Close();
+        //        //}
+        //    }
+        //}
+
         public DataSet ProcedureToDataSet(string procedureName, Dictionary<string, object> sqlParameter, bool logOn)
         {
             try
             {
-                //Cursor.Current = Cursors.WaitCursor;
-
                 if (p_Connection.State == ConnectionState.Closed)
                 {
                     p_Connection.Open();
                 }
 
+                // 로깅은 그대로 두고...
                 if (logOn == true)
                 {
-                    // DB Log를 남긴다.
-                    StringBuilder trxCommand = new StringBuilder(procedureName);
-
-                    if (p_Command.Parameters.Count > 0)
-                    {
-                        trxCommand.Append(" ");
-
-                        foreach (KeyValuePair<string, object> kvp in sqlParameter)
-                        {
-                            trxCommand.Append(kvp.Key + " = " + kvp.Value.ToString());
-                            trxCommand.Append(", ");
-                        }
-
-                        trxCommand.Remove(trxCommand.Length - 2, 2);
-                    }
-
-                    InsertTrxLog(new System.Diagnostics.StackTrace(1, false).GetFrame(0).GetMethod(), trxCommand.ToString());
+                    InsertTrxLogByUserID(procedureName, sqlParameter);
                 }
 
                 p_Command.CommandText = procedureName;
                 p_Command.CommandType = CommandType.StoredProcedure;
                 p_Command.Parameters.Clear();
 
-
                 if (sqlParameter != null)
                 {
                     foreach (KeyValuePair<string, object> kvp in sqlParameter)
                     {
-                        p_Command.Parameters.AddWithValue(kvp.Key, kvp.Value);
+                        p_Command.Parameters.AddWithValue(kvp.Key, kvp.Value ?? DBNull.Value); // 이것만 수정
                     }
                 }
 
-                SqlDataAdapter adapter = new SqlDataAdapter(p_Command);
-                DataSet dataset = new DataSet();
-                adapter.Fill(dataset);
-                adapter.Dispose();
-
-
-                return dataset;
+                using (SqlDataAdapter adapter = new SqlDataAdapter(p_Command)) // using 추가
+                {
+                    DataSet dataset = new DataSet();
+                    adapter.Fill(dataset);
+                    return dataset;
+                } // adapter 자동 dispose
             }
             catch (Exception e)
-
             {
                 MessageBox.Show(e.Message, Resources.MSG_CAPTION_ERROR);
-                //MessageBox.Show(e.Message, Resources.MSG_CAPTION_ERROR, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
-            }
-            finally
-            {
-                //Cursor.Current = Cursors.Default;
-                //if (p_Connection.State != ConnectionState.Closed)
-                //{
-                //    p_Connection.Close();
-                //}
             }
         }
 
@@ -2682,6 +2725,68 @@ namespace WizMes_WellMade
                 //}
             }
 
+        }
+
+        private void InsertTrxLogByUserID(string procedureName, Dictionary<string, object> parameters)
+        {
+            try
+            {
+                StackTrace stackTrace = new StackTrace(2, false);  // 2단계 위 호출자 정보
+                MethodBase callerMethod = stackTrace.GetFrame(0)?.GetMethod();
+                string formName = callerMethod?.ReflectedType?.Name ?? "Unknown";
+                string functionName = callerMethod?.Name ?? "Unknown";
+
+                // 로그 문자열 생성
+                StringBuilder logCommand = new StringBuilder(procedureName);
+                string userid = "";
+
+                if (parameters.Count > 0)
+                {
+                    logCommand.Append(" ");
+                    foreach (var kvp in parameters)
+                    {
+                        logCommand.Append($"{kvp.Key} = {kvp.Value?.ToString() ?? ""}");
+                        logCommand.Append(", ");
+                        if (kvp.Key.ToLower().Contains("userid"))
+                        {
+                            userid = kvp.Value?.ToString() ?? "";
+                        }
+                    }
+                    logCommand.Remove(logCommand.Length - 2, 2);
+                }
+
+                //별도 Command로 로그 저장 (p_Command 건드리지 않음)
+                using (SqlCommand logCmd = new SqlCommand("xp_com_TxnLog_i", p_Connection, p_Command.Transaction))
+                {
+                    logCmd.CommandType = CommandType.StoredProcedure;
+                    logCmd.Parameters.AddWithValue("@TxnYear", DateTime.Today.ToString("yyyyMMdd"));
+                    logCmd.Parameters.AddWithValue("@TxnModule", functionName);      // 호출 메서드명
+                    logCmd.Parameters.AddWithValue("@TxnSource", logCommand.ToString());
+                    logCmd.Parameters.AddWithValue("@CreatePersonID", userid);
+                    logCmd.Parameters.AddWithValue("@CreateForm", formName);         // 호출 클래스명
+                    logCmd.Parameters.AddWithValue("@CreateIP", lib.UserIPAddress);
+
+                    logCmd.ExecuteNonQuery();
+                }
+
+                //WizLog는 비동기로 처리 (성능 개선)
+                //Task.Run(() =>
+                //{
+                //    try
+                //    {
+                //        Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
+                //        sqlParameter.Add("@ComputerID", System.Environment.MachineName);
+                //        sqlParameter.Add("@UserID", userid);
+                //        sqlParameter.Add("@LogData", logCommand.ToString());
+                //        DataStore.Log_Instance.ExecuteProcedureByErrorLog("xp_iLog", sqlParameter, false); .
+                //    }
+                //    catch { /* 로그 실패해도 메인 프로세스에 영향 없도록 */ }
+                //});
+            }
+            catch
+            {
+                // 로그 실패해도 메인 프로세스 중단하지 않음
+            }
         }
 
         public Dictionary<string, string> ExecuteProcedureOutputNoTranByErrorLog(string procedureName, Dictionary<string, object> sqlParameter, Dictionary<string, int> outputParameters, bool logOn)
