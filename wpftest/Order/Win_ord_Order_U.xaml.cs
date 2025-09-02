@@ -1685,6 +1685,7 @@ namespace WizMes_WellMade
                                 BuyerArticleNo = dr["BuyerArticleNo"].ToString(),
                                 Article = dr["Article"].ToString(),
                                 UnitClssName = dr["UnitClssName"].ToString(),
+                                FinalNeedQty = stringFormatN2(dr["FinalNeedQty"]),
                                 StuffInQty = stringFormatN0(dr["StuffinQty"]),
                                 NeededQty = stringFormatN0(dr["NeededQty"]),
                             };

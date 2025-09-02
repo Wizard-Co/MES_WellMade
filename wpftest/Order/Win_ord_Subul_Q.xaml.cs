@@ -721,7 +721,7 @@ namespace WizMes_WellMade
                 sqlParameter.Add("nBuyerArticleNo", chkBuyerArticleNoSrh.IsChecked == true ? 1 : 0);
                 sqlParameter.Add("BuyerArticleNo", chkBuyerArticleNoSrh.IsChecked == true ? txtBuyerArticleNoSrh.Tag?.ToString()  ?? string.Empty : string.Empty);
 
-                DataSet ds = DataStore.Instance.ProcedureToDataSet_LogWrite("xp_Subul_sSubul", sqlParameter, true, "R");
+                DataSet ds = DataStore.Instance.ProcedureToDataSet("xp_Subul_sSubul", sqlParameter, false);
 
                 if (ds != null && ds.Tables.Count > 0)
                 {
