@@ -18,7 +18,7 @@ namespace WizMes_WellMade.PopUp
     /// <summary>
     /// RheoChoice.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class Win_pop_Stock_LotNoPF : Window
+    public partial class Win_pop_Stock_ArticlePF : Window
     {
         int rowNum = 0;
 
@@ -32,7 +32,7 @@ namespace WizMes_WellMade.PopUp
         public string StockQty = "";
 
         //public string Color = "";
-        //public string Spec= "";
+        //public string Spec = "";
 
         public string date = "";
 
@@ -43,27 +43,27 @@ namespace WizMes_WellMade.PopUp
 
         public List<Win_mtr_StockControl_U_CodeView> lstLotClonePF = new List<Win_mtr_StockControl_U_CodeView>();
 
-        public Win_pop_Stock_LotNoPF()
+        public Win_pop_Stock_ArticlePF()
         {
             InitializeComponent();
         }
 
-        public Win_pop_Stock_LotNoPF(string LotID)
+        public Win_pop_Stock_ArticlePF(string LotID)
         {
             InitializeComponent();
 
             this.LotID = LotID;
         }
 
-        public Win_pop_Stock_LotNoPF(string BuyerArticleNo, List<Win_mtr_StockControl_U_CodeView> lstLotStock)
+        public Win_pop_Stock_ArticlePF(string Article, List<Win_mtr_StockControl_U_CodeView> lstLotStock)
         {
             InitializeComponent();
 
-            this.BuyerArticleNo = BuyerArticleNo;
+            this.Article = Article;
             this.lstLotClonePF = lstLotStock;
         }
 
-        public Win_pop_Stock_LotNoPF(string ArticleID, string Article, string LotID, string BuyerArticleNo, string ArticleGrp, string UnitClssName, string StockQty )
+        public Win_pop_Stock_ArticlePF(string ArticleID, string Article, string LotID, string BuyerArticleNo, string ArticleGrp, string UnitClssName, string StockQty)
         {
             InitializeComponent();
 
@@ -78,6 +78,8 @@ namespace WizMes_WellMade.PopUp
 
             //this.Color = Color;
             //this.Spec = Spec;
+
+            
         }
 
         // 콤보박스셋팅
@@ -117,7 +119,7 @@ namespace WizMes_WellMade.PopUp
 
                 FillGrid();
 
-                BuyerArticleNo = "";
+                Article = "";
 
                 if (dgdMain.Items.Count == 1)
                 {
@@ -289,10 +291,8 @@ namespace WizMes_WellMade.PopUp
                                 ToLocName = dr["ToLocName"].ToString(),
                                 LastDate = dr["LastDate"].ToString(),
 
-                                //Color = dr["Color"].ToString(),
                                 //Spec = dr["Spec"].ToString(),
-
-
+                                //Color = dr["Color"].ToString(),
 
                             };
 
@@ -308,9 +308,9 @@ namespace WizMes_WellMade.PopUp
                             }
 
                             // dr[ColID].ToString().ToUpper().Replace(" ", "").Contains(Data.ToUpper().Replace(" ", "")))
-                            if (BuyerArticleNo.Trim().Equals("") == false)
+                            if (Article.Trim().Equals("") == false)
                             {
-                                if (!NowStockData.BuyerArticleNo.ToUpper().Replace(" ", "").Contains(BuyerArticleNo.ToUpper().Replace(" ", "")))
+                                if (!NowStockData.Article.ToUpper().Replace(" ", "").Contains(Article.ToUpper().Replace(" ", "")))
                                 {
                                     continue;
                                 }
@@ -566,13 +566,15 @@ namespace WizMes_WellMade.PopUp
         {
             if (e.Key == Key.Enter)
             {
-                pf.ReturnCode(txtArticleSrh, 76, "");
+                MainWindow.pf.ReturnCode(txtArticleSrh, 77, "");
+                //pf.ReturnCode(txtArticleSrh, 76, "");
             }
         }
 
         private void btnArticleSrh_Click(object sender, RoutedEventArgs e)
         {
-            pf.ReturnCode(txtArticleSrh, 76, "");
+            MainWindow.pf.ReturnCode(txtArticleSrh, 77, "");
+            //pf.ReturnCode(txtArticleSrh, 76, "");
         }
     }
 
