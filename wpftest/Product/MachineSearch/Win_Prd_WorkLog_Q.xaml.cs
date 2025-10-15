@@ -353,8 +353,12 @@ namespace WizMes_WellMade
                                 Machine = dr["Machine"].ToString(),
                                 MachineNo = dr["MachineNo"].ToString(),
                                 Comments = dr["Comments"].ToString(),
-                                CT = dr["CT"].ToString(),
-                                TensileValue = Convert.ToDouble(dr["TensileValue"])
+                                CycleTime = ConvertDouble(dr["CycleTime"].ToString()),
+                                jakup1WorkQty  = ConvertDouble(dr["jakup1WorkQty"].ToString()),
+                                Clinder1SetTemper = ConvertDouble(dr["Clinder1SetTemper"].ToString()),
+                                Clinder2SetTemper = ConvertDouble(dr["Clinder2SetTemper"].ToString()),
+                                Clinder1Temper = ConvertDouble(dr["Clinder1Temper"].ToString()),
+                                Clinder2Temper = Convert.ToDouble(dr["Clinder2Temper"])
                             };
 
                             dgdMain.Items.Add(WinR);
@@ -555,8 +559,12 @@ namespace WizMes_WellMade
         public string CreateUserID { get; set; }
         public string UpdateDate { get; set; }
         public string UpdateUserID { get; set; }
-        public string CT { get; set; }
-        public double TensileValue { get; set; }
+        public double CycleTime { get; set; }
+        public double jakup1WorkQty  { get; set; }
+        public double Clinder1SetTemper  { get; set; }
+        public double Clinder2SetTemper  { get; set; }
+        public double Clinder1Temper  { get; set; }
+        public double Clinder2Temper  { get; set; }
 
 
 

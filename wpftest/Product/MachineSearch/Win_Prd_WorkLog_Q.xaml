@@ -288,25 +288,45 @@
                         ElementStyle="{StaticResource DataGridCellRight}"
                         Header="호기" />
                     <DataGridTextColumn
-                        Binding="{Binding TensileValue}"
-                        ElementStyle="{StaticResource DataGridCellRight}"
-                        Header="인장값" />
-                    <DataGridTextColumn
-                        Binding="{Binding WorkQty}"
+                        Binding="{Binding WorkQty, StringFormat=N0}"
                         ElementStyle="{StaticResource DataGridCellRight}"
                         Header="생산량" />
                     <DataGridTextColumn
-                        Binding="{Binding TotalWorkQty}"
+                        Binding="{Binding TotalWorkQty, StringFormat=N0}"
                         ElementStyle="{StaticResource DataGridCellRight}"
-                        Header="총 생산량" />
+                        Header="배출박스갯수(생산완료)" />
                     <DataGridTextColumn
-                        Binding="{Binding DefectQty}"
+                        Binding="{Binding CycleTime}"
+                        ElementStyle="{StaticResource DataGridCellRight}"
+                        Header="CycleTime" />
+                    <DataGridTextColumn
+                        Binding="{Binding jakup1WorkQty}"
+                        ElementStyle="{StaticResource DataGridCellRight}"
+                        Header="UPH" />
+                    <DataGridTextColumn
+                        Binding="{Binding Clinder1SetTemper}"
+                        ElementStyle="{StaticResource DataGridCellRight}"
+                        Header="글루통 설정온도(왼)" />
+                    <DataGridTextColumn
+                        Binding="{Binding Clinder2SetTemper}"
+                        ElementStyle="{StaticResource DataGridCellRight}"
+                        Header="글루통 설정온도(오)" />
+                    <DataGridTextColumn
+                        Binding="{Binding Clinder1Temper}"
+                        ElementStyle="{StaticResource DataGridCellRight}"
+                        Header="글루통 현재온도(왼)" />
+                    <DataGridTextColumn
+                        Binding="{Binding Clinder2Temper}"
+                        ElementStyle="{StaticResource DataGridCellRight}"
+                        Header="글루통 현재온도(오)" />
+                    <DataGridTextColumn
+                        Binding="{Binding DefectQty, StringFormat=N0}"
                         ElementStyle="{StaticResource DataGridCellRight}"
                         Header="불량량" />
                     <DataGridTextColumn
-                        Binding="{Binding CT}"
-                        ElementStyle="{StaticResource DataGridCellRight}"
-                        Header="Cycle Time" />
+                        Binding="{Binding Comments}"
+                        ElementStyle="{StaticResource DataGridCellLeft}"
+                        Header="비고" />
                 </DataGrid.Columns>
             </DataGrid>
 
