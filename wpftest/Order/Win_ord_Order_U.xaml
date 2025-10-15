@@ -494,8 +494,29 @@
                                 </Button>
                             </Grid>
 
-                            <!--품   번-->
+
+                            <!--품    명-->
                             <Grid Grid.ColumnSpan="3" Grid.Row="7">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="85*"/>
+                                    <ColumnDefinition Width="105*"/>
+                                    <ColumnDefinition Width="20*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" 
+                                  Style="{DynamicResource LabelInputArea}">
+                                    <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                        <TextBlock Text="품   명" Style="{DynamicResource TextBlockInViewBoxInput}"/>
+                                    </Viewbox>
+                                </Label>
+                                <TextBox x:Name="txtArticleID"  Grid.Column="1" Text="{Binding Article}" Tag="{Binding ArticleID,Mode=TwoWay}" 
+                                           Style="{StaticResource TextBoxInputNecessary}" KeyDown="txtArticle_KeyDown"/>
+                                <Button x:Name="btnArticleID"  Grid.Column="2" Click="btnArticleID_Click">
+                                    <Image Source="{DynamicResource btiPlusFind}" />
+                                </Button>
+                            </Grid>
+
+                            <!--품   번-->
+                            <Grid Grid.ColumnSpan="3" Grid.Row="8">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="85*"/>
                                     <ColumnDefinition Width="105*"/>
@@ -511,32 +532,13 @@
                                 </Label>
                                 <TextBox x:Name="txtBuyerArticleNo" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1"  Text="{Binding BuyerArticleNo}" Tag="{Binding ArticleID,Mode=TwoWay}"
                                     Style="{StaticResource TextBoxInputNecessary}"
-                                     Keyboard.KeyDown="txtBuyerArticleNo_KeyDown" />
-                                <Button x:Name="btnBuyerArticleNo" Grid.Column="2" Grid.Row="3"  
+                                     Keyboard.KeyDown="txtBuyerArticleNo_KeyDown"  IsReadOnly="True"/>
+                                <Button x:Name="btnBuyerArticleNo" Grid.Column="2" Grid.Row="3" Visibility="Hidden" 
                                     Click="btnBuyerArticleNo_Click" >
                                     <Image Source="{DynamicResource btiPlusFind}" />
                                 </Button>
                             </Grid>
 
-                            <!--품    명-->
-                            <Grid Grid.ColumnSpan="3" Grid.Row="8">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="85*"/>
-                                    <ColumnDefinition Width="105*"/>
-                                    <ColumnDefinition Width="20*"/>
-                                </Grid.ColumnDefinitions>
-                                <Label Grid.Column="0" 
-                                  Style="{DynamicResource LabelInputArea}">
-                                    <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
-                                        <TextBlock Text="품   명" Style="{DynamicResource TextBlockInViewBoxInput}"/>
-                                    </Viewbox>
-                                </Label>
-                                <TextBox x:Name="txtArticleID"  Grid.Column="1" Text="{Binding Article}" Tag="{Binding ArticleID,Mode=TwoWay}" 
-                                         IsReadOnly="True"  Style="{StaticResource TextBoxInputNecessary}"/>
-                                <Button x:Name="btnArticleID"  Grid.Column="2"  Visibility="Hidden">
-                                    <Image Source="{DynamicResource btiPlusFind}" />
-                                </Button>
-                            </Grid>
 
                             <!--모델-->
                             <Grid Grid.ColumnSpan="3" Grid.Row="9">
@@ -652,7 +654,7 @@
                                     </Viewbox>
                                 </Label>
                                 <TextBox x:Name="txtUnitPrice" Grid.Column="1"  Style="{StaticResource TextBoxInput_Number_Right}"
-                                       Text="{Binding UnitPrice, StringFormat=N0}"                                    />
+                                       Text="{Binding UnitPrice, StringFormat=N0}"/>
                             </Grid>                    
 
                             <!--주문구분-->
@@ -750,7 +752,7 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
                             <RowDefinition Height="*" />
-                            <RowDefinition Height="0.6*" />
+                            <RowDefinition Height="0.2*" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="0.5*" />
@@ -787,7 +789,8 @@
                         <Grid Grid.Row="0" Grid.Column="1" Grid.RowSpan="2">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
-                                <RowDefinition Height="2.5*" />
+                                <RowDefinition Height="2.8*" />
+                                <RowDefinition Height="0.6*" />
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="12*" />
@@ -837,11 +840,18 @@
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
-
                                     <DataGridTextColumn Header="부족분" Binding="{Binding NeededQty}" ElementStyle="{DynamicResource DataGridCellRight}" Width="auto"/>
-
                                 </DataGrid.Columns>
                             </DataGrid>
+                            <Grid Grid.Row="2" Grid.ColumnSpan="3">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Button x:Name="btnOrdQuickStuffin" Grid.Column="3" Content="입고처리" IsEnabled="False" Click="btnOrdQuickStuffin_Click"/>
+                            </Grid>
                         </Grid>
                         <Button x:Name="btnPlanInput" Grid.Row="0" Grid.Column="2" Margin="10" Visibility="Hidden">
                             <TextBlock Text="생산계획작성" />
@@ -850,6 +860,50 @@
                 </Grid>
             </Grid>
         </Grid>
+
+        <Popup x:Name="popSelectCustom" Placement="MousePoint" PlacementTarget="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+               IsOpen="True">
+            <Border BorderBrush="LightGray"    Background="{DynamicResource WizMes_WellMadeNoIcon}" 
+                    BorderThickness="1" Width="300" Height="80">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+
+                    <TextBlock Text="※ 입고 거래처 선택" FontWeight="Bold" Grid.ColumnSpan="3" VerticalAlignment="Center"/>
+                    <Grid Grid.ColumnSpan="3" Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="85*"/>
+                            <ColumnDefinition Width="105*"/>
+                            <ColumnDefinition Width="20*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Row="5" Grid.Column="0" 
+                            Style="{DynamicResource LabelInputArea}">
+                            <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
+                                <TextBlock Text="거래처" Style="{DynamicResource TextBlockInViewBoxInput}"/>
+
+                            </Viewbox>
+                        </Label>
+                        <TextBox x:Name="txtPopCustomID" Grid.Row="5" Grid.Column="1" 
+                            Keyboard.KeyDown="txtCustomID_KeyDown"  Style="{StaticResource TextBoxInputArea}" TextChanged="TextBox_SetTagNull"/>
+                        <Button x:Name="btnPopCustomID" Grid.Row="5" Grid.Column="2" Click="btnCustomID_Click">
+                            <Image Source="{DynamicResource btiPlusFind}"  />
+                        </Button>
+                    </Grid>
+                    <Button x:Name="PopBtnCustomIDOk" Grid.Column="1" Grid.Row="2" Content="확인" Margin="1" Click="PopBtnCustomIDOk_Click"/>
+                    <Button x:Name="PopBtnCustomIDCancel" Grid.Column="2" Grid.Row="2" Content="취소" Margin="1" Click="PopBtnCustomIDCancel_Click" />
+                </Grid>
+            </Border>
+        </Popup>
+        
         <Popup x:Name="popPreviousOrder"  Placement="Center" Opened="popPreviousOrder_Opened">
             <Border BorderBrush="Green" BorderThickness="5" Width="240" Height="160">
                 <Grid>

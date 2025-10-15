@@ -1278,6 +1278,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="MrpplusV2.0_TemporaryKey.pfx" />
+    <EmbeddedResource Include="Org_거래명세표.xlsx" />
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">

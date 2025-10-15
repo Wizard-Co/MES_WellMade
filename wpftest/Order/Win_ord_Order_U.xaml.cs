@@ -71,6 +71,7 @@ namespace WizMes_WellMade
 
         List<string[]> listFtpFile = new List<string[]>();
         private List<UploadFileInfo> _listFileInfo = new List<UploadFileInfo>();
+        
 
         internal struct UploadFileInfo          //FTP.
         {
@@ -1078,7 +1079,7 @@ namespace WizMes_WellMade
                                 OrderClss = dr["OrderClss"].ToString(),
                                 CloseClss = dr["CloseClss"].ToString(),
                                 WorkID = dr["WorkID"].ToString(),
-                                UnitPrice = stringFormatN1(dr["UnitPrice"]),
+                                UnitPrice = dr["UnitPrice"].ToString(),
                                 OrderForm = dr["OrderForm"].ToString(),
                                 Remark = dr["Remark"].ToString(),
                                 ArticleGrpID = dr["ArticleGrpID"].ToString(),  
@@ -1301,7 +1302,7 @@ namespace WizMes_WellMade
 
                     sqlParameter.Add("OrderID", sGetID);
                     sqlParameter.Add("OrderSeq", 1);
-                    sqlParameter.Add("ArticleID", txtBuyerArticleNo.Tag != null ? txtBuyerArticleNo.Tag.ToString() : "");
+                    sqlParameter.Add("ArticleID", txtArticleID.Tag != null ? txtArticleID.Tag.ToString() : "");
                     sqlParameter.Add("ArticleGrpID", cboArticleGroup.SelectedValue != null ? cboArticleGroup.SelectedValue.ToString() : "");
                     sqlParameter.Add("UnitPrice", ConvertDouble(txtUnitPrice.Text));
                     sqlParameter.Add("ColorQty", RemoveComma(txtOrderQty.Text,true));
@@ -1391,14 +1392,16 @@ namespace WizMes_WellMade
                 msg = "주문기준이 선택되지 않았습니다. 먼저 주문기준을 선택해주세요";
             else if (cboArticleGroup.SelectedValue == null)
                 msg = "품명종류가 선택되지 않았습니다. 먼저 품명종류를 선택해주세요";
-            else if (string.IsNullOrEmpty(txtBuyerArticleNo.Text) || txtBuyerArticleNo.Tag == null)
-                msg = "품번이 선택되지 않았습니다. 먼저 품번을 선택해주세요";
+            else if (string.IsNullOrEmpty(txtArticleID.Text) || txtArticleID.Tag == null)
+                msg = "품명이 선택되지 않았습니다. 먼저 품명을 선택해주세요";
+            //else if (string.IsNullOrEmpty(txtBuyerArticleNo.Text) || txtBuyerArticleNo.Tag == null)
+            //    msg = "품번이 선택되지 않았습니다. 먼저 품번을 선택해주세요";
             else if (cboWork.SelectedValue == null)
                 msg = "가공구분이 선택되지 않았습니다. 먼저 가공구분을 선택해주세요";
             else if (strFlag == "U" && txtOrderID.Text.Trim() != string.Empty && txtOrderID.Text != null)
             {
                 flag = CheckFKkey(txtOrderID.Text, out msg);
-                if(msg != string.Empty) msg += " 저장 할 수 없습니다.";
+                if (msg != string.Empty) msg += " 저장 할 수 없습니다.";
             }
     
 
@@ -1489,14 +1492,20 @@ namespace WizMes_WellMade
         {
             if (e.Key == Key.Enter)
             {
-                MainWindow.pf.ReturnCode(txtCustomID, (int)Defind_CodeFind.DCF_CUSTOM, "");
+                TextBox txtbox = (TextBox)sender;
 
-                if (txtCustomID.Tag != null)
+                MainWindow.pf.ReturnCode(txtbox, (int)Defind_CodeFind.DCF_CUSTOM, "");
+
+                if (txtbox.Tag != null)
                 {
+                    if (txtbox.Name.Equals("txtCustomID"))
+                    {
+                        txtDvlyPlace.Text = txtCustomID.Text;
+                        txtInCustomID.Text = txtCustomID.Text;
+                        txtInCustomID.Tag = txtCustomID.Tag;
+                    }
                     //CallCustomData(txtCustom.Tag.ToString());
-                    txtDvlyPlace.Text = txtCustomID.Text;
-                    txtInCustomID.Text = txtCustomID.Text;
-                    txtInCustomID.Tag = txtCustomID.Tag;
+           
                 }
 
                 e.Handled = true;
@@ -1506,14 +1515,20 @@ namespace WizMes_WellMade
         //거래처
         private void btnCustomID_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow.pf.ReturnCode(txtCustomID, (int)Defind_CodeFind.DCF_CUSTOM, "");
+            Button btn = (Button)sender;
+            TextBox txtbox = lib.FindSiblingControl<TextBox>(btn);
 
-            if (txtCustomID.Tag != null)
+            MainWindow.pf.ReturnCode(txtbox, (int)Defind_CodeFind.DCF_CUSTOM, "");
+
+            if (txtbox.Tag != null)
             {
-                //CallCustomData(txtCustom.Tag.ToString());
-                txtDvlyPlace.Text = txtCustomID.Text;
-                txtInCustomID.Text = txtCustomID.Text;
-                txtInCustomID.Tag = txtCustomID.Tag;
+                if (txtbox.Name.Equals("txtCustomID"))
+                {
+                    //CallCustomData(txtCustom.Tag.ToString());
+                    txtDvlyPlace.Text = txtCustomID.Text;
+                    txtInCustomID.Text = txtCustomID.Text;
+                    txtInCustomID.Tag = txtCustomID.Tag;
+                }
             }
         }
 
@@ -1566,12 +1581,14 @@ namespace WizMes_WellMade
                     //품명종류 대입(ex.제품 등)
                     //cboArticleGroup.SelectedValue = articleData.ArticleGrpID;
 
+                    cboArticleGroup.SelectedValue = articleData.ArticleGrpID;
+                    txtBuyerArticleNo.Text = articleData.BuyerArticleNo;
+                    txtUnitPrice.Text = articleData.OutUnitPrice;
                     //품번 대입
                     //txtBuyerArticleNO.Text = articleData.BuyerArticleNo;
                     //품명 대입
                     //txtBuyerArticleNO.Text = articleData.Article;
                     //단가 대입
-                    txtUnitPrice.Text = articleData.OutUnitPrice;
                 }
 
 
@@ -1893,11 +1910,16 @@ namespace WizMes_WellMade
         //자재필요량조회
         private void btnNeedStuff_Click(object sender, RoutedEventArgs e)
         {
-            if (txtBuyerArticleNo.Tag == null   )
+            if(txtArticleID.Tag == null)
             {
                 MessageBox.Show("먼저 품명을 선택해주세요");
                 return;
             }
+            //if (txtBuyerArticleNo.Tag == null   )
+            //{
+            //    MessageBox.Show("먼저 품명을 선택해주세요");
+            //    return;
+            //}
 
             if (RemoveComma(txtOrderQty.Text).ToString() == string.Empty) 
             {
@@ -1906,7 +1928,7 @@ namespace WizMes_WellMade
             }
 
             //자재필요량조회에 필요한 파라미터 값을 넘겨주자, 품명이랑 주문량
-            FillNeedStockQty(txtBuyerArticleNo.Tag.ToString(), RemoveComma(txtOrderQty.Text).ToString());
+            FillNeedStockQty(txtArticleID.Tag.ToString(), RemoveComma(txtOrderQty.Text).ToString());
         }
 
         
@@ -1966,14 +1988,14 @@ namespace WizMes_WellMade
                 if (e.Key == Key.Enter)
                 {
 
-                    if(txtCustomID.Text != string.Empty || txtCustomID.Tag != null)
-                    {
-                        MainWindow.pf.ReturnCode(txtBuyerArticleNo, 7070, txtCustomID.Tag.ToString());
-                    }
-                    else
-                    {
+                    //if(txtCustomID.Text != string.Empty || txtCustomID.Tag != null)
+                    //{
+                    //    MainWindow.pf.ReturnCode(txtBuyerArticleNo, 7070, txtCustomID.Tag.ToString());
+                    //}
+                    //else
+                    //{
                         MainWindow.pf.ReturnCode(txtBuyerArticleNo, 7071, "");
-                    }
+                    //}
 
                     if (txtBuyerArticleNo.Tag != null)
                     {
@@ -2011,14 +2033,14 @@ namespace WizMes_WellMade
             try
             {
 
-                if (txtCustomID.Text != string.Empty || txtCustomID.Tag != null)
-                {
-                    MainWindow.pf.ReturnCode(txtBuyerArticleNo, 7070, txtCustomID.Tag.ToString());
-                }
-                else
-                {
+                //if (txtCustomID.Text != string.Empty || txtCustomID.Tag != null)
+                //{
+                //    MainWindow.pf.ReturnCode(txtBuyerArticleNo, 7070, txtCustomID.Tag.ToString());
+                //}
+                //else
+                //{
                     MainWindow.pf.ReturnCode(txtBuyerArticleNo, 7071, "");
-                }
+                //}
 
 
                 if (txtBuyerArticleNo.Tag != null)
@@ -2988,9 +3010,44 @@ namespace WizMes_WellMade
             //    }
             //}
         }
+
         #endregion
 
-   
+        private void btnOrdQuickStuffin_Click(object sender, RoutedEventArgs e)
+        {
+            if (!btnNeedStuff.IsEnabled) return;
+
+            try
+            {
+                popSelectCustom.IsOpen = true;    
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("PopCustomSelect_Open_Failed\n" + ex.ToString());
+            }
+            
+        }
+
+        private void PopBtnCustomIDCancel_Click(object sender, RoutedEventArgs e)
+        {
+            if(popSelectCustom.IsOpen)
+            {
+                popSelectCustom.IsOpen = false;
+                txtPopCustomID.Text = string.Empty;
+                txtPopCustomID.Tag = null;
+            }
+        }
+
+        private void PopBtnCustomIDOk_Click(object sender, RoutedEventArgs e)
+        {
+            if(string. txtPopCustomID.Tag?)
+
+            MessageBoxResult msgResult = MessageBox.Show("소모 자재들을 지금 바로 입고 처리하시겠습니까?", "확인");
+            if(msgResult == MessageBoxResult.Yes)
+            {
+                
+            }
+        }
     }
 
 
@@ -3006,7 +3063,21 @@ namespace WizMes_WellMade
         public string OrderQty { get; set; }
         public string OrderAmount { get; set; }
         public string UnitClss { get; set; }
-        public string Article { get; set; }
+
+        private string _article;
+        public string Article
+        {
+            get => _article;
+            set
+            {
+                _article = value;
+                if (string.IsNullOrEmpty(value))
+                {
+                    ArticleID = null;
+                    BuyerArticleNo = null;
+                }
+            }
+        }
         public string ChunkRate { get; set; }
         public string PatternID { get; set; }
 

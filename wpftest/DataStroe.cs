@@ -49,10 +49,10 @@ namespace WizMes_WellMade
 #if DEBUG
         //private string ConnectionString = "Data Source=121.254.224.196, 20220;Initial Catalog=MES_WellMade;UID=DBUser;PWD=Wizardis; Connection Timeout=180";
         //private string LogConnectionString = "Data Source=121.254.224.196, 20220;Initial Catalog=WizLog;UID=DBUser;PWD=Wizardis; Connection Timeout=180";
-        private string ConnectionString = "Data Source=wizis.iptime.org,20220;Initial Catalog=MES_WellMade;UID=DBUser;PWD=Wizardis; Connection Timeout=180";
-        private string LogConnectionString = "Data Source=wizis.iptime.org,20220;Initial Catalog=WizLog;UID=DBUser;PWD=Wizardis; Connection Timeout=180";
-        //private string ConnectionString = "Data Source=" + LoadINI.server + ";Initial Catalog=" + LoadINI.Database + ";UID=DBUser;PWD=Wizardis; Connection Timeout= 0";
-        //private string LogConnectionString = "Data Source=" + LoadINI.server + ";Initial Catalog=WizLog;UID=DBUser;PWD=Wizardis; Connection Timeout= 0";
+        //private string ConnectionString = "Data Source=wizis.iptime.org,20220;Initial Catalog=MES_WellMade;UID=DBUser;PWD=Wizardis; Connection Timeout=180";
+        //private string LogConnectionString = "Data Source=wizis.iptime.org,20220;Initial Catalog=WizLog;UID=DBUser;PWD=Wizardis; Connection Timeout=180";
+        private string ConnectionString = "Data Source=" + LoadINI.server + ";Initial Catalog=" + LoadINI.Database + ";UID=DBUser;PWD=Wizardis; Connection Timeout= 0";
+        private string LogConnectionString = "Data Source=" + LoadINI.server + ";Initial Catalog=WizLog;UID=DBUser;PWD=Wizardis; Connection Timeout= 0";
 #else
         private string ConnectionString = "Data Source=" + LoadINI.server + ";Initial Catalog=" + LoadINI.Database + ";UID=DBUser;PWD=Wizardis; Connection Timeout= 0";
         private string LogConnectionString = "Data Source=" + LoadINI.server + ";Initial Catalog=WizLog;UID=DBUser;PWD=Wizardis; Connection Timeout= 0";
@@ -300,6 +300,40 @@ namespace WizMes_WellMade
             //        p_Connection.Close();
             //    }
             //}
+        }
+        public DataSet QueryToDataSetWithParam(string queryString, Dictionary<string, object> parameters = null)
+        {
+            try
+            {
+                if (p_Connection.State == ConnectionState.Closed)
+                {
+                    p_Connection.Open();
+                }
+
+                p_Command.CommandText = queryString;
+                p_Command.CommandType = CommandType.Text;
+                p_Command.Parameters.Clear();
+
+                // 매개변수 추가
+                if (parameters != null)
+                {
+                    foreach (var param in parameters)
+                    {
+                        p_Command.Parameters.AddWithValue(param.Key, param.Value ?? DBNull.Value);
+                    }
+                }
+
+                SqlDataAdapter adapter = new SqlDataAdapter(p_Command);
+                DataSet dataset = new DataSet();
+                adapter.Fill(dataset);
+                adapter.Dispose();
+                return dataset;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Database Error: {ex.Message}");
+                throw;
+            }
         }
 
         public object QueryToScalar(string queryString)

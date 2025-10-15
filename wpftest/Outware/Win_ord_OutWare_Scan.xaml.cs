@@ -2,17 +2,23 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
-using WizMes_WellMade.PopUP;
-using WizMes_WellMade.PopUp;
-using System.Text.RegularExpressions;
-using System.Windows.Data;
-using System.Windows.Media;
 using System.Windows.Controls.Primitives;
+using System.Windows.Data;
+using System.Windows.Input;
+using System.Windows.Media;
+using WizMes_WellMade.PopUp;
+using WizMes_WellMade.PopUP;
+using Excel = Microsoft.Office.Interop.Excel;
 
 /**************************************************************************************************
 '** 프로그램명 : Win_ord_OutWare_Scan
@@ -51,10 +57,12 @@ namespace WizMes_WellMade
         Dictionary<string, object> lstCheck = new Dictionary<string, object>();
 
         List<Win_ord_OutWare_Scan_CodeView> lstOutwarePrint = new List<Win_ord_OutWare_Scan_CodeView>();
+     
 
         // 수정 정보를 보관하기 위한 변수
         List<Win_ord_OutWare_Scan_Sub_CodeView> lstBoxID = new List<Win_ord_OutWare_Scan_Sub_CodeView>();
         List<Win_ord_OutWare_Scan_Sub_CodeView> ListOutwareSub = new List<Win_ord_OutWare_Scan_Sub_CodeView>();
+        private IProgress<int> _progress;
 
         int rowNum = 0;                          // 조회시 데이터 줄 번호 저장용도
         string strFlag = string.Empty;           // 추가, 수정 구분 
@@ -260,9 +268,9 @@ namespace WizMes_WellMade
             }
         }
 
-  
 
- 
+
+
         //거래처-조건 텍스트박스 키다운 이벤트
         private void txtCustomerIDSrh_KeyDown(object sender, KeyEventArgs e)
         {
@@ -360,7 +368,7 @@ namespace WizMes_WellMade
 
 
 
-    
+
 
         //품명 텍스트박스 키다운 이벤트
         private void txtArticleIDSrh_KeyDown(object sender, KeyEventArgs e)
@@ -391,7 +399,7 @@ namespace WizMes_WellMade
             }
         }
 
-    
+
 
         //관리번호 라벨 클릭시
         private void lblRadioOptionNum_Click(object sender, MouseButtonEventArgs e)
@@ -456,8 +464,8 @@ namespace WizMes_WellMade
         {
             if (rbnOrderNumber.IsChecked == true) //관리번호 클릭
             {
-        
-              
+
+
                 txtOrderID.Visibility = Visibility.Visible;
                 btnOrderID.Visibility = Visibility.Visible;
                 lblOrderID.Visibility = Visibility.Visible;
@@ -467,7 +475,7 @@ namespace WizMes_WellMade
             }
             else if (rbnReqID.IsChecked == true) //지시번호 클릭
             {
-               
+
                 txtOrderID.Visibility = Visibility.Hidden;
                 btnOrderID.Visibility = Visibility.Hidden;
                 lblOrderID.Visibility = Visibility.Hidden;
@@ -500,7 +508,8 @@ namespace WizMes_WellMade
                 cboFromLoc.SelectedIndex = 0; //사내제품창고가 기본값이 되게 설정
                 cboToLoc.SelectedIndex = 0;
 
-                dgdOutwareSub.Items.Clear();            
+                dgdOutwareSub.Items.Clear();
+
 
             }
             catch (Exception ee)
@@ -582,13 +591,10 @@ namespace WizMes_WellMade
         //검색버튼 클릭
         private void btnSearch_Click(object sender, RoutedEventArgs e)
         {
-            if(lib.DatePickerCheck(dtpFromDate, dtpToDate, chkOutwareDay))
+            using (Loading ld = new Loading(beSearch))
             {
-                using (Loading ld = new Loading(beSearch))
-                {
-                    ld.ShowDialog();
-                }
-            } 
+                ld.ShowDialog();
+            }
         }
 
         private void beSearch()
@@ -620,7 +626,7 @@ namespace WizMes_WellMade
 
             Dispatcher.BeginInvoke(new Action(() =>
             {
-              //버튼 컨트롤
+                //버튼 컨트롤
 
                 if (SaveData(strFlag))
                 {
@@ -631,7 +637,7 @@ namespace WizMes_WellMade
                         var outwareCount = dgdOutware.Items.Count;
                         rowNum = outwareCount;
                     }
-                    
+
                     lstCheck.Clear();
                     strFlag = string.Empty;
                     TextBoxClear(); // 저장했으면 클리어 해야지
@@ -772,7 +778,7 @@ namespace WizMes_WellMade
             menuPrint_Click(false);
         }
 
-        private void menuPrint_Click(bool Ahead)
+        private async void menuPrint_Click(bool Ahead)
         {
             try
             {
@@ -811,14 +817,34 @@ namespace WizMes_WellMade
                 msg.Refresh();
                 msg.Visibility = Visibility.Hidden;*/
 
-                using (Loading ld = new Loading("excel", PrintWork))
+                //using (Loading ld = new Loading("excel", ()=> PrintWork(preview_click)))
+                //{
+                //    ld.ShowDialog();
+                //}
+                //PrintWork(preview_click);
+                EventLabel.Visibility = Visibility.Visible;
+
+                _progress = new Progress<int>(percent =>
                 {
-                    ld.ShowDialog();
-                }
+                    tbkMsg.Text = $"거래명세표 준비중입니다... {percent}%";
+                });
+
+                await Task.Run(() =>
+                {
+                    PrintWork(preview_click);  
+                });
+
+                _progress.Report(100);
+                EventLabel.Visibility = Visibility.Hidden;
+                tbkMsg.Text = "자료 입력 중";
+
+             
             }
             catch (Exception ee)
             {
                 MessageBox.Show("오류지점 - menuRighPrint_Click : " + ee.ToString());
+                EventLabel.Visibility = Visibility.Hidden;
+                tbkMsg.Text = "자료 입력 중";
             }
         }
 
@@ -837,329 +863,815 @@ namespace WizMes_WellMade
             }
         }
 
-        // 실제 엑셀작업 스타트.
-        private void PrintWork()
+
+        //프린트메서드 수정판
+        private void PrintWork(bool previewYN)
         {
-            Lib lib2 = new Lib();
+            Excel.Application excelapp = null;
+            Excel.Workbook workbook = null;
+            Excel.Worksheet worksheet = null;
+            Excel.Worksheet pastesheet = null;
+            Excel.Range workrange = null;
+            int excelProcessId = 0;
+
+            int amount = 0;
+
             try
             {
-                if (lstOutwarePrint.Count == 0)
+                _progress?.Report(0);
+
+                SetCompanyData setCompanyData = SetCompanyData.GetSetCompanyData();
+                CustomData customData = CustomData.GetCustomData(lstOutwarePrint[0].CustomID.Trim());
+                List<Win_ord_OutWare_Scan_Sub_CodeView> lstOutwareSubPrint = new List<Win_ord_OutWare_Scan_Sub_CodeView>();
+
+                lstOutwarePrint.ForEach(item =>
                 {
-                    MessageBox.Show("인쇄할 거래명세표를 체크 선택하세요.");
-                    lib2 = null;
-                    return;
+                    amount += lib.RemoveComma(item.Amount, 0);
+                    List<Win_ord_OutWare_Scan_Sub_CodeView> subItems = Win_ord_OutWare_Scan_Sub_CodeView.GetOutwareSubData(item.OutwareID);
+
+                    lstOutwareSubPrint.AddRange(subItems);
+                });
+                    //엑셀 생성
+                excelapp = new Excel.Application();
+                //생성한 프로세스 아이디 저장(닫을때 EXCEL COM 정리용으로 사용함)
+                excelProcessId = GetExcelProcessId();
+                ////양식 경로는 exe가 실행된곳에서 combine을 메서드로 실행지점/Report/거래명세표.xlsx
+                //string templatePath = Path.Combine(
+                //    Path.GetDirectoryName(Assembly.GetEntryAssembly().Location),
+                //    "Report",
+                //    "거래명세표.xlsx"
+                //);
+
+                _progress?.Report(10);
+
+                var assembly = Assembly.GetExecutingAssembly();
+                string[] resourceNames = assembly.GetManifestResourceNames();
+                string templateResourceName = resourceNames.FirstOrDefault(r => r.Contains("Org_거래명세표"));
+
+                // 내장 리소스 존재 확인
+                if (string.IsNullOrEmpty(templateResourceName))
+                {
+                    throw new FileNotFoundException("시스템에 저장된 견적서 양식을 찾을 수 없습니다.\n관리자에게 문의해주세요");
                 }
 
-                excelapp = new Microsoft.Office.Interop.Excel.Application();
+                // 임시 파일로 추출
+                string templatePath = Path.Combine(Path.GetTempPath(), $"Org_거래명세표_{Guid.NewGuid()}.xlsx");
 
-                string MyBookPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + "\\Report\\거래명세표.xlsx";
-                workbook = excelapp.Workbooks.Add(MyBookPath);
+                using (Stream stream = assembly.GetManifestResourceStream(templateResourceName))
+                {
+                    using (var fileStream = File.Create(templatePath))
+                    {
+                        stream.CopyTo(fileStream);
+                    }
+                }
+
+                workbook = excelapp.Workbooks.Add(templatePath);
                 worksheet = workbook.Sheets["Form"];
                 pastesheet = workbook.Sheets["Print"];
 
-                // 거래일자
-                workrange = worksheet.get_Range("C4", "H4");
-                workrange.Value2 = lstOutwarePrint[0].OutDate.Replace("-", ".");
+                //먼저 원본 시트의 인쇄영역이 어디까지인지 구합니다.
+                Excel.Range printArea = worksheet.Range[worksheet.PageSetup.PrintArea];
+                int columnCount = printArea.Columns.Count;          //인쇄영역으로 지정된 원본시트의 컬럼 합계수
+                int rowsCount = printArea.Rows.Count;               //인쇄영역으로 지정된 원본시트의 로우 합계수
+                int startRow = printArea.Row;                       //인쇄영역 설정 첫 시작지점
 
-                // 공급받는 사업자번호
-                workrange = worksheet.get_Range("G5", "R6");
-                workrange.Value2 = lstOutwarePrint[0].CustomNo;
+                string startColumnLetter = Regex.Match(printArea.Columns[1].Address[false, false], @"[A-Z]+").Value;
+                string endColumnLetter = Regex.Match(printArea.Columns[printArea.Columns.Count].Address[false, false], @"[A-Z]+").Value;
+                //MessageBox.Show($"끝 열 문자: {endColumnLetter}");
 
-                // 공급받는 상호
-                workrange = worksheet.get_Range("G7", "L8");
-                workrange.Value2 = lstOutwarePrint[0].KCustom;
+                string workSheetStartRow = startRow.ToString();
+                string workSheetRowsCount = rowsCount.ToString();
 
-                // 공급받는 사업장 주소
-                workrange = worksheet.get_Range("G9", "R10");
-                workrange.Value2 = lstOutwarePrint[0].Buyer_Address1 + lstOutwarePrint[0].Buyer_Address2 + lstOutwarePrint[0].Buyer_Address3;
+                //원본 조합
+                string workSheetX = startColumnLetter + workSheetStartRow;      //위의 내용으로 원본시트의 시작지점과 끝지점을 구합니다.
+                string workSheetY = endColumnLetter + workSheetRowsCount;
 
-                // 공급받는 성명
-                workrange = worksheet.get_Range("O7", "R8");
-                workrange.Value2 = lstOutwarePrint[0].Buyer_Chief;
+                _progress?.Report(15);
 
-                // 공급자 정보 구해오기.
-                DataTable DT = Fill_DS_CompanyInfo();
-                DataRow DR = DT.Rows[0];
+                //먼저 고정값을 원본시트에 적어놓습니다. 복사시트에 재활용 함   
+                FillBaseInfo(worksheet, setCompanyData, customData, amount);
+            
+                //그 다음 원본시트를 복사시트에 복사하며 값을 넣습니다.
+                FillDataIntoPasteSheet(worksheet, pastesheet, 10, 15, workSheetX, workSheetY, startColumnLetter, endColumnLetter, columnCount, rowsCount, startRow, lstOutwarePrint, lstOutwareSubPrint);
 
-                // 공급자 등록번호 (사업자등록번호)
-                string companyNo = DR["CompanyNo"].ToString();
-                workrange = worksheet.get_Range("W5", "AH6");
-                workrange.Value2 = companyNo.Substring(0, 3) + "-" + companyNo.Substring(3, 2) + "-" + companyNo.Substring(5, 5);
+                //복사시트 선택
+                pastesheet.Select();
 
-                // 공급자 상호
-                workrange = worksheet.get_Range("W7", "AC8");
-                workrange.Value2 = DR["KCompany"].ToString();
+                //미리보기? 바로 인쇄?
+                HandlePrintPreview(excelapp, pastesheet, previewYN);
 
-                // 공급자 성명
-                workrange = worksheet.get_Range("AF7", "AH8");
-                workrange.Value2 = DR["Chief"].ToString();
-
-                // 공급자 사업장 주소
-                workrange = worksheet.get_Range("W9", "AH10");
-                workrange.Value2 = DR["Address1"].ToString();
-
-                // 공급자 전화
-                //workrange = worksheet.get_Range("W11", "AB12");
-                //workrange.Value2 = DR["Phone1"].ToString();
-
-                // 공급자 팩스
-                //workrange = worksheet.get_Range("AD11", "AH12");
-                //workrange.Value2 = DR["FaxNo"].ToString();
-
-                int copyLine = 1;
-                int copyRow = 54;
-
-                int inputPossibleRowCnt = 10;   // 내역 입력 가능한 갯수
-                int startRowNum = 14;           // 내역 입력 시작점
-                int endCnt = 0;                 // 엑셀 입력 종료 갯수
-
-                int cnt = 0;
-                int totCnt = 0;
-
-                int pageCnt = 1;
-                int totPageCnt = (lstOutwarePrint.Count / inputPossibleRowCnt) + 1;
-
-                double totalSumAmount = 0, totalSumVatAmount = 0, totalAmount = 0;
-
-                // key : 출고일, value : 출고 항목
-                Dictionary<string, List<Win_ord_OutWare_Scan_Sub_CodeView>> dic = new Dictionary<string, List<Win_ord_OutWare_Scan_Sub_CodeView>>();
-
-                lstOutwarePrint.Sort((x, y) => x.OutDate.CompareTo(y.OutDate));
-
-                // 합계 먼저 계산
-                foreach (Win_ord_OutWare_Scan_CodeView outware in lstOutwarePrint)
+                //프로세스 정리 이벤트 핸들러
+                excelapp.WorkbookBeforeClose += (Excel.Workbook wb, ref bool cancel) =>
                 {
-                    string outwareID = outware.OutwareID;
-                    string UnitClssName = outware.UnitClssName;
-
-                    Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
-                    sqlParameter.Add("OutwareID", outwareID);
-                    DataSet ds = DataStore.Instance.ProcedureToDataSet("xp_Outware_sOutwareSubGroup", sqlParameter, false);
-                    if (ds != null && ds.Tables.Count > 0)
+                    //엑셀 프로그램 껐는데도 살아있으면 생성할때 받아온 프로세스 아이디를 종료
+                    if (excelProcessId != 0)
                     {
-                        DataTable dt = ds.Tables[0];
-                        if (dt.Rows.Count > 0)
-                        {
-                            double sumOutQty = 0, sumUnitPrice = 0;
-
-                            DataRowCollection drc = dt.Rows;
-                            foreach (DataRow item in drc)
-                            {
-                                double outQty = ConvertDouble(item["OutQty"].ToString());
-                                double unitPrice = ConvertDouble(item["UnitPrice"].ToString());
-                                double calcAmount = outQty * unitPrice;
-                                double calcVatAmount = calcAmount * .1;
-
-                                sumOutQty += outQty;
-                                sumUnitPrice += unitPrice;
-
-                                totalSumAmount += calcAmount;
-                                totalSumVatAmount += calcVatAmount;
-                                totalAmount += totalSumAmount + totalSumVatAmount;
-                            }
-
-                            Win_ord_OutWare_Scan_Sub_CodeView sub = new Win_ord_OutWare_Scan_Sub_CodeView();
-                            sub.ArticleID = outware.ArticleID;
-                            sub.Article = outware.Article;
-                            sub.dOutQty = sumOutQty;
-                            sub.UnitClssName = "EA";
-                            sub.dUnitPrice = sumUnitPrice;
-
-                            string outDate = outware.OutDate.Replace("-", "");
-                            if (dic.ContainsKey(outDate))
-                            {
-                                int findIdx = dic[outDate].FindIndex(x => x.ArticleID == outware.ArticleID);
-                                if (findIdx > -1)
-                                {
-                                    dic[outDate][findIdx].dOutQty += sumOutQty;
-                                    dic[outDate][findIdx].dUnitPrice += sumUnitPrice;
-                                }
-                                else
-                                {
-                                    dic[outDate].Add(sub);
-                                    endCnt++;
-                                }
-                            }
-                            else
-                            {
-                                List<Win_ord_OutWare_Scan_Sub_CodeView> listSub = new List<Win_ord_OutWare_Scan_Sub_CodeView>() { sub };
-                                dic.Add(outDate, listSub);
-                                endCnt++;
-                            }
-                        }
+                        KillExcelProcess(excelProcessId);
                     }
-                }
+                    ReleaseExcelObject(workrange);
+                    ReleaseExcelObject(pastesheet);
+                    ReleaseExcelObject(worksheet);
+                    ReleaseExcelObject(workbook);
+                    ReleaseExcelObject(excelapp);
+                };
 
-                foreach (KeyValuePair<string, List<Win_ord_OutWare_Scan_Sub_CodeView>> pair in dic)
-                {
-                    string outDate = pair.Key;
-                    List<Win_ord_OutWare_Scan_Sub_CodeView> listSub = pair.Value;
-
-                    string month = outDate.Substring(4, 2);
-                    string day = outDate.Substring(6, 2);
-
-                    for (int i = 0; i < listSub.Count; i++)
-                    {
-                        int rowNum = startRowNum + (cnt % (inputPossibleRowCnt + 1));
-
-                        // 월
-                        workrange = worksheet.get_Range("C" + rowNum.ToString());
-                        workrange.Value2 = i + 1;
-
-                        workrange = worksheet.get_Range("M" + rowNum.ToString());
-                        workrange.Value2 = listSub[i].UnitClssName;
-
-                        //// 일
-                        //workrange = worksheet.get_Range("D" + rowNum.ToString());
-                        //workrange.Value2 = day;
-
-                        // 품명
-                        workrange = worksheet.get_Range("E" + rowNum.ToString(), "L" + rowNum.ToString());
-                        workrange.Value2 = listSub[i].Article;
-
-                        //workrange = worksheet.get_Range("E" + rowNum.ToString(), "L" + rowNum.ToString());
-                        //workrange.Value2 = listSub[i].UnitClss;
-
-                        string strOutQty = stringFormatN0(listSub[i].dOutQty);
-                        string strUnitPrice = stringFormatN0(listSub[i].dUnitPrice);
-                        double calcAmount = ConvertDouble(strOutQty) * ConvertDouble(strUnitPrice);
-                        double calcValAmount = calcAmount * .1;
-                        double calcSumAmount = calcAmount + calcValAmount;
-
-                        // 수량
-                        workrange = worksheet.get_Range("P" + rowNum.ToString(), "Q" + rowNum.ToString());
-                        workrange.Value2 = strOutQty;
-
-                        // 단가
-                        workrange = worksheet.get_Range("R" + rowNum.ToString(), "V" + rowNum.ToString());
-                        workrange.Value2 = strUnitPrice;
-
-                        // 공급가액
-                        workrange = worksheet.get_Range("W" + rowNum.ToString(), "Z" + rowNum.ToString());
-                        workrange.Value2 = lib.returnNumStringTargetNum(calcAmount.ToString(), 3);
-
-                        // 세액
-                        workrange = worksheet.get_Range("AA" + rowNum.ToString(), "AD" + rowNum.ToString());
-                        workrange.Value2 = lib.returnNumStringTargetNum(calcValAmount.ToString(), 3);
-
-                        //합계
-                        workrange = worksheet.get_Range("AE" + rowNum.ToString(), "AH" + rowNum.ToString());
-                        workrange.Value2 = lib.returnNumStringTargetNum(calcSumAmount.ToString(), 3);
-
-                        // 비고
-                        /*workrange = worksheet.get_Range("AG" + rowNum.ToString(), "AH" + rowNum.ToString());
-                        workrange.Value2 = outware.Remark;*/
-
-                        cnt++;
-                        totCnt++;
-
-                        // 거래명세표 다음 및 종료 조건
-                        if (totCnt == endCnt || cnt == inputPossibleRowCnt)
-                        {
-                            // 페이지수
-                            workrange = worksheet.get_Range("AC3", "AH4");
-                            workrange.NumberFormat = "@";
-                            workrange.Value2 = pageCnt.ToString() + "/" + totPageCnt.ToString();
-
-                            // 합계 공급가액 
-                            workrange = worksheet.get_Range("G24", "L24");
-                            workrange.Value2 = totalSumAmount.ToString();
-
-                            // 합계 세액 
-                            workrange = worksheet.get_Range("Q24", "W24");
-                            workrange.Value2 = totalSumVatAmount.ToString();
-
-                            // 합계 총액 
-                            workrange = worksheet.get_Range("AB24", "AH24");
-                            workrange.Value2 = totalAmount.ToString();
-
-
-                            // 붙여넣기
-                            worksheet.Select();
-                            worksheet.UsedRange.EntireRow.Copy();
-                            pastesheet.Select();
-                            workrange = pastesheet.Rows[copyLine];
-                            workrange.Select();
-                            pastesheet.Paste();
-
-                            // 내역 삭제
-                            workrange = worksheet.get_Range("C" + startRowNum.ToString(), "AH" + (startRowNum + inputPossibleRowCnt - 1).ToString());
-                            workrange.ClearContents();
-
-                            copyLine += copyRow;
-
-                            cnt = 0;
-                            pageCnt++;
-                        }
-                    }
-                }
-
-                excelapp.Visible = true;
-
-                if (preview_click)
-                    pastesheet.PrintPreview();
-                else
-                    pastesheet.PrintOutEx();
             }
-            catch (Exception ee)
+            catch (Exception ex)
             {
-                MessageBox.Show("오류지점 = PrintWork : " + ee.ToString());
+                if (excelProcessId != 0)
+                {
+                    KillExcelProcess(excelProcessId);
+                }
+                ReleaseExcelObject(workrange);
+                ReleaseExcelObject(pastesheet);
+                ReleaseExcelObject(worksheet);
+                ReleaseExcelObject(workbook);
+                ReleaseExcelObject(excelapp);   
+                MessageBox.Show($"오류가 발생했습니다\n: {ex.Message}");
+                throw;
             }
-
-      
-            lib2.ReleaseExcelObject(workrange);
-     
-            lib2.ReleaseExcelObject(pastesheet);
-            lib2.ReleaseExcelObject(worksheet);
-            lib2.ReleaseExcelObject(workbook);
-            lib2.ReleaseExcelObject(excelapp);
-
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-
-            lib2 = null;
         }
 
-        // 거래명세표 인쇄시 공급자 정보 구해오기
-        private DataTable Fill_DS_CompanyInfo()
+
+
+        //원본시트의 서식, 행, 열 높이 등등 복사시트에 복사하는 메서드
+        private void BaseCopySheet(Excel.Worksheet worksheet, Excel.Worksheet pastesheet, string worksheetX, string worksheetY, string pasteSheetX, string pasteSheetY)
+        {
+            //원본 시트의 범위를 소스로 잡습니다.
+            Excel.Range sourceRange = worksheet.Range[$"{worksheetX}:{worksheetY}"];
+
+            //복사를 먼저 합니다.(붙여넣기 아님)
+            sourceRange.Copy();
+
+            //넘겨받은 복사지점 파라미터로 복사시트에 붙여넣기 합니다.
+            Excel.Range destination1 = pastesheet.Range[$"{pasteSheetX}"];
+            destination1.PasteSpecial(Excel.XlPasteType.xlPasteAll);
+            destination1.PasteSpecial(Excel.XlPasteType.xlPasteFormats);
+
+            //붙여넣고 나면 원본의 열, 행 높이넓이를 재지정
+            int X = Convert.ToInt32(Regex.Replace(pasteSheetX, "[^0-9]", ""));
+
+            X = X - 1;
+
+            for (int i = 1; i <= sourceRange.Rows.Count; i++)
+            {
+                pastesheet.Rows[X + i].RowHeight = worksheet.Rows[i].RowHeight;
+            }
+
+            for (int j = 1; j <= sourceRange.Columns.Count; j++)
+            {
+                pastesheet.Columns[j].ColumnWidth = worksheet.Columns[j].ColumnWidth;
+            }
+
+            #region 용지 크기를 구해서 인쇄너비를 계산하기 버전
+            //// 보통 A4
+            //// A4 용지 크기 (포인트 단위, 1 inch = 72 points)
+            //// A4 = 210mm x 297mm = 8.27 inch x 11.69 inch
+            //const double A4_WIDTH_POINTS = 8.27 * 72;  // 약 595 points
+            //const double A4_HEIGHT_POINTS = 11.69 * 72; // 약 842 points
+
+
+            //pastesheet.PageSetup.PrintArea = $"{worksheetX}:{pasteSheetY}";
+            //// 인쇄 영역 가져오기
+            //Excel.Range printArea = pastesheet.Range[pastesheet.PageSetup.PrintArea];
+
+            //// 인쇄 영역의 너비와 높이
+            //double printAreaWidth = printArea.Width;
+            //double printAreaHeight = printArea.Height;
+
+            //// 여백 고려 (포인트 단위)
+            //double availableWidth = A4_WIDTH_POINTS - (pastesheet.PageSetup.LeftMargin + pastesheet.PageSetup.RightMargin);
+            //double availableHeight = A4_HEIGHT_POINTS - (pastesheet.PageSetup.TopMargin + pastesheet.PageSetup.BottomMargin);
+
+            //// 배율 계산
+            //double widthScale = (availableWidth / printAreaWidth) * 100;
+            //double heightScale = (availableHeight / printAreaHeight) * 100;
+            //int zoom = (int)Math.Min(widthScale, heightScale);
+
+            //pastesheet.PageSetup.Zoom = zoom;
+            #endregion
+
+            //해보니까 배율을 자동
+            //너비는 1페이지, 높이는 자동, 그리고 페이지브레이크만 넣으면 페이지 나누기,
+            //그리고 인쇄영역을 인쇄할 부분 끝까지 지정하면
+            //페이지 나누기 미리보기(실제 인쇄되면 나오는 부분)에서 딱 원본시트 복사한것 만큼 나온다
+            //여러장에 적용 가능
+            pastesheet.PageSetup.Zoom = false;
+            pastesheet.PageSetup.FitToPagesWide = 1;
+            pastesheet.PageSetup.FitToPagesTall = false;
+
+            //페이지로 나눌 부분을 설정합니다.
+            string pageBreakPointLetter_Row = Regex.Replace(pasteSheetY, "[^A-Z]", ""); //붙여넣는 부분 끝나는 지점이라 Y
+            string pageBreakPointRows = Regex.Replace(pasteSheetY, "[^0-9]", "");
+            int pageRowCount = Convert.ToInt32(pageBreakPointRows);
+
+            //지정한 곳(인쇄영역으로 지정한 행 수 다음)으로 페이지 삽입을 합니다.
+            Excel.Range nextPageRange = pastesheet.Range[$"{pageBreakPointLetter_Row}" + (pageRowCount + 1)];
+            pastesheet.HPageBreaks.Add(nextPageRange);
+
+            //인쇄영역을 처음부터 복사한 부분까지 지정합니다.
+            pastesheet.PageSetup.PrintArea = $"{worksheetX}:{pasteSheetY}";
+
+        }
+
+
+        //고정부분 채우기
+        private void FillBaseInfo(Excel.Worksheet sheet, SetCompanyData setCompanyData, CustomData customData, int amount)
+        {        
+            //workrange = sheet.Range["C5"];
+            //workrange.Value2 = DateTime.Today.ToString("yyyy.MM.dd");
+
+            //공급받는자 부분
+            workrange = sheet.Range["G6"];
+            workrange.Value2 = customData.kCustom;
+
+            workrange = sheet.Range["G8"];
+            workrange.Value2 = customData.address1 + "\n" + customData.address2;
+
+            workrange = sheet.Range["G10"];
+            workrange.Value2 = customData.chief;
+
+            //공급자 부분
+            workrange = sheet.Range["W6"];
+            workrange.Value2 = setCompanyData.companyNo?.Length == 10 ? Regex.Replace(setCompanyData.companyNo, @"(\d{3})(\d{2})(\d{5})", "$1-$2-$3") : setCompanyData.companyNo ?? string.Empty;
+
+            workrange = sheet.Range["W8"];
+            workrange.Value2 = setCompanyData.kCompany ?? string.Empty;
+
+            workrange = sheet.Range["AE8"];
+            workrange.Value2 = setCompanyData.chief ??  string.Empty;
+
+            workrange = sheet.Range["W10"];
+            workrange.Value2 = setCompanyData.address1 + "\n" + setCompanyData.address2 ?? string.Empty;
+
+            workrange = sheet.Range["W12"];
+            workrange.Value2 = setCompanyData.phone1 ?? string.Empty;
+
+            workrange = sheet.Range["AD12"];
+            workrange.Value2 = setCompanyData.faxNo ?? string.Empty;
+
+            //합계금액, 세액 //생각해보니 order별로 따로 나와야되네
+            //workrange = sheet.Range["G12"];
+            //workrange.Value2 = amount;
+
+            //workrange = sheet.Range["E25"];
+            //workrange.Value2 = amount;
+
+            //workrange = sheet.Range["L25"];
+            //workrange.Value2 = Convert.ToInt32(amount * 0.1);
+
+        }
+
+
+        private void FillDataIntoPasteSheet(Excel.Worksheet worksheet, Excel.Worksheet pastesheet,
+                                            int perRow, int insertStartRow, string workSheetX, string workSheetY,
+                                            string startColumnLetter, string endColumnLetter, int columnsCount, int RowsCount, int startRow,
+                                            List<Win_ord_OutWare_Scan_CodeView> lstOutwarePrint, List<Win_ord_OutWare_Scan_Sub_CodeView> lstOutwareSubPrint)
+        {
+            #region 파라미터 설명
+            /*받는 파라미터 => (
+                                    worksheet = 원본시트 
+                                    pastesheet = 복사시트              
+                                    perRow = 복사시트에 입력할 수 있는 행 수
+                                    insertStartRow = 복사시트에 몇 줄부터 입력을 시작할지 정함
+                                    workSheetX = 원본시트 시작행
+                                    workSheetY = 원본시트 시작열
+                                    startColumnLetter = 원본시트 시작열 문자
+                                    endColumnLetter = 원본시트 끝나는 지점 문자
+                                    columnsCount = 원본시트 컬럼 수
+                                    RowsCount = 인쇄영역으로 지정된 원본시트의 행 수
+                                    startRow = 원본시트 시작 행
+                                    lstOutwarePrint 데이터그리드 체크한 항목
+                                    lstOutwarePrint 메인데이터그리드 체크한 항목의 Sub값들
+                                )*/
+            #endregion
+
+            // 1. 총 페이지 수 계산
+            int totalPages = 0;
+            List<int> pagesPerMain = new List<int>();  // 각 메인별 페이지 수 저장
+
+            for (int i = 0; i < lstOutwarePrint.Count; i++)
+            {
+                var main = lstOutwarePrint[i];
+                int subCount = lstOutwareSubPrint.Count(s => s.OutwareID == main.OutwareID);
+                int pages = Math.Max(1, (int)Math.Ceiling((double)subCount / perRow));
+                pagesPerMain.Add(pages);
+                totalPages += pages;
+
+                int percent = 10 + ((i + 1) * 10 / lstOutwarePrint.Count); // 10% ~ 20%
+                _progress?.Report(percent);
+            }
+
+
+
+            // 2. 페이지 복사
+            int row = RowsCount;
+            string pasteSheetX = startColumnLetter + startRow;
+            string pasteSheetY = endColumnLetter + row;
+            int globalPageNum = 1;
+            int mainIndex = 0;
+            int pageInMain = 0;
+
+            for (int i = 0; i < totalPages; i++)
+            {
+                BaseCopySheet(worksheet, pastesheet, workSheetX, workSheetY, pasteSheetX, pasteSheetY);
+
+                int currentPageStartRow = startRow + (i * RowsCount); 
+
+                // 현재 어느 메인의 페이지인지 계산
+                var mainItem = lstOutwarePrint[mainIndex];
+
+                pasteSheetX = startColumnLetter + (startRow + row);
+                pasteSheetY = endColumnLetter + (startRow + row + RowsCount - 1);
+
+                // 메인 정보 입력
+                pastesheet.Cells[currentPageStartRow + 4, 3] = mainItem.OutDate;
+                pastesheet.Cells[currentPageStartRow + 3, 29] = $"{globalPageNum}/{totalPages}";
+                pastesheet.Cells[currentPageStartRow + 11, 6] = mainItem.Amount;
+                pastesheet.Cells[currentPageStartRow + 24, 5] = mainItem.Amount;
+                pastesheet.Cells[currentPageStartRow + 24, 12] = mainItem.VatAmount;
+
+                row += RowsCount;
+
+                // 다음 메인으로 넘어가야 하는지 체크
+                pageInMain++;
+                if (pageInMain >= pagesPerMain[mainIndex])
+                {
+                    mainIndex++;
+                    pageInMain = 0;
+                }
+
+                globalPageNum++;
+
+                int percent = 20 + ((i + 1) * 40 / totalPages); // 10% ~ 60%
+                _progress?.Report(percent);
+            }
+
+            // 3. 데이터 입력
+            row = 0;
+            mainIndex = 0;
+            pageInMain = 0;
+
+            for (int k = 0; k < totalPages; k++)
+            {
+                var mainItem = lstOutwarePrint[mainIndex];
+                var subsForMain = lstOutwareSubPrint.Where(s => s.OutwareID == mainItem.OutwareID).ToList();
+
+                // 이 페이지에 들어갈 서브 데이터
+                int startIdx = pageInMain * perRow;
+                int endIdx = Math.Min(startIdx + perRow, subsForMain.Count);
+
+                for (int j = 0; j < endIdx - startIdx; j++)
+                {
+                    var subItem = subsForMain[startIdx + j];
+
+                    pastesheet.Cells[insertStartRow + row + j, 3] = mainItem.OutDate?.Replace("-", "").Substring(4, 2);
+                    pastesheet.Cells[insertStartRow + row + j, 4] = mainItem.OutDate?.Replace("-", "").Substring(6, 2);
+                    pastesheet.Cells[insertStartRow + row + j, 5] = mainItem.BuyerArticleNo;
+                    pastesheet.Cells[insertStartRow + row + j, 11] = mainItem.Article;
+                    pastesheet.Cells[insertStartRow + row + j, 16] = subItem.OutQty;
+                    pastesheet.Cells[insertStartRow + row + j, 18] = subItem.UnitPrice;
+                    pastesheet.Cells[insertStartRow + row + j, 23] = subItem.Amount;
+                    pastesheet.Cells[insertStartRow + row + j, 29] = Convert.ToInt32(lib.RemoveComma(subItem.Amount,0) * 0.1);
+           
+                }
+
+                row += RowsCount;
+
+                // 다음 메인으로
+                pageInMain++;
+                if (pageInMain >= pagesPerMain[mainIndex])
+                {
+                    mainIndex++;
+                    pageInMain = 0;
+                }
+
+
+                int percent = 60 + ((k + 1) * 30 / totalPages); // 60% ~ 90%
+                _progress.Report(percent);
+            }
+
+            //int[] autoFitColumns = { 3 }; // 자동맞춤 할 열 인덱스
+            //int totalPages = (int)Math.Ceiling((double)lstOutwarePrint.Count / perRow);
+            //int currentRow = insertStartRow;
+            //double minWidth = 15.0;
+
+            //foreach (int colIndex in autoFitColumns)
+            //{
+            //    for (int page = 0; page < totalPages; page++)
+            //    {
+            //        int FitStartRow = currentRow + (page * RowsCount);           // 페이지 시작 행
+            //        int FitendRow = startRow + perRow - 1;                        // 페이지 끝 행
+
+            //        Excel.Range colRange = pastesheet.Range[
+            //            pastesheet.Cells[FitStartRow, colIndex],
+            //            pastesheet.Cells[FitendRow, colIndex]
+            //        ];
+
+            //        colRange.Columns.AutoFit();
+
+            //        // 최소 너비 적용
+            //        if (colRange.ColumnWidth < minWidth)
+            //        {
+            //            colRange.ColumnWidth = minWidth;
+            //        }
+            //    }
+            //}
+        }
+
+        //기본 프린터가 하나라도 지정되었나요?
+        private bool IsPrinterAvailable()
+        {
+            return System.Drawing.Printing.PrinterSettings.InstalledPrinters.Count > 0;
+        }
+
+
+        //프린트 핸들러
+        private void HandlePrintPreview(Excel.Application app, Excel.Worksheet sheet, bool preview)
+        {
+            if (!IsPrinterAvailable())
+            {
+                throw new Exception("윈도우에 연결된 기본 프린터가 없습니다.\n기본 프린터를 설정한 후 시도하여주세요.");
+            }
+
+            app.Visible = true;
+            if (preview)
+            {
+                sheet.PrintPreview();
+            }
+            else
+            {
+                sheet.PrintOut();
+            }
+        }
+
+        //엑셀 리소스 정리
+        private void ReleaseExcelObject(object obj)
+        {
+            if (obj != null)
+            {
+                try
+                {
+                    Marshal.ReleaseComObject(obj);
+                    obj = null;
+                }
+                catch
+                {
+                    obj = null;
+                }
+                finally
+                {
+                    GC.Collect();
+                }
+            }
+        }
+
+        // 실행 후 프로세스 아이디를 시간순 정렬해서 가져오기
+        private int GetExcelProcessId()
+        {
+            var process = Process.GetProcessesByName("EXCEL")
+                                .OrderByDescending(p => p.StartTime)
+                                .FirstOrDefault();
+            return process?.Id ?? 0;
+        }
+
+        //릴리즈해도 프로세스가 하나는 끝까지 살아남아서...
+        private void KillExcelProcess(int processId)
         {
             try
             {
-                Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
-                sqlParameter.Add("nChkCompany", 0);
-                sqlParameter.Add("sCompanyID", "");
-                sqlParameter.Add("sKCompany", "");
-
-                DataSet ds = DataStore.Instance.ProcedureToDataSet("xp_Info_GetCompanyInfo", sqlParameter, false);
-
-                if (ds != null && ds.Tables.Count > 0)
+                Process process = Process.GetProcessById(processId);
+                if (!process.HasExited)
                 {
-                    DataTable ddt = null;
-                    ddt = ds.Tables[0];
-
-                    if (ddt.Rows.Count == 0)
-                    {
-                        MessageBox.Show("공급자 정보를 구하지 못했습니다.");
-                        return ddt;
-                    }
-                    else
-                    {
-                        return ddt;
-                    }
-                }
-                else
-                {
-                    return null;
+                    process.Kill();
                 }
             }
-            catch (Exception ee)
-            {
-                MessageBox.Show("오류지점 - Fill_DS_CompanyInfo : " + ee.ToString());
-                return null;
-            }
+            catch { }
         }
+
+        // 실제 엑셀작업 스타트.
+        //private void PrintWork()
+        //{
+        //    Lib lib2 = new Lib();
+        //    try
+        //    {
+        //        if (lstOutwarePrint.Count == 0)
+        //        {
+        //            MessageBox.Show("인쇄할 거래명세표를 체크 선택하세요.");
+        //            lib2 = null;
+        //            return;
+        //        }
+
+        //        excelapp = new Microsoft.Office.Interop.Excel.Application();
+
+        //        string MyBookPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + "\\Report\\거래명세표.xlsx";
+        //        workbook = excelapp.Workbooks.Add(MyBookPath);
+        //        worksheet = workbook.Sheets["Form"];
+        //        pastesheet = workbook.Sheets["Print"];
+
+        //        // 거래일자
+        //        workrange = worksheet.get_Range("C4", "H4");
+        //        workrange.Value2 = lstOutwarePrint[0].OutDate.Replace("-", ".");
+
+        //        // 공급받는 사업자번호
+        //        workrange = worksheet.get_Range("G5", "R6");
+        //        workrange.Value2 = lstOutwarePrint[0].CustomNo;
+
+        //        // 공급받는 상호
+        //        workrange = worksheet.get_Range("G7", "L8");
+        //        workrange.Value2 = lstOutwarePrint[0].KCustom;
+
+        //        // 공급받는 사업장 주소
+        //        workrange = worksheet.get_Range("G9", "R10");
+        //        workrange.Value2 = lstOutwarePrint[0].Buyer_Address1 + lstOutwarePrint[0].Buyer_Address2 + lstOutwarePrint[0].Buyer_Address3;
+
+        //        // 공급받는 성명
+        //        workrange = worksheet.get_Range("O7", "R8");
+        //        workrange.Value2 = lstOutwarePrint[0].Buyer_Chief;
+
+        //        // 공급자 정보 구해오기.
+        //        DataTable DT = Fill_DS_CompanyInfo();
+        //        DataRow DR = DT.Rows[0];
+
+        //        // 공급자 등록번호 (사업자등록번호)
+        //        string companyNo = DR["CompanyNo"].ToString();
+        //        workrange = worksheet.get_Range("W5", "AH6");
+        //        workrange.Value2 = companyNo.Substring(0, 3) + "-" + companyNo.Substring(3, 2) + "-" + companyNo.Substring(5, 5);
+
+        //        // 공급자 상호
+        //        workrange = worksheet.get_Range("W7", "AC8");
+        //        workrange.Value2 = DR["KCompany"].ToString();
+
+        //        // 공급자 성명
+        //        workrange = worksheet.get_Range("AF7", "AH8");
+        //        workrange.Value2 = DR["Chief"].ToString();
+
+        //        // 공급자 사업장 주소
+        //        workrange = worksheet.get_Range("W9", "AH10");
+        //        workrange.Value2 = DR["Address1"].ToString();
+
+        //        // 공급자 전화
+        //        //workrange = worksheet.get_Range("W11", "AB12");
+        //        //workrange.Value2 = DR["Phone1"].ToString();
+
+        //        // 공급자 팩스
+        //        //workrange = worksheet.get_Range("AD11", "AH12");
+        //        //workrange.Value2 = DR["FaxNo"].ToString();
+
+        //        int copyLine = 1;
+        //        int copyRow = 54;
+
+        //        int inputPossibleRowCnt = 10;   // 내역 입력 가능한 갯수
+        //        int startRowNum = 14;           // 내역 입력 시작점
+        //        int endCnt = 0;                 // 엑셀 입력 종료 갯수
+
+        //        int cnt = 0;
+        //        int totCnt = 0;
+
+        //        int pageCnt = 1;
+        //        int totPageCnt = (lstOutwarePrint.Count / inputPossibleRowCnt) + 1;
+
+        //        double totalSumAmount = 0, totalSumVatAmount = 0, totalAmount = 0;
+
+        //        // key : 출고일, value : 출고 항목
+        //        Dictionary<string, List<Win_ord_OutWare_Scan_Sub_CodeView>> dic = new Dictionary<string, List<Win_ord_OutWare_Scan_Sub_CodeView>>();
+
+        //        lstOutwarePrint.Sort((x, y) => x.OutDate.CompareTo(y.OutDate));
+
+        //        // 합계 먼저 계산
+        //        foreach (Win_ord_OutWare_Scan_CodeView outware in lstOutwarePrint)
+        //        {
+        //            string outwareID = outware.OutwareID;
+        //            string UnitClssName = outware.UnitClssName;
+
+        //            Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
+        //            sqlParameter.Add("OutwareID", outwareID);
+        //            DataSet ds = DataStore.Instance.ProcedureToDataSet("xp_Outware_sOutwareSubGroup", sqlParameter, false);
+        //            if (ds != null && ds.Tables.Count > 0)
+        //            {
+        //                DataTable dt = ds.Tables[0];
+        //                if (dt.Rows.Count > 0)
+        //                {
+        //                    double sumOutQty = 0, sumUnitPrice = 0;
+
+        //                    DataRowCollection drc = dt.Rows;
+        //                    foreach (DataRow item in drc)
+        //                    {
+        //                        double outQty = ConvertDouble(item["OutQty"].ToString());
+        //                        double unitPrice = ConvertDouble(item["UnitPrice"].ToString());
+        //                        double calcAmount = outQty * unitPrice;
+        //                        double calcVatAmount = calcAmount * .1;
+
+        //                        sumOutQty += outQty;
+        //                        sumUnitPrice += unitPrice;
+
+        //                        totalSumAmount += calcAmount;
+        //                        totalSumVatAmount += calcVatAmount;
+        //                        totalAmount += totalSumAmount + totalSumVatAmount;
+        //                    }
+
+        //                    Win_ord_OutWare_Scan_Sub_CodeView sub = new Win_ord_OutWare_Scan_Sub_CodeView();
+        //                    sub.ArticleID = outware.ArticleID;
+        //                    sub.Article = outware.Article;
+        //                    sub.dOutQty = sumOutQty;
+        //                    sub.UnitClssName = "EA";
+        //                    sub.dUnitPrice = sumUnitPrice;
+
+        //                    string outDate = outware.OutDate.Replace("-", "");
+        //                    if (dic.ContainsKey(outDate))
+        //                    {
+        //                        int findIdx = dic[outDate].FindIndex(x => x.ArticleID == outware.ArticleID);
+        //                        if (findIdx > -1)
+        //                        {
+        //                            dic[outDate][findIdx].dOutQty += sumOutQty;
+        //                            dic[outDate][findIdx].dUnitPrice += sumUnitPrice;
+        //                        }
+        //                        else
+        //                        {
+        //                            dic[outDate].Add(sub);
+        //                            endCnt++;
+        //                        }
+        //                    }
+        //                    else
+        //                    {
+        //                        List<Win_ord_OutWare_Scan_Sub_CodeView> listSub = new List<Win_ord_OutWare_Scan_Sub_CodeView>() { sub };
+        //                        dic.Add(outDate, listSub);
+        //                        endCnt++;
+        //                    }
+        //                }
+        //            }
+        //        }
+
+        //        foreach (KeyValuePair<string, List<Win_ord_OutWare_Scan_Sub_CodeView>> pair in dic)
+        //        {
+        //            string outDate = pair.Key;
+        //            List<Win_ord_OutWare_Scan_Sub_CodeView> listSub = pair.Value;
+
+        //            string month = outDate.Substring(4, 2);
+        //            string day = outDate.Substring(6, 2);
+
+        //            for (int i = 0; i < listSub.Count; i++)
+        //            {
+        //                int rowNum = startRowNum + (cnt % (inputPossibleRowCnt + 1));
+
+        //                // 월
+        //                workrange = worksheet.get_Range("C" + rowNum.ToString());
+        //                workrange.Value2 = i + 1;
+
+        //                workrange = worksheet.get_Range("M" + rowNum.ToString());
+        //                workrange.Value2 = listSub[i].UnitClssName;
+
+        //                //// 일
+        //                //workrange = worksheet.get_Range("D" + rowNum.ToString());
+        //                //workrange.Value2 = day;
+
+        //                // 품명
+        //                workrange = worksheet.get_Range("E" + rowNum.ToString(), "L" + rowNum.ToString());
+        //                workrange.Value2 = listSub[i].Article;
+
+        //                //workrange = worksheet.get_Range("E" + rowNum.ToString(), "L" + rowNum.ToString());
+        //                //workrange.Value2 = listSub[i].UnitClss;
+
+        //                string strOutQty = stringFormatN0(listSub[i].dOutQty);
+        //                string strUnitPrice = stringFormatN0(listSub[i].dUnitPrice);
+        //                double calcAmount = ConvertDouble(strOutQty) * ConvertDouble(strUnitPrice);
+        //                double calcValAmount = calcAmount * .1;
+        //                double calcSumAmount = calcAmount + calcValAmount;
+
+        //                // 수량
+        //                workrange = worksheet.get_Range("P" + rowNum.ToString(), "Q" + rowNum.ToString());
+        //                workrange.Value2 = strOutQty;
+
+        //                // 단가
+        //                workrange = worksheet.get_Range("R" + rowNum.ToString(), "V" + rowNum.ToString());
+        //                workrange.Value2 = strUnitPrice;
+
+        //                // 공급가액
+        //                workrange = worksheet.get_Range("W" + rowNum.ToString(), "Z" + rowNum.ToString());
+        //                workrange.Value2 = lib.returnNumStringTargetNum(calcAmount.ToString(), 3);
+
+        //                // 세액
+        //                workrange = worksheet.get_Range("AA" + rowNum.ToString(), "AD" + rowNum.ToString());
+        //                workrange.Value2 = lib.returnNumStringTargetNum(calcValAmount.ToString(), 3);
+
+        //                //합계
+        //                workrange = worksheet.get_Range("AE" + rowNum.ToString(), "AH" + rowNum.ToString());
+        //                workrange.Value2 = lib.returnNumStringTargetNum(calcSumAmount.ToString(), 3);
+
+        //                // 비고
+        //                /*workrange = worksheet.get_Range("AG" + rowNum.ToString(), "AH" + rowNum.ToString());
+        //                workrange.Value2 = outware.Remark;*/
+
+        //                cnt++;
+        //                totCnt++;
+
+        //                // 거래명세표 다음 및 종료 조건
+        //                if (totCnt == endCnt || cnt == inputPossibleRowCnt)
+        //                {
+        //                    // 페이지수
+        //                    workrange = worksheet.get_Range("AC3", "AH4");
+        //                    workrange.NumberFormat = "@";
+        //                    workrange.Value2 = pageCnt.ToString() + "/" + totPageCnt.ToString();
+
+        //                    // 합계 공급가액 
+        //                    workrange = worksheet.get_Range("G24", "L24");
+        //                    workrange.Value2 = totalSumAmount.ToString();
+
+        //                    // 합계 세액 
+        //                    workrange = worksheet.get_Range("Q24", "W24");
+        //                    workrange.Value2 = totalSumVatAmount.ToString();
+
+        //                    // 합계 총액 
+        //                    workrange = worksheet.get_Range("AB24", "AH24");
+        //                    workrange.Value2 = totalAmount.ToString();
+
+
+        //                    // 붙여넣기
+        //                    worksheet.Select();
+        //                    worksheet.UsedRange.EntireRow.Copy();
+        //                    pastesheet.Select();
+        //                    workrange = pastesheet.Rows[copyLine];
+        //                    workrange.Select();
+        //                    pastesheet.Paste();
+
+        //                    // 내역 삭제
+        //                    workrange = worksheet.get_Range("C" + startRowNum.ToString(), "AH" + (startRowNum + inputPossibleRowCnt - 1).ToString());
+        //                    workrange.ClearContents();
+
+        //                    copyLine += copyRow;
+
+        //                    cnt = 0;
+        //                    pageCnt++;
+        //                }
+        //            }
+        //        }
+
+        //        excelapp.Visible = true;
+
+        //        if (preview_click)
+        //            pastesheet.PrintPreview();
+        //        else
+        //            pastesheet.PrintOutEx();
+        //    }
+        //    catch (Exception ee)
+        //    {
+        //        MessageBox.Show("오류지점 = PrintWork : " + ee.ToString());
+        //    }
+
+
+        //    lib2.ReleaseExcelObject(workrange);
+
+        //    lib2.ReleaseExcelObject(pastesheet);
+        //    lib2.ReleaseExcelObject(worksheet);
+        //    lib2.ReleaseExcelObject(workbook);
+        //    lib2.ReleaseExcelObject(excelapp);
+
+        //    GC.Collect();
+        //    GC.WaitForPendingFinalizers();
+        //    GC.Collect();
+        //    GC.WaitForPendingFinalizers();
+
+        //    lib2 = null;
+        //}
+
+        //// 거래명세표 인쇄시 공급자 정보 구해오기
+        //private DataTable Fill_DS_CompanyInfo()
+        //{
+        //    try
+        //    {
+        //        Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
+        //        sqlParameter.Add("nChkCompany", 0);
+        //        sqlParameter.Add("sCompanyID", "");
+        //        sqlParameter.Add("sKCompany", "");
+
+        //        DataSet ds = DataStore.Instance.ProcedureToDataSet("xp_Info_GetCompanyInfo", sqlParameter, false);
+
+        //        if (ds != null && ds.Tables.Count > 0)
+        //        {
+        //            DataTable ddt = null;
+        //            ddt = ds.Tables[0];
+
+        //            if (ddt.Rows.Count == 0)
+        //            {
+        //                MessageBox.Show("공급자 정보를 구하지 못했습니다.");
+        //                return ddt;
+        //            }
+        //            else
+        //            {
+        //                return ddt;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            return null;
+        //        }
+        //    }
+        //    catch (Exception ee)
+        //    {
+        //        MessageBox.Show("오류지점 - Fill_DS_CompanyInfo : " + ee.ToString());
+        //        return null;
+        //    }
+        //}
         #endregion
 
 
@@ -1213,11 +1725,11 @@ namespace WizMes_WellMade
 
         private void plusFinder_replyOrderQty(string data)
         {
-            string[] values = data.Split(',');          
+            string[] values = data.Split(',');
             if (values.Length > 0)
                 replyOrderQty = values[0].Trim();
             else
-                replyOrderQty = string.Empty;  
+                replyOrderQty = string.Empty;
         }
 
         //플러스파인더에서 대리자 이벤트로 가져온 지시량
@@ -1241,7 +1753,7 @@ namespace WizMes_WellMade
         }
 
         #region 키다운 이동 모음
-   
+
 
         //관리번호 텍스트박스 키다운 이벤트
         private void txtOrderID_KeyDown(object sender, KeyEventArgs e)
@@ -1249,18 +1761,18 @@ namespace WizMes_WellMade
             try
             {
                 if (e.Key == Key.Enter)
-                {                       
+                {
 
                     pf.refEvent += new PlusFinder.RefEventHandler(plusFinder_replyOrderQty);
                     pf.ReturnCode(txtOrderID, 99, txtOrderID.Text);
 
                     if (txtOrderID.Text.Length > 0)
                     {
-                  
+
                         OrderID_OtherSearch(txtOrderID.Text, "");
 
-                
-                    }                   
+
+                    }
                 }
             }
             catch (Exception ee)
@@ -1272,7 +1784,7 @@ namespace WizMes_WellMade
         private void OutwareSubInput()
         {
 
-            if(dgdOutwareSub.Items.Count > 0)
+            if (dgdOutwareSub.Items.Count > 0)
             {
                 dgdOutwareSub.Items.Clear();
             }
@@ -1397,7 +1909,7 @@ namespace WizMes_WellMade
 
                 if (txtOutCustom.Text.Length > 0)
                     txtBuyerName.Text = txtOutCustom.Text;
-                    txtBuyerName.Tag = txtOutCustom.Tag;
+                txtBuyerName.Tag = txtOutCustom.Tag;
 
                 txtBuyerName.Focus();
             }
@@ -1415,7 +1927,7 @@ namespace WizMes_WellMade
 
                 if (OutwareInfo != null)
                 {
-                    this.DataContext = OutwareInfo;                           
+                    this.DataContext = OutwareInfo;
 
                     FillGridSub(OutwareInfo.OutwareID);
                 }
@@ -1426,7 +1938,7 @@ namespace WizMes_WellMade
             }
         }
 
-  
+
 
         //관리번호 플러스파인더 버튼 클릭
         private void btnOrderID_Click(object sender, RoutedEventArgs e)
@@ -1445,7 +1957,7 @@ namespace WizMes_WellMade
                     OutwareSubInput();
 
                     cboOutClss.IsDropDownOpen = true;
-                }               
+                }
             }
             catch (Exception ee)
             {
@@ -1498,7 +2010,8 @@ namespace WizMes_WellMade
                                     txtScanData.Text = string.Empty;
                                     return;
                                 }
-                            };
+                            }
+                            ;
                         }
                         else
                         {
@@ -1626,7 +2139,7 @@ namespace WizMes_WellMade
                 return false;
             }
         }
-      
+
 
 
         // 부품식별표 박스ID 스캔 > SUBGRID 추가
@@ -1745,7 +2258,7 @@ namespace WizMes_WellMade
                             {
                                 System.Windows.MessageBox.Show("서로 다른 품명을 동시에 출고처리 할 수 없습니다.\r\n바코드를 확인해주세요.\n" +
                                     "바코드   품명 :" + DR["Article"].ToString() + " \r\n" +
-                                    "출고희망 품명 :" + txtArticle_InGroupBox.Text + "","확인",MessageBoxButton.OK, MessageBoxImage.Error);
+                                    "출고희망 품명 :" + txtArticle_InGroupBox.Text + "", "확인", MessageBoxButton.OK, MessageBoxImage.Error);
                                 return;
                             }
                         }
@@ -1755,7 +2268,7 @@ namespace WizMes_WellMade
                             {
                                 System.Windows.MessageBox.Show("서로 다른 거래처를 동시에 출고처리 할 수 없습니다. \r\n" +
                                     "바코드 거래처 :" + DR["CustomName"].ToString() + ". \r\n" +
-                                    "출고 거래처 :" + txtKCustom.Text + ".","확인",MessageBoxButton.OK, MessageBoxImage.Error);
+                                    "출고 거래처 :" + txtKCustom.Text + ".", "확인", MessageBoxButton.OK, MessageBoxImage.Error);
                                 return;
                             }
                         }
@@ -1928,10 +2441,10 @@ namespace WizMes_WellMade
 
                 // 품번
                 sqlParameter.Add("ChkBuyerArticleNo", chkpfBuyerArticleNo.IsChecked == true ? 1 : 0);
-                sqlParameter.Add("BuyerArticleNo", chkpfBuyerArticleNo.IsChecked == true ? (txtpfBuyerArticleNo.Tag != null ? txtpfBuyerArticleNo.Tag.ToString() : "") : "");  
-          
+                sqlParameter.Add("BuyerArticleNo", chkpfBuyerArticleNo.IsChecked == true ? (txtpfBuyerArticleNo.Tag != null ? txtpfBuyerArticleNo.Tag.ToString() : "") : "");
+
                 sqlParameter.Add("ChkOrder", rbnOrderNo.IsChecked == true ? 1 : 2);
-                sqlParameter.Add("Order", txtRadioOptionNum.Text);                
+                sqlParameter.Add("Order", txtRadioOptionNum.Text);
 
                 ds = DataStore.Instance.ProcedureToDataSet_LogWrite("xp_Outware_sOrder", sqlParameter, true, "R");
 
@@ -1982,17 +2495,20 @@ namespace WizMes_WellMade
                                 Buyer_Address2 = dr["Address2"].ToString(),
                                 Buyer_Address3 = string.Empty,
                                 Chief = dr["Chief"].ToString(),
-                                CustomNo = dr["CustomNo"].ToString(),                                
+                                CustomNo = dr["CustomNo"].ToString(),
+
+                                Amount = dr["Amount"].ToString(),
+                                VatAmount = dr["VatAmount"].ToString(),
 
                             };
 
                             outqtySum += (int)RemoveComma(dr["OutQty"].ToString(), true);
 
                             dgdOutware.Items.Add(OutWardInfo);
-     
+
                         }
 
-                        if(dgdOutware.Items.Count > 0)
+                        if (dgdOutware.Items.Count > 0)
                         {
                             var total = new Win_ord_OutWare_Scan_dgdTotal_CodeView
                             {
@@ -2002,7 +2518,7 @@ namespace WizMes_WellMade
 
                             dgdTotal.Items.Add(total);
                         }
-                      
+
                     }
                 }
             }
@@ -2111,7 +2627,7 @@ namespace WizMes_WellMade
             try
             {
                 if (CheckData())
-                {               
+                {
 
                     #region 추가
 
@@ -2121,44 +2637,44 @@ namespace WizMes_WellMade
 
                         Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
                         sqlParameter.Clear();
-                        sqlParameter.Add("OrderID", txtOrderID.Text);                  
-                        sqlParameter.Add("CompanyID", MainWindow.CompanyID);    
+                        sqlParameter.Add("OrderID", txtOrderID.Text);
+                        sqlParameter.Add("CompanyID", MainWindow.CompanyID);
                         sqlParameter.Add("OutSeq", "");
                         sqlParameter.Add("OutwareNo", "");
-                        sqlParameter.Add("OutClss", cboOutClss.SelectedValue != null? cboOutClss.SelectedValue.ToString() : "");
+                        sqlParameter.Add("OutClss", cboOutClss.SelectedValue != null ? cboOutClss.SelectedValue.ToString() : "");
 
                         sqlParameter.Add("CustomID", txtKCustom.Tag != null ? txtKCustom.Tag.ToString() : "");
                         sqlParameter.Add("BuyerDirectYN", "Y");
-                        sqlParameter.Add("WorkID", "0001");                 
+                        sqlParameter.Add("WorkID", "0001");
                         sqlParameter.Add("ExchRate", 0);
                         sqlParameter.Add("UnitPriceClss", "0");
 
-                        sqlParameter.Add("InsStuffInYN", "N");             
-                        sqlParameter.Add("OutcustomID", txtOutCustom.Tag != null ? txtOutCustom.Tag.ToString() : "");               
+                        sqlParameter.Add("InsStuffInYN", "N");
+                        sqlParameter.Add("OutcustomID", txtOutCustom.Tag != null ? txtOutCustom.Tag.ToString() : "");
                         sqlParameter.Add("Outcustom", txtOutCustom.Text);
                         sqlParameter.Add("LossRate", 0);
                         sqlParameter.Add("LossQty", 0);
 
-                        sqlParameter.Add("OutRoll", RemoveComma(txtOutRoll.Text,true));
+                        sqlParameter.Add("OutRoll", RemoveComma(txtOutRoll.Text, true));
                         sqlParameter.Add("OutQty", RemoveComma(txtOutQty.Text, true));
-                        sqlParameter.Add("OutRealQty", ConvertDouble(txtOutQty.Text.Replace(",", ""))); 
+                        sqlParameter.Add("OutRealQty", ConvertDouble(txtOutQty.Text.Replace(",", "")));
                         sqlParameter.Add("OutDate", dtpOutDate.Text.ToString().Substring(0, 10).Replace("-", ""));
                         sqlParameter.Add("ResultDate", dtpOutDate.Text.ToString().Substring(0, 10).Replace("-", ""));
 
                         sqlParameter.Add("Remark", txtRemark.Text.Equals("") ? "사무실에서 출고" : txtRemark.Text);
-                        sqlParameter.Add("OutType", "3");                
-                        sqlParameter.Add("OutSubType", "");              
-                        sqlParameter.Add("Amount", 0);                   
-                        sqlParameter.Add("VatAmount", 0);                
+                        sqlParameter.Add("OutType", "3");
+                        sqlParameter.Add("OutSubType", "");             
+                        sqlParameter.Add("Amount", dgdOutwareSub.Items.OfType<Win_ord_OutWare_Scan_Sub_CodeView>().Sum(x => lib.RemoveComma(x.UnitPrice,0) * lib.RemoveComma(x.OutQty,0)));
+                        sqlParameter.Add("VatAmount", dgdOutwareSub.Items.OfType<Win_ord_OutWare_Scan_Sub_CodeView>().Sum(x => Convert.ToInt32(lib.RemoveComma(x.UnitPrice, 0) * lib.RemoveComma(x.OutQty, 0)) * 0.1));
 
-                        sqlParameter.Add("VatINDYN", "Y");               
+                        sqlParameter.Add("VatINDYN", "Y");
                         sqlParameter.Add("FromLocID", cboFromLoc.SelectedValue != null ? cboFromLoc.SelectedValue.ToString() : "");
                         sqlParameter.Add("ToLocID", cboToLoc.SelectedValue != null ? cboToLoc.SelectedValue.ToString() : "");
-                        sqlParameter.Add("UnitClss", 0);                       
+                        sqlParameter.Add("UnitClss", 0);
 
-                        sqlParameter.Add("DvlyCustomID", txtBuyerName.Tag != null ?  txtBuyerName.Tag.ToString() :""); 
+                        sqlParameter.Add("DvlyCustomID", txtBuyerName.Tag != null ? txtBuyerName.Tag.ToString() : "");
                         sqlParameter.Add("UserID", MainWindow.CurrentUser);
-                 
+
 
                         Procedure pro1 = new Procedure();
                         pro1.Name = "xp_Outware_iOutware";
@@ -2216,16 +2732,16 @@ namespace WizMes_WellMade
                             sqlParameter.Add("LabelGubun", "2");        //박스라벨출고는 2번
 
                             sqlParameter.Add("LotNo", "0");
-                            sqlParameter.Add("Gubun", "");             
+                            sqlParameter.Add("Gubun", "");
                             sqlParameter.Add("StuffQty", 0);
                             sqlParameter.Add("OutQty", RemoveComma(OutwareSub.OutQty, true));
-                            sqlParameter.Add("OutRoll", 1); 
+                            sqlParameter.Add("OutRoll", 1);
 
                             sqlParameter.Add("UnitPrice", RemoveComma(OutwareSub.UnitPrice, true));
 
-                        
+
                             sqlParameter.Add("CustomBoxID", OutwareSub.CustomBoxID);
-                            sqlParameter.Add("DefectID", "");            
+                            sqlParameter.Add("DefectID", "");
                             sqlParameter.Add("BoxID", OutwareSub.LabelID);
                             //sqlParameter.Add("ArticleID", OutwareSub.ArticleID);
                             sqlParameter.Add("ArticleID", txtArticleID_InGroupBox.Text != null ? txtArticleID_InGroupBox.Text : "");
@@ -2247,7 +2763,7 @@ namespace WizMes_WellMade
                             ListParameter.Add(sqlParameter);
 
                         }
-          
+
                     }
 
                     #endregion   추가
@@ -2255,7 +2771,7 @@ namespace WizMes_WellMade
                     #region 수정
 
                     else if (strFlag == "U")
-                    {    
+                    {
 
                         Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
                         sqlParameter.Clear();
@@ -2276,7 +2792,7 @@ namespace WizMes_WellMade
                         sqlParameter.Add("LossRate", 0);
                         sqlParameter.Add("LossQty", 0);
 
-                        sqlParameter.Add("OutRoll", RemoveComma(txtOutRoll.Text,true));
+                        sqlParameter.Add("OutRoll", RemoveComma(txtOutRoll.Text, true));
                         sqlParameter.Add("OutQty", RemoveComma(txtOutQty.Text, true));
                         sqlParameter.Add("OutRealQty", RemoveComma(txtOutQty.Text, true));
                         sqlParameter.Add("OutDate", !IsDatePickerNull(dtpOutDate) ? ConvertDate(dtpOutDate) : "");
@@ -2285,17 +2801,17 @@ namespace WizMes_WellMade
                         sqlParameter.Add("Remark", string.IsNullOrEmpty(txtRemark.Text) ? "사무실에서 출고" : txtRemark.Text);
                         sqlParameter.Add("OutType", "3");
                         sqlParameter.Add("OutSubType", "");
-                        sqlParameter.Add("Amount", 0);
-                        sqlParameter.Add("VatAmount", 0);
+                        sqlParameter.Add("Amount", dgdOutwareSub.Items.OfType<Win_ord_OutWare_Scan_Sub_CodeView>().Sum(x => lib.RemoveComma(x.UnitPrice, 0) * lib.RemoveComma(x.OutQty, 0)));
+                        sqlParameter.Add("VatAmount", dgdOutwareSub.Items.OfType<Win_ord_OutWare_Scan_Sub_CodeView>().Sum(x => Convert.ToInt32(lib.RemoveComma(x.UnitPrice, 0) * lib.RemoveComma(x.OutQty, 0)) * 0.1));
 
                         sqlParameter.Add("VatINDYN", 'Y');
-                        sqlParameter.Add("FromLocID", cboFromLoc.SelectedValue != null ? cboFromLoc.SelectedValue.ToString() :"");
-                        sqlParameter.Add("ToLocID", cboToLoc.SelectedValue != null ? cboToLoc.SelectedValue.ToString() :"");
+                        sqlParameter.Add("FromLocID", cboFromLoc.SelectedValue != null ? cboFromLoc.SelectedValue.ToString() : "");
+                        sqlParameter.Add("ToLocID", cboToLoc.SelectedValue != null ? cboToLoc.SelectedValue.ToString() : "");
                         sqlParameter.Add("UnitClss", 0);
 
-                        sqlParameter.Add("DvlyCustomID", txtBuyerName.Tag != null ?  txtBuyerName.Tag.ToString() : "" ); //20210526
+                        sqlParameter.Add("DvlyCustomID", txtBuyerName.Tag != null ? txtBuyerName.Tag.ToString() : ""); //20210526
                         sqlParameter.Add("UserID", MainWindow.CurrentUser);
-                        
+
 
                         Procedure pro3 = new Procedure();
                         pro3.Name = "xp_Outware_uOutware";
@@ -2339,17 +2855,17 @@ namespace WizMes_WellMade
                             sqlParameter.Add("LineSubSeq", 0);
                             sqlParameter.Add("RollSeq", i);
                             sqlParameter.Add("LabelID", OutwareSub.LabelID);
-                            sqlParameter.Add("LabelGubun", "2");        
+                            sqlParameter.Add("LabelGubun", "2");
 
                             sqlParameter.Add("LotNo", "0");
-                            sqlParameter.Add("Gubun", "");              
+                            sqlParameter.Add("Gubun", "");
                             sqlParameter.Add("StuffQty", 0);
-                            sqlParameter.Add("OutQty", RemoveComma(OutwareSub.OutQty,true));
+                            sqlParameter.Add("OutQty", RemoveComma(OutwareSub.OutQty, true));
                             sqlParameter.Add("OutRoll", 1); // 하나당 박스 1개로 처리 하니, 1로 저장한다고 함
 
                             sqlParameter.Add("UnitPrice", RemoveComma(OutwareSub.UnitPrice, true));
                             sqlParameter.Add("CustomBoxID", OutwareSub.CustomBoxID);
-                            sqlParameter.Add("DefectID", "");          
+                            sqlParameter.Add("DefectID", "");
                             sqlParameter.Add("BoxID", OutwareSub.LabelID);
                             sqlParameter.Add("ArticleID", txtArticleID_InGroupBox.Text != null ? txtArticleID_InGroupBox.Text : "");
                             sqlParameter.Add("SubRemark", "사무실에서 출고(출하스캔)");
@@ -2391,7 +2907,7 @@ namespace WizMes_WellMade
                 }
                 else
                 {
-                    
+
                     txtScanData.Focus();
                     flag = false;
                 }
@@ -2423,7 +2939,7 @@ namespace WizMes_WellMade
                     MessageBox.Show("관리번호를 반드시 입력하세요.");
                     return false;
                 }
-              
+
                 if (cboOutClss.SelectedIndex < 0)
                 {
                     MessageBox.Show("출고구분은 반드시 선택하세요.");
@@ -2439,7 +2955,7 @@ namespace WizMes_WellMade
                     MessageBox.Show("스캔된 라벨 정보가 없습니다.");
                     return false;
                 }
-             
+
                 // 박스에 담긴 수량 체크
                 //if (tgnMoveByID.IsChecked == true)
                 //{
@@ -2459,7 +2975,7 @@ namespace WizMes_WellMade
                 //        }
                 //    }
                 //}
-              
+
 
                 return true;
             }
@@ -2586,7 +3102,7 @@ namespace WizMes_WellMade
 
                         txtBuyerArticleNo.Text = DR["BuyerArticleNo"].ToString();
                         orderSeq = DR["OrderSeq"].ToString();
-                    
+
                     }
                 }
 
@@ -2700,7 +3216,7 @@ namespace WizMes_WellMade
             tgnMoveByID.IsHitTestVisible = true;
             tgnMoveByQty.IsHitTestVisible = true;
 
-            
+
         }
         //저장, 취소일 때
         private void CantBtnControl()
@@ -2926,40 +3442,15 @@ namespace WizMes_WellMade
         {
             try
             {
-                //박스포장량 검증 추가
-                TextBox textbox = sender as TextBox;
-                if(textbox != null  && decimal.TryParse(textbox.Text, out decimal OutQty))
-                {
-                    var selectedRow = dgdOutwareSub.CurrentItem as Win_ord_OutWare_Scan_Sub_CodeView;
-                    if(selectedRow != null)
-                    {
-                        if (!string.IsNullOrEmpty(selectedRow.LabelID))
-                        {
-                            int boxQty = lib.GetBoxQty(selectedRow.LabelID);
-                            if(boxQty > 0 && OutQty > boxQty)
-                            {
-                                e.Handled = true;
-                                textbox.Text = stringFormatN0(boxQty);
-                                MessageBox.Show($"입력된 수량이 남은 수량 ({boxQty}) 보다 많이 입력 되었습니다.", "확인");
-                                return;
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    SumColorQty();
-                }
+                SumColorQty();
             }
             catch (Exception ee)
             {
                 MessageBox.Show("오류지점 - txtQty_KeyDown : " + ee.ToString());
             }
 
-        
+
         }
-
-
 
         private void dgdOutwareSubRequest_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
@@ -3380,8 +3871,8 @@ namespace WizMes_WellMade
         {
             try
             {
-                Lib.Instance.CheckIsNumeric((TextBox)sender, e);             
-               
+                Lib.Instance.CheckIsNumeric((TextBox)sender, e);
+
             }
             catch (Exception ee)
             {
@@ -3390,16 +3881,16 @@ namespace WizMes_WellMade
         }
 
 
-     
+
 
 
         //서브 데이터 그리드 수량 변경 이벤트
         private void DataGridTextBoxColorQty_TextChanged(object sender, TextChangedEventArgs e)
         {
             try
-            {   
+            {
                 SumColorQty();
-                
+
             }
             catch (Exception ee)
             {
@@ -3413,7 +3904,7 @@ namespace WizMes_WellMade
             try
             {
                 Lib.Instance.CheckIsNumeric((TextBox)sender, e);
-               
+
             }
             catch (Exception ee)
             {
@@ -3425,7 +3916,7 @@ namespace WizMes_WellMade
         private void SumColorQty()
         {
             try
-            {                
+            {
                 double OutQty = 0;
 
                 for (int i = 0; i < dgdOutwareSub.Items.Count; i++)
@@ -3528,8 +4019,8 @@ namespace WizMes_WellMade
 
             return result;
         }
-              
-       
+
+
 
         private void lblpfBuyerArticleNo_Click(object sender, MouseButtonEventArgs e)
         {
@@ -3549,7 +4040,7 @@ namespace WizMes_WellMade
 
         private void ChkpfBuyerArticleNo_Checked(object sender, RoutedEventArgs e)
         {
-            if(chkpfBuyerArticleNo.IsChecked == true)
+            if (chkpfBuyerArticleNo.IsChecked == true)
             {
                 txtpfBuyerArticleNo.IsEnabled = true;
                 btnpfBuyerArticleNo.IsEnabled = true;
@@ -3559,7 +4050,7 @@ namespace WizMes_WellMade
 
         private void ChkpfBuyerArticleNo_Unchecked(object sender, RoutedEventArgs e)
         {
-            if(chkpfBuyerArticleNo.IsChecked == false)
+            if (chkpfBuyerArticleNo.IsChecked == false)
             {
                 txtpfBuyerArticleNo.IsEnabled = false;
                 btnpfBuyerArticleNo.IsEnabled = false;
@@ -3569,7 +4060,7 @@ namespace WizMes_WellMade
 
         private void txtpfBuyerArticleNo_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.Key == Key.Enter)
+            if (e.Key == Key.Enter)
             {
                 pf.ReturnCode(txtpfBuyerArticleNo, 76, txtpfBuyerArticleNo.Text);
 
@@ -3583,7 +4074,7 @@ namespace WizMes_WellMade
             pf.ReturnCode(txtInCustomer, 76, txtpfBuyerArticleNo.Text);
 
         }
-    
+
 
         private void rbnOrderNumber_Click(object sender, RoutedEventArgs e)
         {
@@ -3682,7 +4173,8 @@ namespace WizMes_WellMade
                 List<Control> controlsToToggle = new List<Control>();
 
                 // 그리드 내 모든 Control 찾기 (체크박스 제외)
-                FindUiObject(parentGrid, obj => {
+                FindUiObject(parentGrid, obj =>
+                {
                     if (obj is Control control && obj != checkBox && !(obj is Label) && !(obj is CheckBox))
                     {
                         controlsToToggle.Add(control);
@@ -4060,7 +4552,8 @@ namespace WizMes_WellMade
             System.Windows.Threading.DispatcherTimer timer = new System.Windows.Threading.DispatcherTimer();
 
             timer.Interval = TimeSpan.FromSeconds(2);
-            timer.Tick += (s, args) => {
+            timer.Tick += (s, args) =>
+            {
                 tooltip.IsOpen = false;
                 timer.Stop();
             };
@@ -4141,7 +4634,7 @@ namespace WizMes_WellMade
         public string Category { get; set; }
         public string Condition { get; set; }
 
-        public string OutTime { get; set; }
+        public string OutTime { get; set; }       
 
     }
 
@@ -4194,13 +4687,160 @@ namespace WizMes_WellMade
         public bool UDFlag { get; set; }
         public double dOutQty { get; set; }
         public double dUnitPrice { get; set; }
+
+        public static List<Win_ord_OutWare_Scan_Sub_CodeView> GetOutwareSubData(string outwareID)
+        {
+            List<Win_ord_OutWare_Scan_Sub_CodeView> lstOutwareSub = new List<Win_ord_OutWare_Scan_Sub_CodeView>();
+
+            try
+            {
+                string sql = "select * from OutwareSub where OutWareID like @OutWareID ";
+
+                var parameter = new Dictionary<string, object>
+                {
+                    {"@OutWareID", outwareID }
+                };
+
+                DataSet ds = DataStore.Instance.QueryToDataSetWithParam(sql, parameter);
+                if (ds != null)
+                {
+                    DataTable dt = ds.Tables[0];
+                    DataRowCollection drc = dt.Rows;
+                    foreach (DataRow dr in drc)
+                    {
+                        var outwareSub = new Win_ord_OutWare_Scan_Sub_CodeView
+                        {
+                            OutwareID = dr["OutWareID"].ToString(),
+                            OutQty = dr["OutQty"].ToString(),
+                            UnitPrice = dr["UnitPrice"].ToString(),
+                            Amount = (Lib.Instance.RemoveComma(dr["OutQty"].ToString(), 0) * Lib.Instance.RemoveComma(dr["UnitPrice"].ToString(), 0)).ToString()
+                        };
+
+                        lstOutwareSub.Add(outwareSub);
+               
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("하위 정보 불러오기 실패했습니다" + ex.ToString());
+            }
+            finally
+            {
+                DataStore.Instance.CloseConnection();
+            }
+
+            return lstOutwareSub;
+        }
     }
 
     public class Win_ord_OutWare_Scan_dgdTotal_CodeView : BaseView
     {
         public int count { get; set; }
         public string totQty { get; set; }
-    
-    }
 
     }
+
+    public class SetCompanyData
+    {
+        public string companyID { get; set; }
+        public string chief { get; set; }
+        public string kCompany { get; set; }
+        public string companyNo { get; set; }
+        public string address1 { get; set; }
+        public string address2 { get; set; }
+        public string phone1 { get; set; }
+        public string faxNo { get; set; }
+
+        public static SetCompanyData GetSetCompanyData()
+        {
+            SetCompanyData setCompanyData = new SetCompanyData();
+
+            try
+            {
+                string sql = "select top 1 * from mt_setCompany";    
+
+                DataSet ds = DataStore.Instance.QueryToDataSetWithParam(sql);
+                if(ds != null)
+                {
+                    DataTable dt = ds.Tables[0];
+                    DataRowCollection drc = dt.Rows;
+                    foreach(DataRow dr in drc)
+                    {
+                        setCompanyData.kCompany = dr["KCompany"].ToString();
+                        setCompanyData.companyNo = dr["CompanyNo"].ToString();
+                        setCompanyData.chief = dr["chief"].ToString();
+                        setCompanyData.address1 = dr["Address1"].ToString();
+                        setCompanyData.address2 = dr["Address2"].ToString();
+                        setCompanyData.phone1 = dr["Phone1"].ToString();
+                        setCompanyData.faxNo = dr["FaxNo"].ToString();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("자사 정보를 불러오는 도중 오류\n" + ex.ToString());
+            }
+            finally
+            {
+                DataStore.Instance.CloseConnection();
+            }
+
+            return setCompanyData;
+        }
+
+    }
+
+    public class CustomData
+    {
+        public string kCustom { get; set; }
+        public string address1 { get; set; }
+        public string address2 { get; set; }
+        public string chief { get; set; }        
+
+        public static CustomData GetCustomData(string customID)
+        {
+            CustomData customData = new CustomData();
+
+            try
+            {
+                string sql = "select * from mt_Custom where CustomID = @CustomID ";
+
+                var parameter = new Dictionary<string, object>()
+                {
+                    {"@CustomID", customID }
+                };
+
+                DataSet ds = DataStore.Instance.QueryToDataSetWithParam(sql, parameter);
+
+                if(ds != null)
+                {
+                    DataTable dt = ds.Tables[0];
+                    DataRowCollection drc = dt.Rows;
+
+                    foreach(DataRow dr in drc)
+                    {
+                        customData.kCustom = dr["KCustom"].ToString();
+                        customData.address1 = dr["Address1"].ToString();
+                        customData.address2 = dr["Address2"].ToString();
+                        customData.chief = dr["Chief"].ToString();
+
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("고객사 정보를 불러오는 도중 오류\n" + ex.ToString());
+            }
+            finally
+            {
+                DataStore.Instance.CloseConnection();
+            }
+
+            return customData;
+        }
+        
+    }
+
+
+}

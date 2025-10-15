@@ -439,7 +439,6 @@
                         <ColumnDefinition Width="80*"/>
                     </Grid.ColumnDefinitions>
                     <DataGridRowHeader Grid.Column="0" Content="합계" Style="{StaticResource RowHeaderStyle}"/>
-
                     <DataGrid Grid.Column="1" x:Name="dgdTotal" HeadersVisibility="Column" Style="{DynamicResource DataGridSet1}" ColumnHeaderHeight="20" >
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="건수" Width="*" Binding="{Binding count}" ElementStyle="{DynamicResource DataGridCellCenter}"/>
@@ -554,7 +553,7 @@
 
                             </Label>
                             <TextBox x:Name="txtOrderID"  Grid.Column="1" Grid.Row="0" Style="{DynamicResource TextBoxInputArea}" 
-                                Text="{Binding Path=OrderID}" KeyDown="txtOrderID_KeyDown" TabIndex="12" PreviewTextInput="txtOrderID_PreviewTextInput" Height="20" Margin="1,1,1,0" VerticalAlignment="Top" />
+                                Text="{Binding Path=OrderID}" KeyDown="txtOrderID_KeyDown" TabIndex="12" PreviewTextInput="txtOrderID_PreviewTextInput"/>
                             <Button x:Name="btnOrderID"  Grid.Column="2" Grid.Row="0" Click="btnOrderID_Click">
                                 <Image Source="{DynamicResource btiPlusFind}" Style="{DynamicResource imgPlusFind}" Margin="1"/>
                             </Button>
