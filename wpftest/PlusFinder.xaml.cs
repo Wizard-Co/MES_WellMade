@@ -45,12 +45,56 @@ namespace WizMes_WellMade
             SetLangBtn();
             SetDataGrid();
             SetButton();
+    
+
+            this.IsVisibleChanged += PlusFinder_IsVisibleChanged;
         }
 
         protected override void OnClosing(CancelEventArgs e1)
         {
             e1.Cancel = true;
             Dispatcher.BeginInvoke(DispatcherPriority.Normal, new FHideWindow(_HideThisWindow));
+        }
+
+        private void PlusFinder_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            // 창이 보일 때마다 실행
+            if ((bool)e.NewValue == true)
+            {
+                Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    SetWindowWidth();
+                }), DispatcherPriority.Render);
+            }
+        }
+
+        private void SetWindowWidth()
+        {
+            if (mDataGrid != null && mDataGrid.Columns.Count > 0)
+            {
+                double columnsWidth = 0;
+                for (int i = 0; i < mDataGrid.Columns.Count; i++)
+                {
+                    columnsWidth += mDataGrid.Columns[i].ActualWidth;
+                }
+
+                // 윈도우 전체 너비 - grdmDataGrid 실제 너비 = 여백
+                double windowMargin = this.ActualWidth - grdmDataGrid.ActualWidth;
+
+                // 컬럼 너비 + 여백 vs 현재 윈도우 너비
+                double requiredWidth = columnsWidth + windowMargin;
+
+                // 필요한 너비가 현재보다 크면 확장
+                if (requiredWidth > this.ActualWidth)
+                {
+                    this.Width = requiredWidth;
+                }
+
+                if (mDataGrid.Items.Count > 0)
+                {
+                    mDataGrid.ScrollIntoView(mDataGrid.Items[0], mDataGrid.Columns[0]);
+                }
+            }
         }
 
         //한글, 영어 버튼 이벤트 셋팅

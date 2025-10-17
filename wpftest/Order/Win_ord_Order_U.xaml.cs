@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -1050,6 +1051,7 @@ namespace WizMes_WellMade
                     {
                         int i = 0;
                         int OrderAmountSum = 0;
+                        int OrderTotalQty = 0;
                         DataRowCollection drc = dt.Rows;
 
                         foreach (DataRow dr in drc)
@@ -1088,6 +1090,7 @@ namespace WizMes_WellMade
                             };
 
                             OrderAmountSum += (int)RemoveComma(dr["OrderAmount"].ToString(), true);
+                            OrderTotalQty += lib.RemoveComma(dr["OrderQty"].ToString(), 0);
 
                             dgdMain.Items.Add(OrderCodeView);
                         }
@@ -1097,7 +1100,8 @@ namespace WizMes_WellMade
                             var Total = new Win_ord_Order_Total_U_CodeView
                             {
                                 count = i,
-                                OrderTotalAmount = stringFormatN0(OrderAmountSum)
+                                OrderTotalAmount = stringFormatN0(OrderAmountSum),
+                                OrderTotalQty = stringFormatN0(OrderTotalQty)
                             };
 
                             dgdTotal.Items.Add(Total);
@@ -1509,7 +1513,7 @@ namespace WizMes_WellMade
                 }
 
                 e.Handled = true;
-            }
+            }      
         }
 
         //거래처
@@ -1672,7 +1676,7 @@ namespace WizMes_WellMade
         
 
 
-        private void FillNeedStockQty(string strArticleID, string strQty)
+        private bool FillNeedStockQty(string strArticleID, string strQty)
         {
             if (dgdNeedStuff.Items.Count > 0)
                 dgdNeedStuff.Items.Clear();
@@ -1701,6 +1705,7 @@ namespace WizMes_WellMade
                                 num = i,
                                 BuyerArticleNo = dr["BuyerArticleNo"].ToString(),
                                 Article = dr["Article"].ToString(),
+                                ArticleID = dr["ArticleID"].ToString(),
                                 UnitClssName = dr["UnitClssName"].ToString(),
                                 FinalNeedQty = stringFormatN2(dr["FinalNeedQty"]),
                                 StuffInQty = stringFormatN0(dr["StuffinQty"]),
@@ -1723,19 +1728,22 @@ namespace WizMes_WellMade
                             //}
 
                             dgdNeedStuff.Items.Add(NeedStockQty);
-                        }
+                        }                       
                     }
                 }
 
             }
             catch (Exception ex)
-            {
+            {                
                 MessageBox.Show("오류 발생, 오류 내용 : " + ex.ToString());
+                return false;
             }
             finally
             {
                 DataStore.Instance.CloseConnection();
             }
+
+            return true;
         }
 
     
@@ -1929,6 +1937,7 @@ namespace WizMes_WellMade
 
             //자재필요량조회에 필요한 파라미터 값을 넘겨주자, 품명이랑 주문량
             FillNeedStockQty(txtArticleID.Tag.ToString(), RemoveComma(txtOrderQty.Text).ToString());
+          
         }
 
         
@@ -3015,39 +3024,367 @@ namespace WizMes_WellMade
 
         private void btnOrdQuickStuffin_Click(object sender, RoutedEventArgs e)
         {
-            if (!btnNeedStuff.IsEnabled) return;
-
+            if (dgdNeedStuff.Items.Count == 0) return;
+    
             try
             {
-                popSelectCustom.IsOpen = true;    
+                ShowCustomSelectWindow();
+            }
+            catch
+            {
+
+            }
+        }
+
+        private void ShowCustomSelectWindow()
+        {
+            // Window 생성
+            var window = new Window
+            {
+                WindowStyle = WindowStyle.None,
+                AllowsTransparency = true,
+                Background = Brushes.Transparent,
+                ResizeMode = ResizeMode.NoResize,
+                ShowInTaskbar = false,
+                Topmost = false,
+                Width = 600,
+                Height = 150,   
+                Owner = Window.GetWindow(this),
+                WindowStartupLocation = WindowStartupLocation.CenterScreen 
+            };
+
+
+            // TextBox 생성
+            var txtPopCustomID = new TextBox
+            {
+                Style = (Style)FindResource("TextBoxInputArea")
+            };
+
+            txtPopCustomID.TextChanged += TextBox_SetTagNull;
+
+            // 거래처 찾기 버튼
+            var btnPopCustomID = new Button();
+            btnPopCustomID.Content = new Image { Source = (ImageSource)FindResource("btiPlusFind") };
+            btnPopCustomID.Click += (s, e) =>
+            {
+                window.Topmost = false;
+                e.Handled = true;
+                btnCustomID_Click(s, e);
+                window.Topmost = true;
+            };
+
+            // 확인 버튼
+            var btnOk = new Button { Content = "확인", Margin = new Thickness(1) };
+            btnOk.Click += (s, e) =>
+            {
+                if (!string.IsNullOrEmpty(txtPopCustomID.Tag?.ToString()))
+                {
+                    MessageBoxResult msgResult = MessageBox.Show(
+                        "소모 자재들을 지금 바로 입고 처리하시겠습니까?",
+                        "확인",
+                        MessageBoxButton.YesNo);
+
+                    if (msgResult == MessageBoxResult.Yes)
+                    {
+                        if (dgdNeedStuff.Items.Count == 0)
+                        {
+                            window.Close();
+                            return;
+                        }
+
+                        var items = dgdNeedStuff.Items
+                            .Cast<ArticleNeedStockQty>()
+                            .Select(item => new Win_ord_Order_StuffinData
+                            {
+                                CustomID = txtPopCustomID.Tag.ToString(),
+                                KCustom = txtPopCustomID.Text,
+                                ArticleID = item.ArticleID,
+                                TotQty = item.FinalNeedQty
+                            }).ToList();
+
+                        foreach (var item in items)
+                        {
+                            QuickStuffin_InOrder(item);
+                        }
+
+                        window.DialogResult = true;
+
+                        MessageBox.Show("빠른 입고 처리가 완료 되었습니다.","입고처리 완료");
+                    }
+   
+                }
+                else
+                {
+                    MessageBox.Show("거래처를 선택해주세요.","확인");
+                }
+            };
+
+            // 취소 버튼
+            var btnCancel = new Button { Content = "취소", Margin = new Thickness(1) };
+            btnCancel.Click += (s, e) =>
+            {
+                txtPopCustomID.Text = string.Empty;
+                txtPopCustomID.Tag = null;
+                window.Close();
+            };
+
+            // KeyDown 이벤트 (엔터키 처리 등)
+            txtPopCustomID.KeyDown += (s, e) =>
+            {
+                if (e.Key == Key.Enter)
+                {
+                    window.Topmost = false;
+                    e.Handled = true;                     
+                    txtCustomID_KeyDown(s, e);
+                    window.Topmost = true;
+                }
+            };
+
+            // Label 생성
+            var viewBox = new Viewbox { Style = (Style)FindResource("ViewBoxSetMaxMinHeight") };
+            viewBox.Child = new TextBlock
+            {
+                Text = "거래처",
+                Style = (Style)FindResource("TextBlockInViewBoxInput")
+            };
+            var label = new Label
+            {
+                Style = (Style)FindResource("LabelInputArea"),
+                Content = viewBox
+            };
+
+            // 내부 Grid (거래처 입력 영역)
+            var innerGrid = new Grid();
+            innerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(85, GridUnitType.Star) });
+            innerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(105, GridUnitType.Star) });
+            innerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(20, GridUnitType.Star) });
+
+            Grid.SetColumn(label, 0);
+            Grid.SetColumn(txtPopCustomID, 1);
+            Grid.SetColumn(btnPopCustomID, 2);
+
+            innerGrid.Children.Add(label);
+            innerGrid.Children.Add(txtPopCustomID);
+            innerGrid.Children.Add(btnPopCustomID);
+
+            // 메인 Grid
+            var mainGrid = new Grid();
+            mainGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+            mainGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+            mainGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+            mainGrid.ColumnDefinitions.Add(new ColumnDefinition());
+            mainGrid.ColumnDefinitions.Add(new ColumnDefinition());
+            mainGrid.ColumnDefinitions.Add(new ColumnDefinition());
+
+            // 타이틀
+            var titleText = new TextBlock
+            {
+                Text = "※ 입고 거래처 선택",
+                FontSize = 18,
+                FontWeight = FontWeights.Bold,
+                VerticalAlignment = VerticalAlignment.Center
+            };
+            Grid.SetColumnSpan(titleText, 3);
+            Grid.SetRow(titleText, 0);
+
+            Grid.SetRow(innerGrid, 1);
+            Grid.SetColumnSpan(innerGrid, 3);
+
+            Grid.SetRow(btnOk, 2);
+            Grid.SetColumn(btnOk, 1);
+
+            Grid.SetRow(btnCancel, 2);
+            Grid.SetColumn(btnCancel, 2);
+
+            mainGrid.Children.Add(titleText);
+            mainGrid.Children.Add(innerGrid);
+            mainGrid.Children.Add(btnOk);
+            mainGrid.Children.Add(btnCancel);
+
+            // Border로 감싸기
+            var border = new Border
+            {
+                BorderBrush = Brushes.LightGray,
+                Background = (Brush)FindResource("WizMes_WellMadeNoIcon"),
+                BorderThickness = new Thickness(1),
+                Padding = new Thickness(5,15,5,15), 
+                Child = mainGrid
+            };
+
+            window.Content = border;
+
+            // 포커스 설정
+            window.Loaded += (s, e) => txtPopCustomID.Focus();
+
+            // 다이얼로그 표시
+            window.ShowDialog();
+        }
+
+  
+
+        //private void PopBtnCustomIDOk_Click(object sender, RoutedEventArgs e)
+        //{
+        //    if (!string.IsNullOrEmpty(txtPopCustomID.Tag?.ToString()))
+        //    {
+        //        MessageBoxResult msgResult = MessageBox.Show("소모 자재들을 지금 바로 입고 처리하시겠습니까?", "확인",MessageBoxButton.YesNo);
+        //        if (msgResult == MessageBoxResult.Yes)
+        //        {
+        //            if (dgdNeedStuff.Items.Count == 0) return;
+        //            var items = dgdNeedStuff.Items
+        //                .Cast<ArticleNeedStockQty>()
+        //                .Select(item => new Win_ord_Order_StuffinData
+        //                {
+        //                    CustomID = txtPopCustomID.Tag.ToString(),
+        //                    KCustom = txtPopCustomID.Text,
+        //                    ArticleID = item.ArticleID,
+        //                    TotQty = item.FinalNeedQty
+        //                }).ToList();
+
+        //            foreach (var item in items)
+        //            {
+        //                QuickStuffin_InOrder(item);
+        //            }
+        //        }
+        //    }      
+        //}
+
+
+        private bool QuickStuffin_InOrder(Win_ord_Order_StuffinData StuffItem)
+        {
+          
+            try
+            {
+                List<Procedure> Prolist = new List<Procedure>();
+                List<Dictionary<string, object>> ListParameter = new List<Dictionary<string, object>>();
+
+                Dictionary<string, object> sqlParameter = new Dictionary<string, object>();
+                sqlParameter.Clear();
+
+                sqlParameter.Add("JobFlag", "I");
+                sqlParameter.Add("StuffInID", string.Empty);
+                sqlParameter.Add("StuffDate", DateTime.Today.ToString("yyyyMMdd"));
+                sqlParameter.Add("CompanyID", "0001");
+                sqlParameter.Add("StuffClss", "01");
+
+                sqlParameter.Add("CustomID", StuffItem.CustomID);
+                sqlParameter.Add("BuyCustomID", StuffItem.KCustom);
+                sqlParameter.Add("sReqID", string.Empty); //발주번호
+                sqlParameter.Add("Custom", StuffItem.KCustom);
+
+
+                sqlParameter.Add("BuyerID", "");
+                sqlParameter.Add("ArticleID", StuffItem.ArticleID);
+                sqlParameter.Add("ModelID", ""); // 얜 또 뭐여
+                sqlParameter.Add("UnitClss", "0"); // 입고 단위
+
+                sqlParameter.Add("TotRoll", 0);
+                sqlParameter.Add("TotQty", lib.RemoveComma(StuffItem.TotQty,0)); 
+
+                sqlParameter.Add("UnitPrice", 0);
+                sqlParameter.Add("PriceClss", "0"); // 화폐단위
+                sqlParameter.Add("Vat_Ind_YN", "Y"); // 부과세별도
+                sqlParameter.Add("Remark", "수주등록에서 빠른 입고처리함"); // 비고 txtRemark
+
+                sqlParameter.Add("InsStuffINYN", ""); // 동시 입고여부
+                sqlParameter.Add("OutSeq", 0); // 이거는 왜 다 0으로 넣느냐!!!!!!!!!!!!!
+                sqlParameter.Add("sFromLocid", "");
+                sqlParameter.Add("sToLocid", string.Empty);
+
+                sqlParameter.Add("ProdAutoStuffinYN", "");
+                sqlParameter.Add("mtrWeightPerBonsu", 0);
+                sqlParameter.Add("mtrWeight", 0);
+
+                sqlParameter.Add("FreeStuffinYN", "Y"); // 검사필요 여부 Y/N
+                                                                                                                                            //sqlParameter.Add("PartGBNID", cboProductGrp.SelectedValue != null ? cboProductGrp.SelectedValue.ToString() : "");
+                sqlParameter.Add("sUserID", MainWindow.CurrentUser);
+
+                sqlParameter.Add("sLOTID", ""); //2021-08-06 수정을 위해 LOTID 추가
+                Procedure pro1 = new Procedure();
+                pro1.Name = "xp_StuffIN_iuStuffIN";
+                pro1.OutputUseYN = "Y";
+                pro1.OutputName = "StuffInID";
+                pro1.OutputLength = "12";
+
+                Prolist.Add(pro1);
+                ListParameter.Add(sqlParameter);
+
+                List<KeyValue> list_Result = new List<KeyValue>();
+                list_Result = DataStore.Instance.ExecuteAllProcedureOutputGetCS_NewLog(Prolist, ListParameter, "C");
+                string sGetID = string.Empty;
+
+                if (list_Result[0].key.ToLower() == "success")
+                {
+                    list_Result.RemoveAt(0);
+                    for (int i = 0; i < list_Result.Count; i++)
+                    {
+                        KeyValue kv = list_Result[i];
+                        if (kv.key == "StuffInID")
+                        {
+                            sGetID = kv.value;
+                        }
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("[저장실패]\r\n" + list_Result[0].value.ToString());
+                    return false;
+                }
+
+                // 위에서 실행한 저장 메인그리드 저장 프로시저 삭제
+                Prolist.Clear();
+                ListParameter.Clear();
+
+
+                sqlParameter = new Dictionary<string, object>();
+                sqlParameter.Clear();
+
+                sqlParameter.Add("StuffInID", sGetID);
+
+                sqlParameter.Add("StuffinSubseq", 0); 
+                sqlParameter.Add("Qty", lib.RemoveComma(StuffItem.TotQty,0));
+                sqlParameter.Add("sCustomInspector", MainWindow.CurrentUser);
+                sqlParameter.Add("sCustomInspectDate", DateTime.Today.ToString("yyyyMMdd"));
+                sqlParameter.Add("sLOTID", string.Empty);
+                sqlParameter.Add("mtrCustomLotno",string.Empty);
+
+                sqlParameter.Add("InspectYN", "N"); // 2023.04.11 검사필요 Y = 검사 O, N이면 자동검사
+                                                                //sqlParameter.Add("InspectYN", cboFreeStuffinYN.SelectedValue == null || cboFreeStuffinYN.SelectedValue.Equals("N") ? "Y" : "N"); // 2023.04.11 검사필요 Y = 검사 O, N이면 자동검사
+
+                //sqlParameter.Add("InspectYN", "Y"); // 2020.02.14 삼주 요청사항 : 입고할때 입고검수도 알아서 되게 해달라!!! 
+                sqlParameter.Add("sUserID", MainWindow.CurrentUser);
+
+
+                Procedure pro2 = new Procedure();
+                pro2.Name = "xp_StuffIN_iuStuffINSub";
+                pro2.OutputUseYN = "N";
+                pro2.OutputName = "REQ_ID";
+                pro2.OutputLength = "10";
+
+                Prolist.Add(pro2);
+                ListParameter.Add(sqlParameter);
+
+                string[] Confirm = new string[2];
+                Confirm = DataStore.Instance.ExecuteAllProcedureOutputNew_NewLog(Prolist, ListParameter, "U");
+                if (Confirm[0] != "success")
+                {
+                    MessageBox.Show("[저장실패]\r\n" + Confirm[1].ToString());
+                    return false;                   
+                }
+     
             }
             catch(Exception ex)
             {
-                MessageBox.Show("PopCustomSelect_Open_Failed\n" + ex.ToString());
+                MessageBox.Show("수주등록 빠른 입고 중 오류\n" + ex.ToString());
             }
+            finally
+            {
+                DataStore.Instance.CloseConnection();
+            }                             
             
+
+            return true;
         }
 
-        private void PopBtnCustomIDCancel_Click(object sender, RoutedEventArgs e)
-        {
-            if(popSelectCustom.IsOpen)
-            {
-                popSelectCustom.IsOpen = false;
-                txtPopCustomID.Text = string.Empty;
-                txtPopCustomID.Tag = null;
-            }
-        }
-
-        private void PopBtnCustomIDOk_Click(object sender, RoutedEventArgs e)
-        {
-            if(string. txtPopCustomID.Tag?)
-
-            MessageBoxResult msgResult = MessageBox.Show("소모 자재들을 지금 바로 입고 처리하시겠습니까?", "확인");
-            if(msgResult == MessageBoxResult.Yes)
-            {
-                
-            }
-        }
     }
 
 
@@ -3210,6 +3547,16 @@ namespace WizMes_WellMade
     {
         public int count { get; set; }
         public string OrderTotalAmount { get; set; }
+        public string OrderTotalQty { get; set; }   
+    }
+
+    public class Win_ord_Order_StuffinData
+    {
+        public string CustomID { get; set; }
+        public string KCustom { get; set; }
+        public string TotQty { get; set; }
+        public string ArticleID { get; set; }
+       
     }
     public class ArticleData : BaseView
     {
@@ -3238,6 +3585,7 @@ namespace WizMes_WellMade
     {
         public int num { get; set; }
         public string BuyerArticleNo { get; set; }
+        public string ArticleID { get; set; }
         public string Article { get; set; }
         public string NeedQty { get; set; }
         public string FinalNeedQty { get; set; }

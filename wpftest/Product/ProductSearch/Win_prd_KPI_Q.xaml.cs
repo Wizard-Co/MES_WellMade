@@ -200,29 +200,36 @@ namespace WizMes_WellMade
                                 Num = i + 1,
 
                                 //WorkDate = DatePickerFormat(dr["WorkDate"].ToString()),
-                                WorkDate = dr["WorkDate"].ToString(),
+                                WorkDate = lib.DateTypeHyphen(dr["WorkDate"].ToString()),
 
                                 WorkQty = stringFormatN0(dr["WorkQty"]),
+                                WorkDateCount = stringFormatN0(dr["WorkDateCount"]),
                                 WorkTime = stringFormatN1(dr["WorkTime"]),
-                                WorkQtyPerHour = stringFormatN0(dr["WorkQtyPerHour"]),
+                                WorkQtyPerDay = stringFormatN0(dr["WorkQtyPerDay"]),
+                                //WorkQtyPerHour = stringFormatN0(dr["WorkQtyPerHour"]),
                                 //Daily_WorkQty = stringFormatN0(dr["Daily_WorkQty"]),
-                                DefectQty = stringFormatN0(dr["DefectQty"]),
-                                DefectWorkQty = stringFormatN0(dr["DefectWorkQty"]),
-                                DefectRate = stringFormatN2(dr["DefectRate"]),
-                                DefectUpRate = stringFormatN1(dr["DefectUpRate"]),
-                                DefectGoalRate = stringFormatN1(dr["DefectGoalRate"]),
+                                //DefectQty = stringFormatN0(dr["DefectQty"]),
+                                //DefectWorkQty = stringFormatN0(dr["DefectWorkQty"]),
+                                //DefectRate = stringFormatN2(dr["DefectRate"]),
+                                //DefectUpRate = stringFormatN1(dr["DefectUpRate"]),
+                                //DefectGoalRate = stringFormatN1(dr["DefectGoalRate"]),
                                 gbn = dr["gbn"].ToString(),
                                 
                                 Sort = dr["Sort"].ToString(),
                                 WorkUpRate = stringFormatN1(dr["WorkUpRate"]),
-                                WorkGoalRate = stringFormatN1(dr["WorkGoalRate"])
+                                WorkGoalRate = stringFormatN1(dr["WorkGoalRate"]),
+
+                                CostPerMan = stringFormatN0(dr["CostPerMan"]),
+                                CostPerDayManAvg = stringFormatN0(dr["CostPerDayManAvg"]),
+                                CostUpRate = stringFormatN1(dr["CostUpRate"]),
+                                CostGoalRate = stringFormatN1(dr["CostGoalRate"]),
                             };
                             if (WPKQC.gbn == "P")
-                            {
+                            {                                
                                 dgdGonsu.Items.Add(WPKQC);
                             }
-                            if (WPKQC.gbn == "Q")
-                            {
+                            if (WPKQC.gbn == "C")
+                            {                                
                                 dgdOut.Items.Add(WPKQC);
                             }
                             i++;
@@ -265,15 +272,15 @@ namespace WizMes_WellMade
                         chart.Labels[index] = Rating.WorkDate;
                         index++;
 
-                        if (Rating.WorkQtyPerHour != null)
+                        if (Rating.WorkQtyPerDay != null && Rating.WorkDate != "총계")
                         {
-                            chart.lineQty.Add(Convert.ToInt32(Rating.WorkQtyPerHour.Replace("," , "")));
+                            chart.lineQty.Add(Convert.ToInt32(Rating.WorkQtyPerDay.Replace("," , "")));
                             //chart.lineQty.Add(Convert.ToInt32(Rating.Daily_WorkQty.Replace("," , "")));
                         }
-                        else
-                        {
-                            chart.lineQty.Add(0);
-                        }
+                        //else
+                        //{
+                        //    chart.lineQty.Add(0);
+                        //}
 
                         //if (Rating.WorkQty != null)
                         //{
@@ -292,7 +299,7 @@ namespace WizMes_WellMade
                 {
                     Values = chart.lineQty,
                     DataLabels = true,
-                    Title = "시간당 생산량",
+                    Title = "일 생산량",
                     LabelPoint = chart.Formatter
                 });
 
@@ -338,14 +345,14 @@ namespace WizMes_WellMade
                         chart2.Labels[index] = Rating.WorkDate;
                         index++;
 
-                        if (Rating.DefectRate != null)
+                        if (Rating.CostUpRate != null && Rating.WorkDate != "총계")
                         {
-                            chart2.lineQty.Add(Convert.ToDouble(Rating.DefectRate));
+                            chart2.lineQty.Add(Convert.ToDouble(Rating.CostUpRate));
                         }
-                        else
-                        {
-                            chart2.lineQty.Add(0);
-                        }
+                        //else
+                        //{
+                        //    chart2.lineQty.Add(0);
+                        //}
 
                         //if (Rating.DefectQty != null)
                         //{
@@ -359,13 +366,13 @@ namespace WizMes_WellMade
                 }
 
                 chart2.PercentFormatter = data => data.Y + "(%)";
-                chart2.Formatter = data => data.Y + "(개)";
+                chart2.Formatter = data => data.Y + "(원)";
 
                 chart2.seriesCollection.Add(new LineSeries
                 {
                     Values = chart2.lineQty,
                     DataLabels = true,
-                    Title = "불량",
+                    Title = "인건비",
                     LabelPoint = chart2.PercentFormatter
                 });
 
@@ -653,15 +660,22 @@ namespace WizMes_WellMade
         public string Article { get; internal set; }
         public string WorkQty { get; internal set; }
         public string WorkTime { get; internal set; }
+        public string WorkQtyPerDay { get; set; }
         public string WorkQtyPerHour { get; internal set; }
+        public string WorkDateCount { get; set; }
         public string Daily_WorkQty { get; internal set; }
         public string WorkUpRate { get; set; }
-        public string WorkGoalRate { get; set; }
+        public string WorkGoalRate { get; set; }  
         public string DefectQty { get; set; }
         public string DefectWorkQty { get; set; }
         public string DefectRate { get; set; }
         public string DefectUpRate { get; set; }
         public string DefectGoalRate { get; set; }
+        public string CostPerMan { get; set; }
+        public string CostPerDayManAvg { get; set; }
+        public string CostUpRate { get; set; }
+        public string CostGoalRate { get; set; }
+
         public string Sort { get; set; }
 
     }

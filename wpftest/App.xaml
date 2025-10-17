@@ -585,6 +585,8 @@
                 <Setter Property="Padding" Value="0"/>
                 <Setter Property="Margin" Value="1, 1, 1, 0" />
                 <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <EventSetter Event="PreviewLostKeyboardFocus" Handler="SetDateAsText_LostFocus"/>
+                <EventSetter Event="PreviewKeyDown" Handler="SetDateAsText_KeyDown"/>
                 <!--<EventSetter Event="PreviewKeyDown" Handler="DatePicker_EnterDown"/>	
                 <EventSetter Event="SizeChanged" Handler="DatePicker_SizeChanged"/>	
                 <EventSetter Event="Loaded" Handler="DatePicker_Loaded"/>-->
@@ -615,6 +617,8 @@
                 <Setter Property="Margin" Value="1, 1, 1, 0" />
                 <Setter Property="Padding" Value="0"/>
                 <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <EventSetter Event="PreviewLostKeyboardFocus" Handler="SetDateAsText_LostFocus"/>
+                <EventSetter Event="PreviewKeyDown" Handler="SetDateAsText_KeyDown"/>
             </Style>
             <Style TargetType="{x:Type TextBox}" x:Key="TextBoxMultiLine" >
                 <Setter Property="Margin" Value="1, 1, 1, 0" />

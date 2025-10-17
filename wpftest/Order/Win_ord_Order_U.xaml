@@ -323,8 +323,9 @@
                         </Grid.ColumnDefinitions>
                         <Label Content="합 계" FontSize="3" HorizontalContentAlignment="Center"/>
                         <DataGrid x:Name="dgdTotal" Style="{DynamicResource DataGridSet1}" HeadersVisibility="Column" Grid.Column="1" Grid.ColumnSpan="2">
-                            <DataGrid.Columns>
+                            <DataGrid.Columns>                                
                                 <DataGridTextColumn Header="건수" Binding="{Binding count}" ElementStyle="{DynamicResource DataGridCellCenter}" Width="*"/>
+                                <DataGridTextColumn Header="주문합" Binding="{Binding OrderTotalQty}" ElementStyle="{DynamicResource DataGridCellCenter}" Width="*"/>
                                 <DataGridTextColumn Header="금액" Binding="{Binding OrderTotalAmount}" ElementStyle="{DynamicResource DataGridCellCenter}" Width="*"/>
                             </DataGrid.Columns>
                         </DataGrid>
@@ -850,7 +851,7 @@
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
-                                <Button x:Name="btnOrdQuickStuffin" Grid.Column="3" Content="입고처리" IsEnabled="False" Click="btnOrdQuickStuffin_Click"/>
+                                <Button x:Name="btnOrdQuickStuffin" Grid.Column="3" Content="입고처리" Click="btnOrdQuickStuffin_Click"/>
                             </Grid>
                         </Grid>
                         <Button x:Name="btnPlanInput" Grid.Row="0" Grid.Column="2" Margin="10" Visibility="Hidden">
@@ -861,48 +862,7 @@
             </Grid>
         </Grid>
 
-        <Popup x:Name="popSelectCustom" Placement="MousePoint" PlacementTarget="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
-               IsOpen="True">
-            <Border BorderBrush="LightGray"    Background="{DynamicResource WizMes_WellMadeNoIcon}" 
-                    BorderThickness="1" Width="300" Height="80">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="1*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="1*"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-
-
-                    <TextBlock Text="※ 입고 거래처 선택" FontWeight="Bold" Grid.ColumnSpan="3" VerticalAlignment="Center"/>
-                    <Grid Grid.ColumnSpan="3" Grid.Row="1">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="85*"/>
-                            <ColumnDefinition Width="105*"/>
-                            <ColumnDefinition Width="20*"/>
-                        </Grid.ColumnDefinitions>
-                        <Label Grid.Row="5" Grid.Column="0" 
-                            Style="{DynamicResource LabelInputArea}">
-                            <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
-                                <TextBlock Text="거래처" Style="{DynamicResource TextBlockInViewBoxInput}"/>
-
-                            </Viewbox>
-                        </Label>
-                        <TextBox x:Name="txtPopCustomID" Grid.Row="5" Grid.Column="1" 
-                            Keyboard.KeyDown="txtCustomID_KeyDown"  Style="{StaticResource TextBoxInputArea}" TextChanged="TextBox_SetTagNull"/>
-                        <Button x:Name="btnPopCustomID" Grid.Row="5" Grid.Column="2" Click="btnCustomID_Click">
-                            <Image Source="{DynamicResource btiPlusFind}"  />
-                        </Button>
-                    </Grid>
-                    <Button x:Name="PopBtnCustomIDOk" Grid.Column="1" Grid.Row="2" Content="확인" Margin="1" Click="PopBtnCustomIDOk_Click"/>
-                    <Button x:Name="PopBtnCustomIDCancel" Grid.Column="2" Grid.Row="2" Content="취소" Margin="1" Click="PopBtnCustomIDCancel_Click" />
-                </Grid>
-            </Border>
-        </Popup>
+        
         
         <Popup x:Name="popPreviousOrder"  Placement="Center" Opened="popPreviousOrder_Opened">
             <Border BorderBrush="Green" BorderThickness="5" Width="240" Height="160">

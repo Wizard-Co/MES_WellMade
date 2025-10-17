@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -529,5 +530,34 @@ namespace WizMes_WellMade
         {
             lib.CheckIsNumericOnly((TextBox)sender, e);
         }
+
+        private void SetDateAsText_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                ProcessDatePicker(sender);
+            }
+        }
+
+        private void SetDateAsText_LostFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            ProcessDatePicker(sender);
+        }
+
+        private void ProcessDatePicker(object sender)
+        {
+            DatePicker dtp = (DatePicker)sender;
+
+            string input = dtp.Text;
+            string numbersOnly = Regex.Replace(input, @"[^\d]", "");
+
+            if (numbersOnly.Length == 8 &&
+                DateTime.TryParseExact(numbersOnly, "yyyyMMdd", null,
+                System.Globalization.DateTimeStyles.None, out DateTime result))
+            {
+                dtp.SelectedDate = result;
+            }
+        }
+   
     }
 }

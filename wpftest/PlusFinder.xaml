@@ -178,7 +178,7 @@
                           ResizeBehavior="PreviousAndNext" Width="5"
                           Background="#FFBCBCBC"/>
             <Border HorizontalAlignment="Right" Width="129" ></Border>
-            <Grid Grid.Row="0" Grid.Column="2">
+            <Grid x:Name="grdmDataGrid" Grid.Row="0" Grid.Column="2">
                 <DataGrid x:Name="mDataGrid" 
                         AutoGenerateColumns="True"
                         ScrollViewer.CanContentScroll="True" 
