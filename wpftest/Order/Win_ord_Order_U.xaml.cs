@@ -1050,7 +1050,7 @@ namespace WizMes_WellMade
                     else
                     {
                         int i = 0;
-                        int OrderAmountSum = 0;
+                        long OrderAmountSum = 0;
                         int OrderTotalQty = 0;
                         DataRowCollection drc = dt.Rows;
 
@@ -1089,7 +1089,7 @@ namespace WizMes_WellMade
 
                             };
 
-                            OrderAmountSum += (int)RemoveComma(dr["OrderAmount"].ToString(), true);
+                            OrderAmountSum += lib.RemoveComma(dr["OrderAmount"].ToString(), 0);
                             OrderTotalQty += lib.RemoveComma(dr["OrderQty"].ToString(), 0);
 
                             dgdMain.Items.Add(OrderCodeView);

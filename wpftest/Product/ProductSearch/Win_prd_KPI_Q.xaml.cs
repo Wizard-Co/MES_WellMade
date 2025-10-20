@@ -229,7 +229,8 @@ namespace WizMes_WellMade
                                 dgdGonsu.Items.Add(WPKQC);
                             }
                             if (WPKQC.gbn == "C")
-                            {                                
+                            {                    
+                               
                                 dgdOut.Items.Add(WPKQC);
                             }
                             i++;
@@ -638,6 +639,13 @@ namespace WizMes_WellMade
         private string stringFormatN1(object obj)
         {
             return string.Format("{0:N1}", obj);
+        }
+
+        private string stringFormatN1_NoRound(object obj)
+        {
+            double value = Convert.ToDouble(obj);
+            double truncated = Math.Truncate(value * 10) / 10;  // 소수점 1자리까지 절사
+            return truncated.ToString("N1");
         }
     }
 

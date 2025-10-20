@@ -79,6 +79,7 @@ namespace WizMes_WellMade
         List<string> LabelGroupList = new List<string>();   // packing ID 스캔에 따른 LabelID를 모아 담을 리스트 그릇입니다.       
         bool EventStatus = false;                           // 추가 / 수정 상태확인을 위한 이벤트 bool
         bool preview_click = false;                         // 인쇄 미리보기 인지 아닌지
+        private static bool? _isExcelActivatedCache = null;
 
         public Win_ord_OutWare_Scan()
         {
@@ -784,16 +785,24 @@ namespace WizMes_WellMade
             {
                 if (dgdOutware.Items.Count == 0)
                 {
-                    MessageBox.Show("먼저 검색해 주세요.");
+                    MessageBox.Show("먼저 검색해 주세요.", "확인");
+                    return;
+                }
+
+                if(lstOutwarePrint.Count == 0)
+                {
+                    MessageBox.Show("목록에서 체크 후 시도하세요","확인");
                     return;
                 }
 
                 var OBJ = dgdOutware.SelectedItem as Win_ord_OutWare_Scan_CodeView;
                 if (OBJ == null)
                 {
-                    MessageBox.Show("거래명세표 항목이 정확히 선택되지 않았습니다.");
+                    MessageBox.Show("거래명세표 항목이 정확히 선택되지 않았습니다.","확인");
                     return;
                 }
+
+               
 
                 List<Win_ord_OutWare_Scan_CodeView> find = lstOutwarePrint.FindAll(
                     delegate (Win_ord_OutWare_Scan_CodeView a)
@@ -805,7 +814,7 @@ namespace WizMes_WellMade
 
                 if (lstOutwarePrint.Count != find.Count)
                 {
-                    MessageBox.Show("동일한 거래처, 최종고객사만 선택할 수 있습니다.");
+                    MessageBox.Show("동일한 거래처, 최종고객사만 선택할 수 있습니다.", "확인");
                     return;
                 }
 
@@ -822,6 +831,7 @@ namespace WizMes_WellMade
                 //    ld.ShowDialog();
                 //}
                 //PrintWork(preview_click);
+                this.IsHitTestVisible = false;
                 EventLabel.Visibility = Visibility.Visible;
 
                 _progress = new Progress<int>(percent =>
@@ -834,7 +844,7 @@ namespace WizMes_WellMade
                     PrintWork(preview_click);  
                 });
 
-                _progress.Report(100);
+                this.IsHitTestVisible = true;
                 EventLabel.Visibility = Visibility.Hidden;
                 tbkMsg.Text = "자료 입력 중";
 
@@ -844,6 +854,7 @@ namespace WizMes_WellMade
             {
                 MessageBox.Show("오류지점 - menuRighPrint_Click : " + ee.ToString());
                 EventLabel.Visibility = Visibility.Hidden;
+                this.IsHitTestVisible = true;
                 tbkMsg.Text = "자료 입력 중";
             }
         }
@@ -863,6 +874,42 @@ namespace WizMes_WellMade
             }
         }
 
+        private bool IsExcelActivated()
+        {
+
+            if (_isExcelActivatedCache.HasValue)
+            {
+                return _isExcelActivatedCache.Value;
+            }
+
+            try
+            {
+                Excel.Application testExcel = null;
+                try
+                {
+                    testExcel = new Excel.Application();
+                    testExcel.Visible = true;
+                    bool isVisible = testExcel.Visible;
+                    testExcel.Visible = false;
+
+                    _isExcelActivatedCache = isVisible;
+                    return isVisible;
+                }
+                finally
+                {
+                    if (testExcel != null)
+                    {
+                        testExcel.Quit();
+                        System.Runtime.InteropServices.Marshal.ReleaseComObject(testExcel);
+                    }
+                }
+            }
+            catch
+            {
+                _isExcelActivatedCache = false;
+                return false;
+            }
+        }
 
         //프린트메서드 수정판
         private void PrintWork(bool previewYN)
@@ -958,12 +1005,74 @@ namespace WizMes_WellMade
                 pastesheet.Select();
 
                 //미리보기? 바로 인쇄?
-                HandlePrintPreview(excelapp, pastesheet, previewYN);
-
-                //프로세스 정리 이벤트 핸들러
-                excelapp.WorkbookBeforeClose += (Excel.Workbook wb, ref bool cancel) =>
+                // 프린터 체크
+                if (!IsPrinterAvailable())
                 {
-                    //엑셀 프로그램 껐는데도 살아있으면 생성할때 받아온 프로세스 아이디를 종료
+                    throw new Exception("윈도우에 연결된 기본 프린터가 없습니다.\n기본 프린터를 설정한 후 시도하여주세요.");
+                }
+
+                _progress?.Report(100);
+
+                bool isActivated = IsExcelActivated();
+
+                excelapp.Visible = true;
+                if (previewYN)
+                {
+                    if (isActivated)
+                    {
+                        //  정품 인증됨: 기존 방식 (Excel COM으로 직접 제어)
+                        excelapp.Visible = true;
+                        excelapp.UserControl = true;
+                        workbook.Saved = true;
+                        excelapp.CutCopyMode = 0;
+                        excelapp.DisplayAlerts = false;
+
+                        ReleaseExcelObject(workrange);
+                        ReleaseExcelObject(pastesheet);
+                        ReleaseExcelObject(worksheet);
+                        ReleaseExcelObject(workbook);
+                        ReleaseExcelObject(excelapp);
+                    }
+                    else
+                    {
+                        //  정품 인증 안됨: 파일로 저장 후 열기
+                        string tempFile = Path.Combine(Path.GetTempPath(), $"거래명세표_{DateTime.Now:yyyyMMddHHmmss}.xlsx");
+                        workbook.SaveAs(tempFile);
+
+                        workbook.Close(false);
+                        excelapp.Quit();
+
+                        if (excelProcessId != 0)
+                        {
+                            KillExcelProcess(excelProcessId);
+                        }
+
+                        ReleaseExcelObject(workrange);
+                        ReleaseExcelObject(pastesheet);
+                        ReleaseExcelObject(worksheet);
+                        ReleaseExcelObject(workbook);
+                        ReleaseExcelObject(excelapp);
+
+                        GC.Collect();
+                        GC.WaitForPendingFinalizers();
+
+                        // 파일을 기본 Excel로 열기
+                        System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+                        {
+                            FileName = tempFile,
+                            UseShellExecute = true
+                        });
+                    }
+                }
+                else
+                {
+                    // 바로 인쇄는 정품 인증 관계없이 동일
+                    excelapp.DisplayAlerts = false;
+                    pastesheet.PrintOut();
+
+                    workbook.Close(false);
+                    excelapp.Quit();
+
                     if (excelProcessId != 0)
                     {
                         KillExcelProcess(excelProcessId);
@@ -973,11 +1082,17 @@ namespace WizMes_WellMade
                     ReleaseExcelObject(worksheet);
                     ReleaseExcelObject(workbook);
                     ReleaseExcelObject(excelapp);
-                };
-
+                }
             }
             catch (Exception ex)
             {
+                try
+                {
+                    if (workbook != null) workbook.Close(false);
+                    if (excelapp != null) excelapp.Quit();
+                }
+                catch { }
+
                 if (excelProcessId != 0)
                 {
                     KillExcelProcess(excelProcessId);
@@ -986,7 +1101,7 @@ namespace WizMes_WellMade
                 ReleaseExcelObject(pastesheet);
                 ReleaseExcelObject(worksheet);
                 ReleaseExcelObject(workbook);
-                ReleaseExcelObject(excelapp);   
+                ReleaseExcelObject(excelapp);
                 MessageBox.Show($"오류가 발생했습니다\n: {ex.Message}");
                 throw;
             }
