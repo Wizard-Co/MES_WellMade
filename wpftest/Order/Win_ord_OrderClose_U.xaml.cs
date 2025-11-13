@@ -328,13 +328,13 @@ namespace WizMes_WellMade
         private void txtArticleIDSrh_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
-                MainWindow.pf.ReturnCode(txtCustomIDSrh, 77, "");
+                MainWindow.pf.ReturnCode(txtArticleIDSrh, 77, "");
         }
 
         //검색조건 - 품명 - 버튼 클릭
         private void btnArticleIDSrh_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow.pf.ReturnCode(txtCustomIDSrh, 77, "");
+            MainWindow.pf.ReturnCode(txtArticleIDSrh, 77, "");
         }
 
         //검색조건 - 품번 - 키다운
