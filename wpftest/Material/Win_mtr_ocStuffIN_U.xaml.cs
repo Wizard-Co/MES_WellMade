@@ -1628,23 +1628,23 @@ namespace WizMes_WellMade
                     //   }
 
 
-                    if (txtCustom != null && txtCustom.Text != "")
-                    {   //선택된 납품거래처에 따른 품명만 보여주게
-                        //MainWindow.pf.ReturnCode(txtArticle, 57, txtCustom.Tag.ToString().Trim());
+                    //if (txtCustom != null && txtCustom.Text != "")
+                    //{   //선택된 납품거래처에 따른 품명만 보여주게
+                    //    //MainWindow.pf.ReturnCode(txtArticle, 57, txtCustom.Tag.ToString().Trim());
 
-                        // 품번을 조회하도록 
-                        MainWindow.pf.ReturnCodeGLS(txtArticle, 7070, txtCustom.Tag.ToString().Trim());
-                        //txtBuyerarticleNo.Tag = txtArticle.Tag;
-                        //txtBuyerarticleNo.Text = txtBuyerarticleNo.Text;
-                    }
-                    else
-                    {   //선택된 납품거래처가 없다면 전체 품명 다 보여주게
+                    //    // 품번을 조회하도록 
+                    //    MainWindow.pf.ReturnCodeGLS(txtArticle, 7070, txtCustom.Tag.ToString().Trim());
+                    //    //txtBuyerarticleNo.Tag = txtArticle.Tag;
+                    //    //txtBuyerarticleNo.Text = txtBuyerarticleNo.Text;
+                    //}
+                    
+                    //{   //선택된 납품거래처가 없다면 전체 품명 다 보여주게
                         //MainWindow.pf.ReturnCode(txtArticle, (int)Defind_CodeFind.DCF_Article, "");
 
                         // 품번을 조회하도록 
-                        MainWindow.pf.ReturnCodeGLS(txtArticle, 7071, "");
+                        MainWindow.pf.ReturnCodeGLS(txtArticle, 77, "");
                         //txtBuyerarticleNo.Tag = txtArticle.Tag;
-                    }
+                    //}
 
 
                     if (txtArticle.Tag != null)
@@ -1689,14 +1689,15 @@ namespace WizMes_WellMade
             //}
             try
             {
-                if (txtCustom != null && txtCustom.Text != "")
-                {   //선택된 납품거래처에 따른 품명만 보여주게
-                    MainWindow.pf.ReturnCodeGLS(txtArticle, 7070, txtCustom.Tag.ToString().Trim());
-                }
-                else
-                {   //선택된 납품거래처가 없다면 전체 품명 다 보여주게
-                    MainWindow.pf.ReturnCodeGLS(txtArticle, 7071, "");
-                }
+                //if (txtCustom != null && txtCustom.Text != "")
+                //{   //선택된 납품거래처에 따른 품명만 보여주게
+                //    MainWindow.pf.ReturnCodeGLS(txtArticle, 7070, txtCustom.Tag.ToString().Trim());
+                //}
+                //else
+                //{   //선택된 납품거래처가 없다면 전체 품명 다 보여주게
+                //    MainWindow.pf.ReturnCodeGLS(txtArticle, 7071, "");
+                      MainWindow.pf.ReturnCodeGLS(txtArticle, 77, "");
+                //}
 
                 if (txtArticle.Tag != null)
                 {

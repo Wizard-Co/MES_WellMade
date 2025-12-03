@@ -681,12 +681,12 @@
 
                         <Label Grid.Row="2" Grid.Column="0" Style="{DynamicResource LabelInputArea}" >
                             <Viewbox  Style="{DynamicResource ViewBoxSetMaxMinHeight}">
-                                <TextBlock Text="품     번" Style="{DynamicResource TextBlockInViewBoxInput}"/>
+                                <TextBlock Text="품     명" Style="{DynamicResource TextBlockInViewBoxInput}"/>
                             </Viewbox>
                         </Label>
                         <TextBox x:Name="txtArticle" Grid.Row="2" Grid.Column="1" 
                                  Style="{StaticResource TextBoxInputNecessary}" Grid.ColumnSpan="2"
-                                 Text="{Binding BuyerArticleNo}" Tag="{Binding ArticleID}"
+                                 Text="{Binding Article}" Tag="{Binding ArticleID}"
                                  Keyboard.KeyDown="txtArticle_KeyDown" IsHitTestVisible="True"/>
                         <Button x:Name="btnPfArticle" Grid.Row="2" Grid.Column="3" Margin="1"
                                 Click="btnPfArticle_Click" IsEnabled="True">
